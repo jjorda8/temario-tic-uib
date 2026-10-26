@@ -21,6 +21,16 @@ Las normas estatales se comprobaron contra la API de legislación consolidada de
 - `lectura.html?parte=gen` o `?parte=tic`: solo una parte.
 - `lectura.html?t=31`: un solo tema, con enlaces al anterior y al siguiente.
 
+## Tests
+
+`test.html` genera tests con preguntas de los temas que se elijan (707 preguntas de los 60 temas, con su explicación y la norma de referencia):
+
+- **Práctica**: corrige cada pregunta al momento con la explicación.
+- **Examen**: se corrige al final como en la oposición (cada error resta un tercio), con cronómetro opcional y paleta para revisar.
+- Filtros: todas las preguntas, solo las no respondidas o solo las falladas; selección rápida de la parte general, la TIC, los temas marcados como estudiados o los puntos débiles.
+- `test.html?t=5` o `test.html?temas=1,2,3` preseleccionan temas.
+- Las estadísticas se guardan en el navegador.
+
 ## Estructura
 
 - `index.html`: la web principal (temario, simulador de méritos, exámenes).
@@ -28,6 +38,7 @@ Las normas estatales se comprobaron contra la API de legislación consolidada de
 - `data/datos.js`: datos compartidos (temas, normativa y su relación).
 - `data/ley/tNN.json`: artículos literales de cada tema (BOE y FOU).
 - `data/apuntes/tNN.html`: apuntes de los temas 19-60.
+- `data/preguntas.json`: banco de preguntas tipo test (la opción correcta es siempre la primera; la página las baraja).
 
 ## Uso
 

@@ -163,6 +163,8 @@ section.block { padding-top: 28px; display: grid; gap: 10px; }
 .readbtn:hover { filter: brightness(1.08); }
 .readtema { justify-self: start; margin-top: 12px; font-weight: 700; text-decoration: none; background: var(--accent); color: var(--surface); padding: 8px 14px; border-radius: 9px; font-size: 0.93rem; }
 .readtema:hover { filter: brightness(1.08); }
+.readtema.alt, .testbtn { background: var(--surface); color: var(--accent); border: 1.5px solid var(--accent); }
+.readtema.alt:hover, .testbtn:hover { background: var(--accent-soft); filter: none; }
 .opentab { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--accent); text-decoration: none; font-weight: 700; line-height: 1; }
 .opentab:hover { background: var(--accent); color: var(--surface); border-color: var(--accent); }
 @media (max-width: 520px) { .tema > summary { grid-template-columns: auto 1fr auto; } .tema > summary .state { display: none; } }
@@ -267,6 +269,7 @@ footer { padding-top: 36px; color: var(--muted); font-size: 0.88rem; display: gr
       <a class="readbtn" href="lectura.html" target="_blank" rel="noopener">Leer el temario completo <span aria-hidden="true">↗</span></a>
       <a href="lectura.html?parte=gen" target="_blank" rel="noopener">Solo parte general</a>
       <a href="lectura.html?parte=tic" target="_blank" rel="noopener">Solo parte TIC</a>
+      <a class="readbtn testbtn" href="test.html">Hacer un test <span aria-hidden="true">✓</span></a>
       <span class="small muted">Se abre en una pestaña nueva, con índice y opción de imprimir o guardar en PDF.</span>
     </div>
     <div class="facts">
@@ -280,6 +283,7 @@ footer { padding-top: 36px; color: var(--muted); font-size: 0.88rem; display: gr
   <nav class="sections" aria-label="Secciones">
     <a href="#temario">Temario</a>
     <a href="#examen">Cómo es el examen</a>
+    <a href="test.html">Tests</a>
     <a href="#simulador">Simulador de méritos</a>
     <a href="#proceso">Cómo fue en 2024-2026</a>
     <a href="#practica">Exámenes para practicar</a>
@@ -599,7 +603,7 @@ function card(t) {
       <a class="opentab" href="lectura.html?t=${t.n}" target="_blank" rel="noopener" title="Abrir el tema ${t.n} completo en una pestaña nueva" aria-label="Abrir el tema ${t.n} completo en una pestaña nueva">↗</a>
     </summary>
     <div class="body">
-      <a class="readtema" href="lectura.html?t=${t.n}" target="_blank" rel="noopener">Abrir el tema ${t.n} completo en una pestaña nueva <span aria-hidden="true">↗</span></a>
+      <div class="row"><a class="readtema" href="lectura.html?t=${t.n}" target="_blank" rel="noopener">Abrir el tema ${t.n} completo en una pestaña nueva <span aria-hidden="true">↗</span></a><a class="readtema alt" href="test.html?t=${t.n}" target="_blank" rel="noopener">Test del tema ${t.n} <span aria-hidden="true">✓</span></a></div>
       <div class="cols">
         <div><h4>Qué estudiar</h4><ul>${t.study.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div>
         <div><h4>Dónde leerlo</h4><ul class="links">${links}</ul></div>

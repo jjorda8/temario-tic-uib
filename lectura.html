@@ -245,7 +245,7 @@ function temaShell(t) {
       <div class="tnum"><b>Tema ${t.n}</b><span class="eyebrow">${b.kind === "gen" ? "Temario general" : "Temario específico TIC"} · ${esc(b.name)}</span></div>
       <h2>${esc(t.es)}</h2>
       <p class="ca">${esc(t.ca)}</p>
-      <div class="tnav no-print">${single ? "" : `<a href="?t=${t.n}" target="_blank" rel="noopener">Abrir solo este tema</a>`}<a href="./#t${t.n}" target="_blank" rel="noopener">Ver en la web</a></div>
+      <div class="tnav no-print">${single ? "" : `<a href="?t=${t.n}" target="_blank" rel="noopener">Abrir solo este tema</a>`}<a href="./#t${t.n}" target="_blank" rel="noopener">Ver en la web</a><a href="test.html?t=${t.n}" target="_blank" rel="noopener">Hacer un test de este tema</a></div>
     </header>
     <section class="study"><h4>Qué estudiar</h4><ul>${t.study.map(s => `<li>${esc(s)}</li>`).join("")}</ul></section>
     <div class="slot-apuntes"></div>

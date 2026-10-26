@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Tests · Técnico TIC UIB</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f5c86'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='15' font-weight='700' fill='white' text-anchor='middle'%3ETIC%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Tests: configuración en rejilla de temas, pregunta a pregunta con opciones grandes y corrección con revisión por tema. */
+:root {
+  color-scheme: light;
+  --bg: #f3f6f8; --surface: #ffffff; --ink: #142430; --muted: #536877; --line: #d5e0e7;
+  --accent: #0f5c86; --accent-soft: #e1eef6;
+  --gen: #7a5a12; --gen-soft: #f6eedb;
+  --ok: #1f7a4d; --ok-soft: #dff2e8; --ko: #b3261e; --ko-soft: #fbe3e1; --warn: #9a4b00; --warn-soft: #fbecd9;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e171d; --surface: #15222b; --ink: #e3edf2; --muted: #9db1be; --line: #29404e;
+    --accent: #6cb8e6; --accent-soft: #17334a; --gen: #e3bf6a; --gen-soft: #33290f;
+    --ok: #6fd3a0; --ok-soft: #133426; --ko: #ff8a80; --ko-soft: #3d1715; --warn: #f0a85c; --warn-soft: #3a2611;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e171d; --surface: #15222b; --ink: #e3edf2; --muted: #9db1be; --line: #29404e;
+  --accent: #6cb8e6; --accent-soft: #17334a; --gen: #e3bf6a; --gen-soft: #33290f;
+  --ok: #6fd3a0; --ok-soft: #133426; --ko: #ff8a80; --ko-soft: #3d1715; --warn: #f0a85c; --warn-soft: #3a2611;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.55;
+  padding: env(safe-area-inset-top, 0px) max(16px, env(safe-area-inset-right, 0px)) calc(48px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+}
+[hidden] { display: none !important; }
+a { color: var(--accent); text-underline-offset: 2px; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 920px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(1.9rem, 4.5vw, 2.6rem); }
+h2 { font-size: 1.35rem; }
+.eyebrow { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+.small { font-size: 0.88rem; }
+.top { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding-block: 14px; border-bottom: 1px solid var(--line); }
+.top a.brand { font-family: var(--font-display); font-weight: 700; text-decoration: none; color: var(--ink); }
+.top .sp { flex: 1; }
+.btn { border: 1px solid var(--line); background: var(--surface); padding: 8px 14px; border-radius: 9px; cursor: pointer; text-decoration: none; color: var(--ink); display: inline-flex; gap: 6px; align-items: center; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); font-weight: 700; }
+.btn.danger { border-color: var(--ko); color: var(--ko); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn.sm { padding: 5px 10px; font-size: 0.88rem; }
+.chip { border: 1px solid var(--line); background: var(--surface); padding: 5px 11px; border-radius: 999px; cursor: pointer; font-size: 0.9rem; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
+section.screen { padding-top: 24px; display: grid; gap: 18px; }
+
+/* Configuración */
+.blocks { display: grid; gap: 14px; }
+.block h3 { font-size: 1rem; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.block h3 button { font-size: 0.8rem; }
+.temas { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 6px; margin-top: 8px; }
+.tm { display: grid; grid-template-columns: auto auto 1fr auto; gap: 8px; align-items: center; padding: 7px 9px; border: 1px solid var(--line); border-radius: 9px; cursor: pointer; background: var(--bg); }
+.tm:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.tm input { width: 17px; height: 17px; accent-color: var(--accent); margin: 0; }
+.tm .n { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); }
+.tm .nm { font-size: 0.9rem; line-height: 1.25; min-width: 0; }
+.tm .st { font-family: var(--font-mono); font-size: 0.72rem; padding: 1px 6px; border-radius: 999px; white-space: nowrap; color: var(--muted); border: 1px solid var(--line); }
+.tm .st.good { color: var(--ok); border-color: transparent; background: var(--ok-soft); }
+.tm .st.mid { color: var(--warn); border-color: transparent; background: var(--warn-soft); }
+.tm .st.bad { color: var(--ko); border-color: transparent; background: var(--ko-soft); }
+.opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.opts label.f { display: grid; gap: 4px; font-size: 0.88rem; color: var(--muted); }
+.opts select { padding: 7px 9px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+.seg button { border: none; background: var(--bg); padding: 7px 12px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); font-weight: 700; }
+.startbar { position: sticky; bottom: env(safe-area-inset-bottom, 0px); background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); padding-block: 12px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; }
+
+/* Pregunta */
+.qhead { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: space-between; }
+.prog { flex: 1 1 200px; height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .2s; }
+.timer { font-family: var(--font-mono); font-variant-numeric: tabular-nums; padding: 3px 9px; border-radius: 8px; background: var(--surface); border: 1px solid var(--line); }
+.timer.low { color: var(--ko); border-color: var(--ko); }
+.qcard { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: clamp(16px, 4vw, 30px); display: grid; gap: 16px; }
+.qmeta { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; font-size: 0.86rem; }
+.tchip { font-family: var(--font-mono); font-size: 0.75rem; padding: 2px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); }
+.tchip.gen { background: var(--gen-soft); color: var(--gen); }
+.qtext { font-size: 1.18rem; font-weight: 600; line-height: 1.45; margin: 0; }
+.answers { display: grid; gap: 8px; }
+.ans { display: grid; grid-template-columns: 2.2em 1fr; gap: 10px; align-items: start; text-align: left; border: 1.5px solid var(--line); background: var(--bg); border-radius: 11px; padding: 11px 13px; cursor: pointer; font-size: 1rem; line-height: 1.4; }
+.ans:hover:not(:disabled) { border-color: var(--accent); }
+.ans .k { font-family: var(--font-mono); font-weight: 600; display: inline-grid; place-items: center; width: 1.9em; height: 1.9em; border-radius: 7px; background: var(--surface); border: 1px solid var(--line); font-size: 0.85rem; }
+.ans.sel { border-color: var(--accent); background: var(--accent-soft); }
+.ans.ok { border-color: var(--ok); background: var(--ok-soft); }
+.ans.ko { border-color: var(--ko); background: var(--ko-soft); }
+.ans:disabled { cursor: default; }
+.feedback { border-radius: 10px; padding: 12px 14px; display: grid; gap: 6px; }
+.feedback.ok { background: var(--ok-soft); }
+.feedback.ko { background: var(--ko-soft); }
+.feedback.bl { background: var(--warn-soft); }
+.feedback b.r { font-family: var(--font-display); }
+.qnav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; }
+.palette { display: flex; flex-wrap: wrap; gap: 4px; }
+.palette button { width: 2.2em; height: 2.2em; border-radius: 7px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-family: var(--font-mono); font-size: 0.78rem; }
+.palette button.ans-d { background: var(--accent-soft); border-color: var(--accent); }
+.palette button.cur { outline: 2px solid var(--ink); }
+.palette button.flag { box-shadow: inset 0 -3px 0 var(--warn); }
+.keys { font-size: 0.8rem; color: var(--muted); }
+.keys kbd { font-family: var(--font-mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; background: var(--surface); }
+.confirm { background: var(--warn-soft); border-radius: 10px; padding: 12px 14px; display: grid; gap: 8px; }
+
+/* Resultados */
+.score { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.score div { background: var(--surface); padding: 14px; display: grid; gap: 2px; }
+.score b { font-family: var(--font-display); font-size: 1.8rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.score span { font-size: 0.85rem; color: var(--muted); }
+.verdict { border-radius: 12px; padding: 14px 16px; font-weight: 600; }
+.verdict.ok { background: var(--ok-soft); color: var(--ok); }
+.verdict.ko { background: var(--ko-soft); color: var(--ko); }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { text-align: left; padding: 7px 9px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bar { height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; min-width: 60px; }
+.bar i { display: block; height: 100%; }
+.review { display: grid; gap: 10px; }
+.rv { border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: 10px; padding: 12px 14px; background: var(--surface); display: grid; gap: 6px; }
+.rv.ok { border-left-color: var(--ok); }
+.rv.ko { border-left-color: var(--ko); }
+.rv.bl { border-left-color: var(--warn); }
+.rv .q { font-weight: 600; }
+.rv .a { font-size: 0.93rem; }
+.rv .e { font-size: 0.9rem; color: var(--muted); }
+.hist li { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 6px 0; border-bottom: 1px dashed var(--line); font-size: 0.9rem; }
+.hist ul { list-style: none; padding: 0; margin: 0; }
+@media (max-width: 560px) { .qtext { font-size: 1.06rem; } .tm { grid-template-columns: auto auto 1fr; } .tm .st { grid-column: 3; justify-self: start; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="brand" href="./">← Temario Técnico TIC UIB</a>
+    <span class="sp"></span>
+    <a href="lectura.html" target="_blank" rel="noopener">Temario completo ↗</a>
+  </div>
+
+  <!-- Configuración -->
+  <section class="screen" id="cfg">
+    <header style="display:grid;gap:8px">
+      <span class="eyebrow">Modo test · <span id="bankInfo">cargando preguntas…</span></span>
+      <h1>Tests del temario</h1>
+      <p class="muted" style="margin:0;max-width:65ch">Elige los temas y el tipo de test. En modo práctica ves la solución y la explicación al momento; el modo examen se corrige al final como en la oposición: cada error resta un tercio de acierto.</p>
+    </header>
+
+    <div class="panel">
+      <div class="row" style="justify-content:space-between">
+        <h2>Temas</h2>
+        <div class="row" role="group" aria-label="Selección rápida">
+          <button class="chip" type="button" data-pick="all">Todos</button>
+          <button class="chip" type="button" data-pick="none">Ninguno</button>
+          <button class="chip" type="button" data-pick="gen">Parte general</button>
+          <button class="chip" type="button" data-pick="tic">Parte TIC</button>
+          <button class="chip" type="button" data-pick="studied" title="Los que has marcado como estudiados en la web">Mis estudiados</button>
+          <button class="chip" type="button" data-pick="weak" title="Temas con menos del 60 % de aciertos">Mis puntos débiles</button>
+        </div>
+      </div>
+      <div class="blocks" id="blocks"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Opciones</h2>
+      <div class="opts">
+        <div class="f" style="display:grid;gap:6px"><span class="small muted">Modo</span>
+          <div class="seg" role="group" aria-label="Modo">
+            <button type="button" data-mode="practica" aria-pressed="true">Práctica</button>
+            <button type="button" data-mode="examen" aria-pressed="false">Examen</button>
+          </div>
+        </div>
+        <label class="f">Número de preguntas
+          <select id="num"><option>10</option><option selected>20</option><option>30</option><option>50</option><option>100</option><option value="0">Todas las disponibles</option></select>
+        </label>
+        <label class="f">Qué preguntas
+          <select id="src">
+            <option value="all">Todas</option>
+            <option value="new">Solo las que no he respondido nunca</option>
+            <option value="failed">Solo las que he fallado alguna vez</option>
+          </select>
+        </label>
+        <label class="f">Tiempo (solo en modo examen)
+          <select id="timer">
+            <option value="0">Sin límite</option>
+            <option value="1.3" selected>Como la oposición: 1,3 min por pregunta</option>
+            <option value="1">1 minuto por pregunta</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="panel hist" id="histPanel" hidden>
+      <div class="row" style="justify-content:space-between"><h2>Tus últimos tests</h2><button class="btn sm danger" type="button" id="resetStats">Borrar estadísticas</button></div>
+      <p class="small muted" id="resetMsg" hidden></p>
+      <ul id="hist"></ul>
+    </div>
+
+    <div class="startbar">
+      <span id="avail" class="small muted">Elige al menos un tema.</span>
+      <button class="btn primary" type="button" id="start" disabled>Empezar el test</button>
+    </div>
+  </section>
+
+  <!-- Pregunta -->
+  <section class="screen" id="run" hidden>
+    <div class="qhead">
+      <span class="small"><b id="qpos">1</b> de <span id="qtot">10</span></span>
+      <span class="prog"><i id="progbar"></i></span>
+      <span class="timer" id="timerBox" hidden>--:--</span>
+      <button class="btn sm" type="button" id="quit">Salir</button>
+    </div>
+    <div class="confirm" id="quitConfirm" hidden>
+      <span>¿Salir del test? Se perderán las respuestas de este test.</span>
+      <div class="row"><button class="btn sm danger" type="button" id="quitYes">Salir sin guardar</button><button class="btn sm" type="button" id="quitNo">Seguir con el test</button></div>
+    </div>
+    <article class="qcard" id="qcard">
+      <div class="qmeta"><span class="tchip" id="qtema">T1</span><span class="muted" id="qtemaName"></span><a id="qlink" href="#" target="_blank" rel="noopener" class="small">Ver el tema ↗</a></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="answers" id="answers"></div>
+      <div id="fb" hidden></div>
+    </article>
+    <div class="qnav">
+      <div class="row">
+        <button class="btn" type="button" id="prev">← Anterior</button>
+        <button class="btn" type="button" id="blank">Dejar en blanco</button>
+        <button class="btn" type="button" id="flag" hidden>Marcar para revisar</button>
+      </div>
+      <div class="row">
+        <button class="btn primary" type="button" id="next">Siguiente →</button>
+        <button class="btn" type="button" id="finish" hidden>Terminar y corregir</button>
+      </div>
+    </div>
+    <div class="confirm" id="finishConfirm" hidden>
+      <span id="finishMsg"></span>
+      <div class="row"><button class="btn sm primary" type="button" id="finishYes">Corregir ahora</button><button class="btn sm" type="button" id="finishNo">Seguir revisando</button></div>
+    </div>
+    <div class="palette" id="palette" hidden aria-label="Ir a la pregunta"></div>
+    <p class="keys">Atajos: <kbd>1</kbd>–<kbd>4</kbd> o <kbd>A</kbd>–<kbd>D</kbd> para responder, <kbd>Enter</kbd> o <kbd>→</kbd> para seguir, <kbd>←</kbd> para volver.</p>
+  </section>
+
+  <!-- Resultados -->
+  <section class="screen" id="res" hidden>
+    <header style="display:grid;gap:6px"><span class="eyebrow" id="resMode">Resultado</span><h1 id="resTitle">Resultado del test</h1></header>
+    <div class="score" id="score"></div>
+    <div class="verdict" id="verdict"></div>
+    <div class="row">
+      <button class="btn primary" type="button" id="retryFailed">Repetir los fallos y blancos</button>
+      <button class="btn" type="button" id="again">Otro test con los mismos temas</button>
+      <button class="btn" type="button" id="toCfg">Cambiar la configuración</button>
+    </div>
+    <div class="panel">
+      <h2>Por tema</h2>
+      <div class="tablewrap"><table><thead><tr><th>Tema</th><th>Aciertos</th><th>Errores</th><th>Blanco</th><th style="min-width:120px">% acierto</th><th></th></tr></thead><tbody id="byTema"></tbody></table></div>
+    </div>
+    <div class="panel">
+      <div class="row" style="justify-content:space-between"><h2>Revisión</h2>
+        <div class="row" role="group" aria-label="Filtrar revisión">
+          <button class="chip" type="button" data-rv="all" aria-pressed="false">Todas</button>
+          <button class="chip" type="button" data-rv="bad" aria-pressed="true">Fallos y blancos</button>
+        </div>
+      </div>
+      <div class="review" id="review"></div>
+    </div>
+  </section>
+</div>
+
+<script src="data/datos.js"></script>
+<script>
+const esc = s => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const $ = id => document.getElementById(id);
+const LETTERS = ["A", "B", "C", "D"];
+const blockOf = n => BLOCKS.find(b => n >= b.range[0] && n <= b.range[1]);
+const temaName = n => (TEMAS.find(t => t.n === n) || {}).es || "";
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const fmt = (v, d = 2) => v.toLocaleString("es-ES", { minimumFractionDigits: d, maximumFractionDigits: d });
+
+// Estadísticas guardadas en este navegador
+const SKEY = "temario-tic-uib-tests";
+let stats = { q: {}, hist: [] };
+try { stats = Object.assign(stats, JSON.parse(localStorage.getItem(SKEY) || "{}")); } catch (e) {}
+const saveStats = () => { try { localStorage.setItem(SKEY, JSON.stringify(stats)); } catch (e) {} };
+let studied = [];
+try { studied = JSON.parse(localStorage.getItem("temario-tic-uib-estudiados") || "[]"); } catch (e) {}
+
+let BANK = [], byTema = {};
+let mode = "practica";
+let sel = new Set();
+let run = null;     // test en curso
+let last = null;    // configuración del último test
+
+function temaStats(n) {
+  let ok = 0, ko = 0;
+  for (const q of byTema[n] || []) { const s = stats.q[q.id]; if (s) { ok += s.ok; ko += s.ko; } }
+  return { ok, ko, total: ok + ko, pct: ok + ko ? ok / (ok + ko) : null };
+}
+
+function renderBlocks() {
+  $("blocks").innerHTML = BLOCKS.map(b => {
+    const ts = TEMAS.filter(t => t.n >= b.range[0] && t.n <= b.range[1]);
+    return `<div class="block"><h3>${esc(b.name)} <button class="chip" type="button" data-block="${b.id}">Todo el bloque</button></h3>
+      <div class="temas">${ts.map(t => {
+        const s = temaStats(t.n), c = (byTema[t.n] || []).length;
+        const cls = s.pct === null ? "" : s.pct >= 0.75 ? "good" : s.pct >= 0.6 ? "mid" : "bad";
+        const lab = s.pct === null ? `${c} preg.` : `${Math.round(s.pct * 100)} %`;
+        return `<label class="tm"><input type="checkbox" value="${t.n}" ${sel.has(t.n) ? "checked" : ""}><span class="n">T${t.n}</span><span class="nm">${esc(t.es)}</span><span class="st ${cls}" title="${s.total ? `${s.ok} aciertos y ${s.ko} errores en total` : `${c} preguntas en el banco`}">${lab}</span></label>`;
+      }).join("")}</div></div>`;
+  }).join("");
+}
+
+function pool() {
+  const src = $("src").value;
+  let p = [...sel].flatMap(n => byTema[n] || []);
+  if (src === "new") p = p.filter(q => !stats.q[q.id]);
+  if (src === "failed") p = p.filter(q => stats.q[q.id] && stats.q[q.id].ko > 0);
+  return p;
+}
+function updateAvail() {
+  const p = pool(), n = +$("num").value || p.length;
+  $("start").disabled = !p.length;
+  $("avail").textContent = !sel.size ? "Elige al menos un tema." : !p.length ? "No hay preguntas con ese filtro en los temas elegidos." : `${sel.size} ${sel.size === 1 ? "tema" : "temas"} · ${p.length} preguntas disponibles · el test tendrá ${Math.min(n, p.length)}`;
+}
+
+// Reparte las preguntas entre los temas elegidos para que todos salgan
+function pick(p, n) {
+  const groups = {};
+  shuffle([...p]).forEach(q => (groups[q.t] = groups[q.t] || []).push(q));
+  const keys = shuffle(Object.keys(groups));
+  const out = [];
+  while (out.length < n && keys.some(k => groups[k].length)) {
+    for (const k of keys) { if (groups[k].length && out.length < n) out.push(groups[k].pop()); }
+  }
+  return shuffle(out);
+}
+
+function startTest(questions, cfg) {
+  last = cfg;
+  const items = questions.map(q => {
+    const order = shuffle([0, 1, 2, 3]);
+    return { q, order, correct: order.indexOf(0), answer: null, flag: false, checked: false };
+  });
+  const perQ = cfg.mode === "examen" ? +cfg.timer : 0;
+  run = { items, i: 0, mode: cfg.mode, start: Date.now(), limit: perQ ? Math.round(perQ * items.length * 60) : 0, timerId: null, done: false };
+  $("cfg").hidden = true; $("res").hidden = true; $("run").hidden = false;
+  $("quitConfirm").hidden = true; $("finishConfirm").hidden = true;
+  $("qtot").textContent = items.length;
+  $("flag").hidden = cfg.mode !== "examen";
+  $("finish").hidden = cfg.mode !== "examen";
+  $("palette").hidden = cfg.mode !== "examen";
+  $("blank").textContent = cfg.mode === "examen" ? "Dejar en blanco" : "No lo sé";
+  $("timerBox").hidden = !run.limit;
+  if (run.limit) { tick(); run.timerId = setInterval(tick, 1000); }
+  show();
+  window.scrollTo(0, 0);
+}
+
+function tick() {
+  if (!run || !run.limit) return;
+  const left = run.limit - Math.floor((Date.now() - run.start) / 1000);
+  const box = $("timerBox");
+  const m = Math.max(0, Math.floor(left / 60)), s = Math.max(0, left % 60);
+  box.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  box.classList.toggle("low", left <= 60);
+  if (left <= 0) finish();
+}
+
+function show() {
+  const it = run.items[run.i], q = it.q, b = blockOf(q.t);
+  $("qpos").textContent = run.i + 1;
+  $("progbar").style.width = `${(run.i + (it.checked ? 1 : 0)) / run.items.length * 100}%`;
+  $("qtema").textContent = `T${q.t}`;
+  $("qtema").className = "tchip" + (b.kind === "gen" ? " gen" : "");
+  $("qtemaName").textContent = temaName(q.t);
+  $("qlink").href = `lectura.html?t=${q.t}`;
+  $("qtext").textContent = q.q;
+  const reveal = run.mode === "practica" && it.checked;
+  $("answers").innerHTML = it.order.map((oi, k) => {
+    let cls = "ans";
+    if (reveal) { if (k === it.correct) cls += " ok"; else if (k === it.answer) cls += " ko"; }
+    else if (k === it.answer) cls += " sel";
+    return `<button class="${cls}" type="button" data-k="${k}" ${reveal ? "disabled" : ""}><span class="k">${LETTERS[k]}</span><span>${esc(q.o[oi])}</span></button>`;
+  }).join("");
+  const fb = $("fb");
+  if (reveal) {
+    const st = it.answer === null ? "bl" : it.answer === it.correct ? "ok" : "ko";
+    const head = st === "ok" ? "Correcto" : st === "ko" ? `Incorrecto. La respuesta correcta es la ${LETTERS[it.correct]}` : `Sin responder. La respuesta correcta es la ${LETTERS[it.correct]}`;
+    fb.className = `feedback ${st}`;
+    fb.innerHTML = `<b class="r">${head}</b><span>${esc(q.e)}</span>`;
+    fb.hidden = false;
+  } else fb.hidden = true;
+  $("prev").disabled = run.i === 0;
+  const isLast = run.i === run.items.length - 1;
+  if (run.mode === "practica") {
+    $("next").textContent = it.checked ? (isLast ? "Ver resultado" : "Siguiente →") : "Comprobar";
+    $("next").disabled = !it.checked && it.answer === null;
+    $("blank").hidden = it.checked;
+  } else {
+    $("next").textContent = isLast ? "Ir al final" : "Siguiente →";
+    $("next").disabled = false;
+    $("blank").hidden = false;
+    $("flag").textContent = it.flag ? "Quitar la marca" : "Marcar para revisar";
+    $("palette").innerHTML = run.items.map((x, k) => `<button type="button" data-go="${k}" class="${x.answer !== null ? "ans-d" : ""} ${k === run.i ? "cur" : ""} ${x.flag ? "flag" : ""}" aria-label="Pregunta ${k + 1}">${k + 1}</button>`).join("");
+  }
+}
+
+function choose(k) {
+  const it = run.items[run.i];
+  if (run.mode === "practica" && it.checked) return;
+  it.answer = it.answer === k && run.mode === "examen" ? null : k;
+  show();
+}
+function next() {
+  const it = run.items[run.i];
+  if (run.mode === "practica") {
+    if (!it.checked) { if (it.answer === null) return; it.checked = true; show(); return; }
+    if (run.i < run.items.length - 1) { run.i++; show(); } else finish();
+  } else {
+    if (run.i < run.items.length - 1) { run.i++; show(); } else askFinish();
+  }
+}
+function askFinish() {
+  const blanks = run.items.filter(x => x.answer === null).length, flags = run.items.filter(x => x.flag).length;
+  $("finishMsg").textContent = `Vas a corregir el test.${blanks ? ` Tienes ${blanks} ${blanks === 1 ? "pregunta" : "preguntas"} en blanco.` : ""}${flags ? ` Hay ${flags} marcadas para revisar.` : ""}`;
+  $("finishConfirm").hidden = false;
+  $("finishConfirm").scrollIntoView({ block: "nearest" });
+}
+
+function finish() {
+  if (!run || run.done) return;
+  run.done = true;
+  clearInterval(run.timerId);
+  const items = run.items;
+  let ok = 0, ko = 0, bl = 0;
+  const per = {};
+  const now = Date.now();
+  for (const it of items) {
+    const p = per[it.q.t] = per[it.q.t] || { ok: 0, ko: 0, bl: 0 };
+    const s = stats.q[it.q.id] = stats.q[it.q.id] || { ok: 0, ko: 0 };
+    if (it.answer === null) { bl++; p.bl++; }
+    else if (it.answer === it.correct) { ok++; p.ok++; s.ok++; }
+    else { ko++; p.ko++; s.ko++; }
+    if (it.answer === null) s.bl = (s.bl || 0) + 1;
+    s.last = now;
+  }
+  const n = items.length, net = ok - ko / 3, over45 = Math.max(0, net) / n * 45;
+  const secs = Math.round((Date.now() - run.start) / 1000);
+  stats.hist.unshift({ d: now, mode: run.mode, n, ok, ko, bl, temas: [...new Set(items.map(x => x.q.t))].sort((a, b) => a - b), secs });
+  stats.hist = stats.hist.slice(0, 50);
+  saveStats();
+
+  $("run").hidden = true; $("res").hidden = false;
+  $("resMode").textContent = run.mode === "examen" ? "Modo examen" : "Modo práctica";
+  $("resTitle").textContent = `${ok} de ${n} correctas`;
+  const mm = Math.floor(secs / 60), ss = secs % 60;
+  $("score").innerHTML = `
+    <div><b>${fmt(over45)}</b><span>sobre 45, como el test de la oposición</span></div>
+    <div><b>${fmt(net)}</b><span>nota neta: aciertos − errores ÷ 3</span></div>
+    <div><b>${ok} · ${ko} · ${bl}</b><span>aciertos · errores · en blanco</span></div>
+    <div><b>${Math.round(ok / n * 100)} %</b><span>de acierto bruto en ${mm} min ${String(ss).padStart(2, "0")} s</span></div>`;
+  const pass = over45 >= 18;
+  $("verdict").className = "verdict " + (pass ? "ok" : "ko");
+  $("verdict").textContent = pass
+    ? `Superarías la primera prueba: el mínimo es 18 sobre 45 (en 2025 aprobaron con notas de 21,77 a 32,42).`
+    : `No llegarías al mínimo de 18 sobre 45 de la primera prueba. Repasa los temas con peor resultado y repite los fallos.`;
+  $("byTema").innerHTML = Object.keys(per).map(Number).sort((a, b) => a - b).map(t => {
+    const p = per[t], tot = p.ok + p.ko + p.bl, pct = tot ? p.ok / tot : 0;
+    const col = pct >= 0.75 ? "var(--ok)" : pct >= 0.6 ? "var(--warn)" : "var(--ko)";
+    return `<tr><td><b>T${t}</b> ${esc(temaName(t))}</td><td class="n">${p.ok}</td><td class="n">${p.ko}</td><td class="n">${p.bl}</td>
+      <td><span class="small">${Math.round(pct * 100)} %</span><div class="bar"><i style="width:${pct * 100}%;background:${col}"></i></div></td>
+      <td><a href="lectura.html?t=${t}" target="_blank" rel="noopener" class="small">Repasar ↗</a></td></tr>`;
+  }).join("");
+  renderReview("bad");
+  window.scrollTo(0, 0);
+}
+
+function renderReview(filter) {
+  document.querySelectorAll("[data-rv]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.rv === filter)));
+  const list = run.items.map((it, k) => ({ it, k })).filter(({ it }) => filter === "all" || it.answer !== it.correct);
+  $("review").innerHTML = list.length ? list.map(({ it, k }) => {
+    const st = it.answer === null ? "bl" : it.answer === it.correct ? "ok" : "ko";
+    const mine = it.answer === null ? "En blanco" : `${LETTERS[it.answer]}) ${esc(it.q.o[it.order[it.answer]])}`;
+    return `<div class="rv ${st}">
+      <span class="small muted">${k + 1}. Tema ${it.q.t} · ${esc(temaName(it.q.t))}</span>
+      <span class="q">${esc(it.q.q)}</span>
+      ${st === "ok" ? `<span class="a">✔ ${mine}</span>` : `<span class="a">Tu respuesta: ${mine}</span><span class="a"><b>Correcta: ${LETTERS[it.correct]}) ${esc(it.q.o[0])}</b></span>`}
+      <span class="e">${esc(it.q.e)} <a href="lectura.html?t=${it.q.t}" target="_blank" rel="noopener">Ver el tema ↗</a></span>
+    </div>`;
+  }).join("") : `<p class="muted">No hay fallos ni blancos. ¡Bien hecho!</p>`;
+}
+
+function renderHist() {
+  const h = stats.hist || [];
+  $("histPanel").hidden = !h.length;
+  $("hist").innerHTML = h.slice(0, 8).map(x => {
+    const d = new Date(x.d), net = x.ok - x.ko / 3, o45 = Math.max(0, net) / x.n * 45;
+    const temas = x.temas.length > 6 ? `${x.temas.length} temas` : x.temas.map(t => "T" + t).join(", ");
+    return `<li><b>${d.toLocaleDateString("es-ES")} ${d.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}</b><span>${x.mode === "examen" ? "Examen" : "Práctica"} · ${x.n} preguntas</span><span>${x.ok} aciertos, ${x.ko} errores, ${x.bl} en blanco</span><span><b>${fmt(o45)}</b>/45</span><span class="muted">${temas}</span></li>`;
+  }).join("");
+}
+
+function setSel(ns) { sel = new Set(ns); renderBlocks(); updateAvail(); }
+
+// Eventos de configuración
+$("blocks").addEventListener("change", e => {
+  const c = e.target.closest("input[type=checkbox]"); if (!c) return;
+  c.checked ? sel.add(+c.value) : sel.delete(+c.value); updateAvail();
+});
+$("blocks").addEventListener("click", e => {
+  const b = e.target.closest("[data-block]"); if (!b) return;
+  const bl = BLOCKS.find(x => x.id === b.dataset.block);
+  const ns = TEMAS.filter(t => t.n >= bl.range[0] && t.n <= bl.range[1]).map(t => t.n);
+  const allIn = ns.every(n => sel.has(n));
+  ns.forEach(n => allIn ? sel.delete(n) : sel.add(n)); renderBlocks(); updateAvail();
+});
+document.querySelectorAll("[data-pick]").forEach(b => b.addEventListener("click", () => {
+  const p = b.dataset.pick;
+  if (p === "all") setSel(TEMAS.map(t => t.n));
+  if (p === "none") setSel([]);
+  if (p === "gen") setSel(TEMAS.filter(t => t.n <= 18).map(t => t.n));
+  if (p === "tic") setSel(TEMAS.filter(t => t.n >= 19).map(t => t.n));
+  if (p === "studied") setSel(studied.length ? studied : []);
+  if (p === "weak") setSel(TEMAS.map(t => t.n).filter(n => { const s = temaStats(n); return s.pct !== null && s.pct < 0.6; }));
+}));
+document.querySelectorAll("[data-mode]").forEach(b => b.addEventListener("click", () => {
+  mode = b.dataset.mode;
+  document.querySelectorAll("[data-mode]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+}));
+["num", "src"].forEach(id => $(id).addEventListener("change", updateAvail));
+$("start").addEventListener("click", () => {
+  const p = pool(); const n = +$("num").value || p.length;
+  startTest(pick(p, Math.min(n, p.length)), { mode, timer: $("timer").value, temas: [...sel], n, src: $("src").value });
+});
+const resetBtn = $("resetStats");
+resetBtn.addEventListener("click", () => {
+  if (!resetBtn.dataset.armed) { resetBtn.dataset.armed = "1"; resetBtn.textContent = "Pulsa otra vez para borrar"; return; }
+  stats = { q: {}, hist: [] }; saveStats(); delete resetBtn.dataset.armed; resetBtn.textContent = "Borrar estadísticas";
+  $("resetMsg").textContent = "Estadísticas borradas."; $("resetMsg").hidden = false; renderBlocks(); renderHist(); updateAvail();
+});
+
+// Eventos del test
+$("answers").addEventListener("click", e => { const b = e.target.closest("[data-k]"); if (b) choose(+b.dataset.k); });
+$("next").addEventListener("click", next);
+$("prev").addEventListener("click", () => { if (run.i > 0) { run.i--; show(); } });
+$("blank").addEventListener("click", () => {
+  const it = run.items[run.i];
+  if (run.mode === "practica") { it.answer = null; it.checked = true; show(); }
+  else { it.answer = null; next(); }
+});
+$("flag").addEventListener("click", () => { const it = run.items[run.i]; it.flag = !it.flag; show(); });
+$("palette").addEventListener("click", e => { const b = e.target.closest("[data-go]"); if (b) { run.i = +b.dataset.go; show(); } });
+$("finish").addEventListener("click", askFinish);
+$("finishYes").addEventListener("click", finish);
+$("finishNo").addEventListener("click", () => { $("finishConfirm").hidden = true; });
+$("quit").addEventListener("click", () => { $("quitConfirm").hidden = false; });
+$("quitNo").addEventListener("click", () => { $("quitConfirm").hidden = true; });
+$("quitYes").addEventListener("click", () => { clearInterval(run.timerId); run = null; $("run").hidden = true; $("cfg").hidden = false; renderBlocks(); renderHist(); updateAvail(); });
+document.addEventListener("keydown", e => {
+  if (!run || run.done || $("run").hidden || e.target.matches("input, select, textarea")) return;
+  const k = e.key.toUpperCase();
+  const idx = ["1", "2", "3", "4"].indexOf(k) >= 0 ? ["1", "2", "3", "4"].indexOf(k) : LETTERS.indexOf(k);
+  if (idx >= 0) { choose(idx); e.preventDefault(); }
+  else if (e.key === "Enter" || e.key === "ArrowRight") { next(); e.preventDefault(); }
+  else if (e.key === "ArrowLeft" && run.i > 0) { run.i--; show(); e.preventDefault(); }
+});
+
+// Resultados
+document.querySelectorAll("[data-rv]").forEach(b => b.addEventListener("click", () => renderReview(b.dataset.rv)));
+$("retryFailed").addEventListener("click", () => {
+  const qs = run.items.filter(it => it.answer !== it.correct).map(it => it.q);
+  if (!qs.length) { $("retryFailed").textContent = "No hay fallos que repetir"; return; }
+  startTest(shuffle(qs), Object.assign({}, last, { mode: last.mode }));
+});
+$("again").addEventListener("click", () => { const p = pool(); startTest(pick(p, Math.min(last.n || p.length, p.length)), last); });
+$("toCfg").addEventListener("click", () => { run = null; $("res").hidden = true; $("cfg").hidden = false; renderBlocks(); renderHist(); updateAvail(); window.scrollTo(0, 0); });
+
+// Arranque: ?t=5 o ?temas=1,2,3 preseleccionan temas
+(async () => {
+  try {
+    const r = await fetch("data/preguntas.json");
+    if (!r.ok) throw new Error(r.status);
+    BANK = await r.json();
+  } catch (e) {
+    $("bankInfo").textContent = "no se han podido cargar las preguntas";
+    $("avail").textContent = "No se ha podido cargar el banco de preguntas. Recarga la página.";
+    return;
+  }
+  BANK.forEach(q => (byTema[q.t] = byTema[q.t] || []).push(q));
+  $("bankInfo").textContent = `${BANK.length} preguntas de los 60 temas`;
+  const params = new URLSearchParams(location.search);
+  const pre = (params.get("temas") || params.get("t") || "").split(",").map(Number).filter(n => n >= 1 && n <= 60);
+  if (pre.length) sel = new Set(pre);
+  renderBlocks(); renderHist(); updateAvail();
+})();
+</script>
+</body>
+</html>
