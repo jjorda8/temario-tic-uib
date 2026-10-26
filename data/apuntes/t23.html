@@ -1,0 +1,57 @@
+<h4>1. Arquitectura TCP/IP</h4>
+<p>Modelo de 4 capas en que se basa Internet: <b>acceso a la red</b>, <b>Internet</b> (IP, ICMP, ARP), <b>transporte</b> (TCP, UDP) y <b>aplicación</b> (HTTP, DNS, SMTP, SSH...). IP ofrece un servicio <b>no orientado a conexión</b> y "de mejor esfuerzo"; la fiabilidad la aporta TCP.</p>
+
+<h4>2. IPv4</h4>
+<ul>
+<li>Direcciones de <b>32 bits</b> en notación decimal con puntos. Cabecera de 20 bytes mínimo con TTL (saltos), protocolo, direcciones de origen y destino, fragmentación.</li>
+<li><b>Clases</b> (históricas): A (1-126, /8), B (128-191, /16), C (192-223, /24), D (224-239, multicast), E (240-255, experimental). Hoy se usa <b>CIDR</b> (sin clases, RFC 4632) con máscaras de longitud variable (<b>VLSM</b>).</li>
+<li><b>Privadas</b> (RFC 1918): 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. Otras especiales: 127.0.0.0/8 (loopback), 169.254.0.0/16 (link-local APIPA), 100.64.0.0/10 (CGNAT).</li>
+<li><b>NAT</b>/PAT: traducción de direcciones privadas a públicas (PAT usa puertos para compartir una IP).</li>
+</ul>
+<h5>Cálculo de subredes</h5>
+<ul>
+<li>Hosts útiles = 2<sup>(32 − prefijo)</sup> − 2 (dirección de red y broadcast). /24 → 254; /26 → 62; /30 → 2; /31 se usa en enlaces punto a punto.</li>
+<li>Ejemplo: 192.168.10.0/26 → subredes .0, .64, .128, .192; la primera va de .1 a .62 y su broadcast es .63.</li>
+<li>Máscara /27 = 255.255.255.224; /28 = .240; /29 = .248; /30 = .252.</li>
+</ul>
+
+<h4>3. IPv6</h4>
+<ul>
+<li>Direcciones de <b>128 bits</b> en 8 grupos hexadecimales de 16 bits; se omiten ceros a la izquierda y una sola secuencia de grupos a cero con "::".</li>
+<li>Tipos: unicast global (2000::/3), <b>link-local</b> (fe80::/10, obligatoria en cada interfaz), única local (fc00::/7), multicast (ff00::/8) y anycast. <b>No hay broadcast</b>.</li>
+<li>Cabecera fija de 40 bytes con cabeceras de extensión; sin fragmentación en routers (la hace el origen) ni checksum.</li>
+<li>Autoconfiguración <b>SLAAC</b> y <b>NDP</b> (Neighbor Discovery, sustituye a ARP mediante ICMPv6). DHCPv6 con o sin estado.</li>
+<li>Transición: doble pila (dual stack), túneles (6in4) y traducción (NAT64/DNS64).</li>
+</ul>
+
+<h4>4. Protocolos de transporte</h4>
+<div class="tw"><table>
+<tr><th></th><th>TCP</th><th>UDP</th></tr>
+<tr><td>Conexión</td><td>Orientado a conexión (three-way handshake: SYN, SYN-ACK, ACK; cierre con FIN)</td><td>Sin conexión</td></tr>
+<tr><td>Fiabilidad</td><td>Números de secuencia, ACK y retransmisión</td><td>No garantiza entrega ni orden</td></tr>
+<tr><td>Control</td><td>Control de flujo (ventana deslizante) y de congestión</td><td>Ninguno</td></tr>
+<tr><td>Cabecera</td><td>20 bytes mínimo</td><td>8 bytes</td></tr>
+<tr><td>Usos</td><td>HTTP, SMTP, SSH, FTP</td><td>DNS, DHCP, VoIP, streaming, SNMP</td></tr>
+</table></div>
+<p>Puertos: conocidos (0-1023), registrados (1024-49151) y dinámicos (49152-65535). Algunos: 20/21 FTP, 22 SSH, 23 Telnet, 25 SMTP, 53 DNS, 67/68 DHCP, 80 HTTP, 110 POP3, 123 NTP, 143 IMAP, 161/162 SNMP, 389 LDAP, 443 HTTPS, 445 SMB, 636 LDAPS, 993 IMAPS, 3389 RDP.</p>
+
+<h4>5. Otros protocolos de la capa de red</h4>
+<ul>
+<li><b>ICMP</b>: mensajes de control y error (ping usa echo request/reply; traceroute aprovecha el TTL).</li>
+<li><b>ARP</b>: obtiene la MAC a partir de la IP en la red local (vulnerable a ARP spoofing).</li>
+<li><b>DHCP</b>: asignación automática (proceso DORA: Discover, Offer, Request, Ack).</li>
+</ul>
+
+<h4>6. Enrutamiento y tablas</h4>
+<ul>
+<li>La <b>tabla de rutas</b> contiene red destino, máscara, siguiente salto (gateway), interfaz y métrica.</li>
+<li>Se elige la ruta con el <b>prefijo más largo</b> que coincida (longest prefix match); si hay empate, la de menor distancia administrativa y después la de menor métrica. La <b>ruta por defecto</b> es 0.0.0.0/0.</li>
+<li>Rutas <b>estáticas</b> (configuradas a mano) y <b>dinámicas</b> mediante protocolos: <b>RIP</b> (vector distancia, métrica de saltos, máximo 15), <b>OSPF</b> (estado de enlace, algoritmo de Dijkstra, áreas), <b>EIGRP</b> (Cisco) e <b>IS-IS</b> son IGP; <b>BGP</b> es el EGP que enruta entre sistemas autónomos en Internet.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Privadas: 10/8, 172.16/12, 192.168/16.</li>
+<li>Hosts útiles = 2^bits de host − 2.</li>
+<li>IPv6 no tiene broadcast; usa NDP en lugar de ARP; link-local fe80::/10.</li>
+<li>TCP: handshake de tres vías; UDP: cabecera de 8 bytes.</li>
+<li>En enrutamiento gana el prefijo más largo. OSPF = estado de enlace; RIP = vector distancia; BGP entre AS.</li>
+</ul></div>

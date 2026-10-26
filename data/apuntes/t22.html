@@ -1,0 +1,56 @@
+<h4>1. Conceptos generales</h4>
+<ul>
+<li>Las redes WiFi siguen la familia <b>IEEE 802.11</b>. "Wi-Fi" es la marca de certificación de la Wi-Fi Alliance.</li>
+<li>Acceso al medio: <b>CSMA/CA</b> (evitación de colisiones), con RTS/CTS opcional para el problema del nodo oculto.</li>
+<li><b>SSID</b>: nombre de la red; <b>BSSID</b>: MAC del punto de acceso.</li>
+</ul>
+<div class="tw"><table>
+<tr><th>Estándar</th><th>Nombre</th><th>Año</th><th>Banda</th><th>Velocidad máx. teórica</th><th>Novedades</th></tr>
+<tr><td>802.11b</td><td>—</td><td>1999</td><td>2,4 GHz</td><td>11 Mbps</td><td>DSSS</td></tr>
+<tr><td>802.11a</td><td>—</td><td>1999</td><td>5 GHz</td><td>54 Mbps</td><td>OFDM</td></tr>
+<tr><td>802.11g</td><td>—</td><td>2003</td><td>2,4 GHz</td><td>54 Mbps</td><td>OFDM en 2,4</td></tr>
+<tr><td>802.11n</td><td>Wi-Fi 4</td><td>2009</td><td>2,4 y 5 GHz</td><td>600 Mbps</td><td>MIMO, canales de 40 MHz</td></tr>
+<tr><td>802.11ac</td><td>Wi-Fi 5</td><td>2013</td><td>5 GHz</td><td>~6,9 Gbps</td><td>MU-MIMO (bajada), 80/160 MHz, 256-QAM</td></tr>
+<tr><td>802.11ax</td><td>Wi-Fi 6 / 6E</td><td>2019/2020</td><td>2,4, 5 (y 6 GHz en 6E)</td><td>~9,6 Gbps</td><td>OFDMA, MU-MIMO bidireccional, 1024-QAM, TWT, BSS coloring</td></tr>
+<tr><td>802.11be</td><td>Wi-Fi 7</td><td>2024</td><td>2,4, 5 y 6 GHz</td><td>~46 Gbps</td><td>Canales de 320 MHz, 4096-QAM, MLO (multienlace)</td></tr>
+</table></div>
+
+<h4>2. Canales y frecuencias</h4>
+<ul>
+<li><b>2,4 GHz</b>: más alcance y mejor penetración, pero más interferencias (Bluetooth, microondas). Canales de 20 MHz separados 5 MHz; solo <b>1, 6 y 11</b> no se solapan (en Europa hay 13 canales).</li>
+<li><b>5 GHz</b>: más canales no solapados y más ancho de banda, menos alcance. Algunos canales exigen <b>DFS</b> (selección dinámica de frecuencia para no interferir con radares) y <b>TPC</b> (control de potencia).</li>
+<li><b>6 GHz</b> (Wi-Fi 6E y 7): mucho espectro limpio; exige WPA3.</li>
+<li>Agregar canales (40/80/160/320 MHz) aumenta la velocidad pero reduce los canales disponibles.</li>
+<li>Diseño: estudio de cobertura (site survey), plan de canales para evitar interferencias entre AP vecinos, ajuste de potencia y densidad según usuarios.</li>
+</ul>
+
+<h4>3. Topologías</h4>
+<ul>
+<li><b>Infraestructura</b>: los clientes se conectan a un punto de acceso. <b>BSS</b> = un AP y sus clientes; <b>ESS</b> = varios AP con el mismo SSID unidos por una red de distribución, lo que permite el <b>roaming</b> (con 802.11r, k, v para hacerlo rápido).</li>
+<li><b>Ad hoc (IBSS)</b>: equipos entre sí sin AP.</li>
+<li><b>Malla (mesh)</b>: los AP se conectan entre sí de forma inalámbrica.</li>
+<li><b>Puente (bridge)</b> punto a punto o punto a multipunto entre edificios.</li>
+<li>Gestión: AP autónomos o AP ligeros gestionados por una <b>controladora</b> (física, virtual o en la nube) que centraliza configuración, radio y seguridad (protocolos CAPWAP).</li>
+</ul>
+
+<h4>4. Seguridad</h4>
+<div class="tw"><table>
+<tr><th>Protocolo</th><th>Cifrado</th><th>Estado</th></tr>
+<tr><td>WEP</td><td>RC4 con IV de 24 bits</td><td>Roto, no usar</td></tr>
+<tr><td>WPA</td><td>TKIP (RC4)</td><td>Obsoleto</td></tr>
+<tr><td>WPA2</td><td>AES-CCMP (802.11i)</td><td>Válido; vulnerable a KRACK si no se parchea</td></tr>
+<tr><td>WPA3</td><td>AES-CCMP/GCMP; SAE en lugar de PSK</td><td>Recomendado; Personal usa SAE, Enterprise ofrece modo de 192 bits</td></tr>
+</table></div>
+<ul>
+<li>Modo <b>Personal</b> (PSK o SAE): una clave compartida. Modo <b>Enterprise</b>: autenticación individual con <b>802.1X</b> y servidor <b>RADIUS</b>.</li>
+<li>Métodos EAP: <b>EAP-TLS</b> (certificados en cliente y servidor, el más seguro), <b>PEAP</b> (MSCHAPv2 en túnel TLS), <b>EAP-TTLS</b>.</li>
+<li><b>eduroam</b>: WPA2/WPA3-Enterprise federado entre instituciones académicas mediante una jerarquía de servidores RADIUS (en España la coordina RedIRIS).</li>
+<li>Otras medidas: separar redes por SSID y VLAN (personal, invitados, IoT), portal cautivo para invitados, detección de AP falsos (WIDS/WIPS), <b>PMF</b> (802.11w, protección de tramas de gestión). Ocultar el SSID o filtrar por MAC no son medidas de seguridad reales.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Canales no solapados en 2,4 GHz: 1, 6 y 11.</li>
+<li>Wi-Fi 6 = 802.11ax (OFDMA); Wi-Fi 5 = 802.11ac (solo 5 GHz).</li>
+<li>WPA3 sustituye PSK por SAE.</li>
+<li>WPA2-Enterprise = 802.1X + RADIUS + EAP. EAP-TLS usa certificados en ambos extremos.</li>
+<li>Acceso al medio en WiFi: CSMA/CA (en Ethernet, CSMA/CD).</li>
+</ul></div>

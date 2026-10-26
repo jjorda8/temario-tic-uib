@@ -1,0 +1,39 @@
+<h4>1. Contenedores</h4>
+<ul>
+<li>Un <b>contenedor</b> empaqueta una aplicación con sus dependencias y se ejecuta aislado compartiendo el <b>núcleo</b> del sistema operativo anfitrión (aislamiento con <i>namespaces</i> y límites de recursos con <i>cgroups</i> de Linux).</li>
+<li>Frente a una <b>máquina virtual</b>: no incluye sistema operativo completo, arranca en segundos, ocupa menos y es más portable; a cambio el aislamiento es menor.</li>
+<li><b>Imagen</b>: plantilla inmutable formada por <b>capas</b>; un contenedor es una instancia en ejecución de una imagen. Se define con un <b>Dockerfile</b> (FROM, RUN, COPY, ENV, EXPOSE, CMD/ENTRYPOINT).</li>
+<li><b>Registro</b>: almacén de imágenes (Docker Hub, Harbor, registros de la nube).</li>
+<li><b>Volúmenes</b> para datos persistentes; redes (bridge, host, overlay).</li>
+<li>Estándares <b>OCI</b> (Open Container Initiative) para imágenes y entornos de ejecución; motores Docker, containerd, Podman, CRI-O. Docker Compose para aplicaciones de varios contenedores.</li>
+<li>Seguridad: imágenes mínimas y de origen fiable, análisis de vulnerabilidades, no ejecutar como root, firmar imágenes, gestionar secretos fuera de la imagen.</li>
+</ul>
+
+<h4>2. Orquestación con Kubernetes</h4>
+<ul>
+<li><b>Kubernetes</b> (K8s) automatiza el despliegue, escalado y gestión de contenedores en un clúster. Otros: OpenShift (Red Hat), Docker Swarm, Nomad, servicios gestionados (AKS, EKS, GKE).</li>
+<li>Arquitectura: <b>plano de control</b> (API server, etcd, scheduler, controller manager) y <b>nodos de trabajo</b> (kubelet, kube-proxy, motor de contenedores).</li>
+<li>Objetos: <b>Pod</b> (unidad mínima, uno o varios contenedores), <b>Deployment</b> (réplicas y actualizaciones), <b>ReplicaSet</b>, <b>StatefulSet</b> (con estado), <b>DaemonSet</b> (uno por nodo), <b>Service</b> (IP estable y balanceo), <b>Ingress</b> (entrada HTTP), <b>ConfigMap</b> y <b>Secret</b> (configuración), <b>PersistentVolume</b>, <b>Namespace</b>.</li>
+<li>Modelo <b>declarativo</b>: se describe el estado deseado en YAML y Kubernetes lo mantiene (autorreparación).</li>
+</ul>
+
+<h4>3. Microservicios</h4>
+<ul>
+<li>Estilo de arquitectura en que la aplicación se divide en <b>servicios pequeños e independientes</b>, organizados por capacidades de negocio, que se despliegan por separado y se comunican por red (APIs REST, gRPC, mensajería asíncrona).</li>
+<li>Frente al <b>monolito</b>: despliegue y escalado independientes, tecnología distinta por servicio, equipos autónomos; a cambio, más complejidad distribuida (red, consistencia de datos, observabilidad).</li>
+<li>Patrones: <b>API Gateway</b>, descubrimiento de servicios, <b>circuit breaker</b>, base de datos por servicio, sagas para transacciones distribuidas, CQRS, mensajería por eventos (Kafka, RabbitMQ), <b>service mesh</b> (Istio, Linkerd).</li>
+<li>Principios <b>Twelve-Factor App</b>: configuración en el entorno, procesos sin estado, logs como flujos de eventos, paridad entre entornos.</li>
+</ul>
+
+<h4>4. Despliegue, monitorización y escalado</h4>
+<ul>
+<li><b>Despliegue</b>: integración y entrega continuas (pipelines CI/CD), GitOps, Helm (paquetes de Kubernetes). Estrategias: <b>rolling update</b> (sustitución gradual), <b>blue-green</b> (dos entornos y cambio de tráfico), <b>canary</b> (nueva versión a un porcentaje de usuarios), recreate.</li>
+<li><b>Monitorización y observabilidad</b>: métricas (Prometheus + Grafana), logs centralizados (ELK/EFK, Loki), trazas distribuidas (OpenTelemetry, Jaeger), sondas de salud (liveness, readiness).</li>
+<li><b>Escalado</b>: <b>horizontal</b> (más réplicas: Horizontal Pod Autoscaler según CPU, memoria o métricas personalizadas) y <b>vertical</b> (más recursos por réplica); autoescalado de nodos del clúster.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Los contenedores comparten el núcleo del anfitrión; las VM no.</li>
+<li>Pod = unidad mínima de Kubernetes; Service da IP estable; Deployment gestiona réplicas.</li>
+<li>Blue-green = dos entornos; canary = porcentaje de usuarios.</li>
+<li>Escalado horizontal = más instancias; vertical = más recursos.</li>
+</ul></div>

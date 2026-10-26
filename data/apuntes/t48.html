@@ -1,0 +1,82 @@
+<h4>1. HTML5: conceptos generales</h4>
+<ul>
+<li><b>HTML</b> (HyperText Markup Language) describe la estructura y el significado del contenido web. HTML5 es hoy el <b>HTML Living Standard</b> que mantiene el <b>WHATWG</b> (el W3C lo respalda desde 2019).</li>
+<li>Novedades de HTML5: elementos <b>semánticos</b>, nuevos tipos de input y validación nativa, audio y vídeo sin plugins, <code>canvas</code> y SVG integrado, APIs (almacenamiento local, geolocalización, arrastrar y soltar, Web Workers, WebSockets, historial).</li>
+<li>HTML define el contenido; <b>CSS</b> la presentación; <b>JavaScript</b> el comportamiento.</li>
+</ul>
+
+<h4>2. Estructura y sintaxis</h4>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+    &lt;title&gt;Título&lt;/title&gt;
+    &lt;link rel="stylesheet" href="estilos.css"&gt;
+  &lt;/head&gt;
+  &lt;body&gt; ... &lt;/body&gt;
+&lt;/html&gt;</pre>
+<ul>
+<li>Elementos con etiqueta de apertura, contenido y cierre; elementos vacíos (br, img, input, meta). Atributos globales: id, class, style, lang, title, hidden, data-*.</li>
+<li><b>Semánticos</b>: header, nav, main, article, section, aside, footer, figure/figcaption, time. Mejoran la accesibilidad y el posicionamiento.</li>
+<li>Elementos de bloque (div, p, h1-h6, ul, table) y en línea (span, a, strong, em, img).</li>
+</ul>
+
+<h4>3. Formularios</h4>
+<ul>
+<li><code>&lt;form action="url" method="get|post"&gt;</code>: <b>GET</b> envía los datos en la URL (búsquedas); <b>POST</b> en el cuerpo de la petición (datos sensibles o voluminosos). <code>enctype="multipart/form-data"</code> para subir ficheros.</li>
+<li>Controles: <code>input</code> (types text, password, email, url, tel, number, range, date, time, datetime-local, color, checkbox, radio, file, hidden, search, submit, reset), <code>textarea</code>, <code>select</code> con <code>option</code> y <code>optgroup</code>, <code>button</code>, <code>datalist</code>, <code>output</code>, <code>fieldset</code> y <code>legend</code>.</li>
+<li><code>label</code> asociado al control con <code>for</code>/<code>id</code> (imprescindible para la accesibilidad).</li>
+<li>Atributos: name, value, placeholder, <b>required</b>, <b>pattern</b> (expresión regular), min, max, step, minlength, maxlength, readonly, disabled, autocomplete, autofocus, multiple.</li>
+<li><b>Validación nativa</b> del navegador con la Constraint Validation API (pseudoclases :valid e :invalid). La validación del cliente no sustituye a la del servidor.</li>
+</ul>
+
+<h4>4. Elementos interactivos y eventos</h4>
+<ul>
+<li>Elementos interactivos: <code>details</code>/<code>summary</code> (desplegable), <code>dialog</code> (ventana modal), <code>audio</code> y <code>video</code> con <code>controls</code>.</li>
+<li><b>Eventos</b>: acciones que ocurren en la página y a las que JavaScript puede responder. De ratón (click, dblclick, mouseover), teclado (keydown, keyup), formulario (submit, input, change, focus, blur), ventana y documento (load, DOMContentLoaded, resize, scroll), táctiles y de arrastre.</li>
+<li>Gestión: <code>elemento.addEventListener('click', funcion)</code> (recomendado) o atributos on* (onclick). El objeto <code>event</code> y <code>event.preventDefault()</code> (por ejemplo, para validar antes de enviar).</li>
+<li><b>Propagación</b>: fase de captura y de burbuja (bubbling); <code>stopPropagation()</code>; delegación de eventos.</li>
+<li><b>DOM</b>: representación en árbol del documento que JavaScript lee y modifica.</li>
+</ul>
+
+<h4>5. CSS3: conceptos y sintaxis</h4>
+<ul>
+<li><b>CSS</b> (Cascading Style Sheets, W3C) separa la presentación del contenido. CSS3 se divide en <b>módulos</b> (selectores, colores, fondos y bordes, flexbox, grid, media queries, transiciones, animaciones, transformaciones).</li>
+<li>Formas de aplicarlo: hoja <b>externa</b> (link), <b>interna</b> (style en el head) y <b>en línea</b> (atributo style).</li>
+<li>Sintaxis: <code>selector { propiedad: valor; }</code>. Comentarios /* */. @media, @font-face, @import, @keyframes.</li>
+<li><b>Cascada</b>: decide qué regla gana según origen e importancia (!important), <b>especificidad</b> y orden de aparición. <b>Herencia</b>: algunas propiedades (color, font) pasan a los hijos.</li>
+<li><b>Especificidad</b> (de mayor a menor): estilos en línea → id → clases, atributos y pseudoclases → elementos y pseudoelementos. Se calcula como (a, b, c).</li>
+<li>Unidades: absolutas (px) y relativas (%, em, rem, vw, vh). Colores: nombre, hexadecimal, rgb(), hsl().</li>
+</ul>
+
+<h4>6. Selectores</h4>
+<div class="tw"><table>
+<tr><th>Selector</th><th>Ejemplo</th><th>Selecciona</th></tr>
+<tr><td>Universal</td><td><code>*</code></td><td>Todos los elementos</td></tr>
+<tr><td>Tipo</td><td><code>p</code></td><td>Todos los párrafos</td></tr>
+<tr><td>Clase</td><td><code>.aviso</code></td><td>Elementos con class="aviso"</td></tr>
+<tr><td>ID</td><td><code>#menu</code></td><td>El elemento con id="menu"</td></tr>
+<tr><td>Atributo</td><td><code>input[type="email"]</code></td><td>Elementos con ese atributo y valor</td></tr>
+<tr><td>Descendiente</td><td><code>nav a</code></td><td>Enlaces dentro de nav a cualquier nivel</td></tr>
+<tr><td>Hijo directo</td><td><code>ul &gt; li</code></td><td>li hijos directos de ul</td></tr>
+<tr><td>Hermano adyacente / general</td><td><code>h2 + p</code> / <code>h2 ~ p</code></td><td>El p justo después / todos los p posteriores</td></tr>
+<tr><td>Pseudoclase</td><td><code>a:hover</code>, <code>li:nth-child(2n)</code>, <code>:focus</code>, <code>:not()</code></td><td>Estado o posición</td></tr>
+<tr><td>Pseudoelemento</td><td><code>p::first-line</code>, <code>::before</code>, <code>::after</code></td><td>Parte de un elemento o contenido generado</td></tr>
+</table></div>
+
+<h4>7. El modelo de caja (Box Model)</h4>
+<ul>
+<li>Cada elemento es una caja formada, de dentro afuera, por <b>contenido</b> (width/height), <b>relleno</b> (padding), <b>borde</b> (border) y <b>margen</b> (margin).</li>
+<li>Con <code>box-sizing: content-box</code> (por defecto) el ancho total = width + padding + border (+ margin para el espacio ocupado). Con <code>box-sizing: border-box</code> el width ya incluye padding y borde.</li>
+<li>Los márgenes verticales adyacentes de elementos de bloque se <b>colapsan</b> (se toma el mayor).</li>
+<li><b>display</b>: block, inline, inline-block, none, <b>flex</b> (una dimensión: justify-content, align-items) y <b>grid</b> (dos dimensiones: grid-template-columns). <b>position</b>: static, relative, absolute, fixed, sticky.</li>
+<li><b>Diseño adaptable</b> (responsive): media queries (<code>@media (max-width: 600px)</code>), unidades relativas, imágenes flexibles y enfoque mobile first.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Box model: contenido, padding, border, margin.</li>
+<li>border-box incluye padding y borde en el width.</li>
+<li>Especificidad: en línea > id > clase/atributo/pseudoclase > elemento.</li>
+<li>GET envía los datos en la URL; POST en el cuerpo.</li>
+<li>required y pattern = validación nativa; label con for para accesibilidad.</li>
+</ul></div>

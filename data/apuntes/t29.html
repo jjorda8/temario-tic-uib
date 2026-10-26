@@ -1,0 +1,51 @@
+<h4>1. Gestión de identidades (IAM)</h4>
+<ul>
+<li>Conjunto de procesos y tecnologías para gestionar <b>quién</b> es cada usuario y <b>a qué</b> puede acceder durante todo su ciclo de vida.</li>
+<li><b>Ciclo de vida</b>: alta (aprovisionamiento automático desde las fuentes de verdad, como RRHH o la secretaría académica), cambios de rol (movilidad), revisiones periódicas de accesos y baja (desaprovisionamiento inmediato).</li>
+<li>Conceptos: <b>identificación</b> (decir quién eres), <b>autenticación</b> (demostrarlo), <b>autorización</b> (qué puedes hacer) y <b>auditoría</b> o trazabilidad (AAA).</li>
+<li>Modelos de autorización: RBAC (por roles), ABAC (por atributos), mínimo privilegio y segregación de funciones.</li>
+<li><b>Directorio</b>: repositorio central de identidades (LDAP, RFC 4511; Active Directory; OpenLDAP). Estructura jerárquica con DN (nombre distinguido).</li>
+<li><b>Factores de autenticación</b>: algo que se sabe (contraseña), algo que se tiene (token, móvil, certificado) y algo que se es (biometría). <b>MFA</b> combina factores de distinto tipo.</li>
+<li>Gestión de cuentas privilegiadas (<b>PAM</b>) y de contraseñas.</li>
+</ul>
+
+<h4>2. Autenticación unificada (Single Sign-On)</h4>
+<p>El <b>SSO</b> permite autenticarse una vez y acceder a varias aplicaciones sin volver a introducir las credenciales. Mejora la experiencia, reduce contraseñas y centraliza la seguridad (pero el proveedor de identidad pasa a ser un punto crítico).</p>
+<ul>
+<li><b>Kerberos</b>: SSO dentro de un dominio mediante tickets emitidos por el KDC (AS + TGS); base de Active Directory.</li>
+<li><b>CAS</b> (Central Authentication Service): SSO web con tickets, muy usado en universidades.</li>
+<li><b>SAML 2.0</b> (OASIS): intercambio de aserciones XML firmadas entre el <b>proveedor de identidad (IdP)</b> y el <b>proveedor de servicio (SP)</b>. Flujos iniciados por el SP o por el IdP; bindings HTTP-Redirect y HTTP-POST.</li>
+<li><b>OAuth 2.0</b> (RFC 6749): protocolo de <b>autorización delegada</b> mediante tokens de acceso (un tercero accede a recursos en nombre del usuario). No es un protocolo de autenticación por sí solo.</li>
+<li><b>OpenID Connect</b>: capa de autenticación sobre OAuth 2.0 que añade el <b>ID token</b> (JWT). Es el estándar moderno para web y móvil.</li>
+</ul>
+
+<h4>3. Identidad federada</h4>
+<ul>
+<li>Una <b>federación</b> es un conjunto de organizaciones que confían entre sí: cada IdP autentica a sus usuarios y los SP de las demás aceptan esa autenticación.</li>
+<li>Elementos: IdP, SP, <b>metadatos</b> (claves y URL de cada entidad, firmados por la federación), <b>atributos</b> que se comunican (esquemas eduPerson y SCHAC en el mundo académico) y políticas de liberación de atributos.</li>
+<li>Ventajas: el usuario usa siempre su cuenta institucional; el proveedor no guarda contraseñas; se respeta la minimización de datos.</li>
+<li>Arquitecturas: malla completa (cada IdP con cada SP) o hub-and-spoke (un concentrador intermedio).</li>
+</ul>
+
+<h4>4. El servicio SIR de RedIRIS</h4>
+<ul>
+<li><b>RedIRIS</b> es la red académica y de investigación española (gestionada por la entidad pública empresarial Red.es).</li>
+<li><b>SIR</b> (Servicio de Identidad de RedIRIS) es la federación de identidades de las universidades y centros de investigación españoles. Su versión actual se denomina <b>SIR2</b>.</li>
+<li>Funciona como un <b>hub</b>: las instituciones conectan su IdP al SIR, y los proveedores de servicio confían en el SIR. Soporta SAML 2.0 y otros protocolos, y traduce entre ellos.</li>
+<li>Permite el acceso con la cuenta institucional a servicios como recursos de bibliotecas, plataformas de colaboración, servicios de RedIRIS y de otras instituciones.</li>
+<li>Se interconecta con <b>eduGAIN</b>, la interfederación mundial de federaciones académicas (gestionada por GÉANT).</li>
+<li>Relacionados: <b>eduroam</b> (acceso WiFi federado), la PKI académica y Cl@ve, el sistema de identificación de la Administración General del Estado.</li>
+</ul>
+
+<h4>5. Marco normativo</h4>
+<ul>
+<li><b>eIDAS</b> (Reglamento UE 910/2014) define los niveles de seguridad de la identificación electrónica (bajo, sustancial, alto); <b>eIDAS 2</b> (2024/1183) crea la cartera europea de identidad digital.</li>
+<li>Ley 39/2015, arts. 9-10, y Ley 40/2015, arts. 40-45: sistemas de identificación y firma en la Administración.</li>
+<li>ENS: control de acceso (<b>op.acc</b>), que exige mecanismos de autenticación más fuertes según la categoría del sistema.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>SAML intercambia aserciones XML entre IdP y SP.</li>
+<li>OAuth 2.0 autoriza; OpenID Connect autentica (ID token JWT).</li>
+<li>SIR = federación académica española de RedIRIS, conectada a eduGAIN.</li>
+<li>Kerberos = SSO en dominio con tickets.</li>
+</ul></div>

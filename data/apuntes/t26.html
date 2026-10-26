@@ -1,0 +1,45 @@
+<h4>1. Definición (NIST SP 800-145)</h4>
+<p>La computación en la nube es un modelo que permite el acceso por red, ubicuo y bajo demanda, a un conjunto compartido de recursos configurables (redes, servidores, almacenamiento, aplicaciones y servicios) que se aprovisionan y liberan rápidamente con un mínimo esfuerzo de gestión.</p>
+<h5>Cinco características esenciales</h5>
+<ul>
+<li><b>Autoservicio bajo demanda</b>.</li>
+<li><b>Amplio acceso por red</b>.</li>
+<li><b>Agrupación de recursos</b> (multiinquilino; el cliente no sabe la ubicación exacta).</li>
+<li><b>Elasticidad rápida</b>.</li>
+<li><b>Servicio medido</b> (pago por uso).</li>
+</ul>
+
+<h4>2. Modelos de servicio</h4>
+<div class="tw"><table>
+<tr><th>Modelo</th><th>Qué ofrece el proveedor</th><th>Qué gestiona el cliente</th><th>Ejemplos</th></tr>
+<tr><td><b>IaaS</b> (infraestructura)</td><td>Servidores virtuales, almacenamiento y redes</td><td>Sistema operativo, middleware, aplicaciones y datos</td><td>AWS EC2, Azure VM, Google Compute Engine</td></tr>
+<tr><td><b>PaaS</b> (plataforma)</td><td>Además sistema operativo, entornos de ejecución y bases de datos gestionadas</td><td>Aplicaciones y datos</td><td>Azure App Service, Google App Engine, Heroku</td></tr>
+<tr><td><b>SaaS</b> (software)</td><td>La aplicación completa</td><td>Solo la configuración y los datos</td><td>Microsoft 365, Google Workspace, Salesforce</td></tr>
+</table></div>
+<p>Otros: FaaS o serverless (funciones que se ejecutan por eventos, como AWS Lambda), CaaS (contenedores), DBaaS, DaaS (escritorio como servicio).</p>
+<p><b>Responsabilidad compartida</b>: el proveedor siempre es responsable de la infraestructura física; cuanto más se sube (IaaS → PaaS → SaaS), más responsabilidad asume el proveedor. Los <b>datos y las identidades</b> siempre son responsabilidad del cliente.</p>
+
+<h4>3. Modelos de despliegue</h4>
+<ul>
+<li><b>Nube privada</b>: para uso exclusivo de una organización (en sus instalaciones o en un tercero). Más control y coste.</li>
+<li><b>Nube comunitaria</b>: compartida por organizaciones con intereses comunes (por ejemplo, administraciones o universidades).</li>
+<li><b>Nube pública</b>: abierta al público general y propiedad de un proveedor.</li>
+<li><b>Nube híbrida</b>: combinación de dos o más nubes que siguen siendo entidades independientes pero están conectadas para permitir la portabilidad de datos y aplicaciones (por ejemplo, desbordamiento o cloud bursting).</li>
+<li><b>Multinube</b>: uso de varios proveedores públicos.</li>
+</ul>
+
+<h4>4. Ventajas, riesgos y aspectos legales</h4>
+<ul>
+<li>Ventajas: elasticidad, pago por uso (de inversión CAPEX a gasto OPEX), rapidez de despliegue, alta disponibilidad y servicios avanzados.</li>
+<li>Riesgos: dependencia del proveedor (<b>lock-in</b>), pérdida de control, ubicación de los datos, costes imprevistos (gestión FinOps), configuraciones inseguras y disponibilidad de la conexión.</li>
+<li><b>Protección de datos</b>: el proveedor es encargado del tratamiento (contrato del art. 28 RGPD); las transferencias fuera del EEE necesitan garantías (arts. 44-49 RGPD).</li>
+<li><b>ENS</b>: los servicios en la nube están en las medidas <b>op.ext</b> (servicios externos) y <b>op.nub</b> (servicios en la nube); el proveedor debe estar certificado en la categoría del sistema. Guías CCN-STIC de la serie 800 sobre nube.</li>
+<li><b>Data Act</b> (Reglamento UE 2023/2854): facilita cambiar de proveedor de nube y elimina progresivamente los costes de salida.</li>
+<li>Estrategias de migración (las "R"): rehost (lift and shift), replatform, refactor, repurchase (pasar a SaaS), retire, retain.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>NIST: 5 características, 3 modelos de servicio, 4 de despliegue.</li>
+<li>IaaS: el cliente gestiona el sistema operativo; PaaS: solo aplicaciones y datos; SaaS: solo uso y datos.</li>
+<li>Comunitaria = compartida por organizaciones con intereses comunes.</li>
+<li>Los datos son siempre responsabilidad del cliente.</li>
+</ul></div>

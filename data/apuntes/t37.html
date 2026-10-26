@@ -1,0 +1,35 @@
+<h4>1. Evaluación del rendimiento</h4>
+<ul>
+<li>Objetivo: saber si los sistemas cumplen los niveles de servicio, detectar cuellos de botella y planificar la capacidad.</li>
+<li>Técnicas: <b>monitorización</b> (medir el sistema real), <b>benchmarking</b> (pruebas estándar comparativas), <b>pruebas de carga y de estrés</b> (JMeter, Gatling, k6), <b>modelado</b> analítico (teoría de colas) y <b>simulación</b>.</li>
+<li>Métricas de sistema: uso de <b>CPU</b> (y cola de ejecución o load average), <b>memoria</b> (uso, paginación, swap), <b>disco</b> (IOPS, throughput, latencia, longitud de cola), <b>red</b> (ancho de banda, paquetes, errores, latencia, pérdidas).</li>
+<li>Métricas de servicio: <b>tiempo de respuesta</b> (mejor en <b>percentiles</b> p95 o p99 que en medias), <b>throughput</b> (peticiones por segundo), tasa de errores, disponibilidad.</li>
+<li>Métodos de análisis: <b>USE</b> (Utilización, Saturación, Errores, para recursos) y <b>RED</b> (Rate, Errors, Duration, para servicios). Las <b>cuatro señales doradas</b> del SRE de Google: latencia, tráfico, errores y saturación.</li>
+<li>Ley de Little: número medio en el sistema = tasa de llegada × tiempo medio en el sistema.</li>
+</ul>
+
+<h4>2. Monitorización de sistemas, infraestructuras y servicios</h4>
+<ul>
+<li>Fuentes de datos: <b>SNMP</b> (agentes en equipos de red, MIB y OID; v3 con autenticación y cifrado; traps), agentes software, WMI, APIs, logs (syslog), flujos de red (NetFlow, sFlow) y monitorización sintética (transacciones simuladas).</li>
+<li>Modelos <b>push</b> (el agente envía) y <b>pull</b> (el servidor consulta, como Prometheus).</li>
+<li>Herramientas: <b>Nagios</b> e Icinga (comprobaciones y alertas), <b>Zabbix</b> (agentes, SNMP, plantillas, gráficos), <b>Prometheus</b> (series temporales, lenguaje PromQL, Alertmanager), <b>Grafana</b> (visualización), PRTG, Centreon, pila ELK/Elastic (logs), APM (Dynatrace, New Relic, Elastic APM) y OpenTelemetry.</li>
+<li><b>Alertas</b>: umbrales estáticos o dinámicos, niveles de gravedad, escalado, evitar la fatiga de alertas (solo alertar de lo que exige actuar).</li>
+<li><b>Observabilidad</b>: métricas, logs y trazas.</li>
+<li><b>Niveles de servicio</b>: <b>SLI</b> (indicador medido), <b>SLO</b> (objetivo interno, por ejemplo 99,9 % de peticiones correctas) y <b>SLA</b> (acuerdo con el cliente, con consecuencias si se incumple). Presupuesto de errores.</li>
+<li><b>Planificación de capacidad</b>: analizar tendencias y prever cuándo se agotarán los recursos.</li>
+<li>En el ENS: monitorización del sistema (<b>op.mon</b>), registro de actividad (<b>op.exp.8</b>) e indicadores del Informe del Estado de la Seguridad.</li>
+</ul>
+
+<h4>3. Gráficos y cuadros de mando</h4>
+<ul>
+<li>Un <b>cuadro de mando</b> (dashboard) presenta de un vistazo los indicadores clave (<b>KPI</b>) para tomar decisiones. Tipos: <b>operativo</b> (tiempo real), <b>táctico</b> y <b>estratégico</b> (tendencias). El <b>cuadro de mando integral</b> (Balanced Scorecard, Kaplan y Norton) usa cuatro perspectivas: financiera, clientes, procesos internos y aprendizaje y crecimiento.</li>
+<li>Elegir el gráfico según el dato: <b>líneas</b> para series temporales, <b>barras</b> para comparar categorías, <b>indicadores</b> (gauge) o semáforos para el estado frente a un umbral, <b>mapas de calor</b> para patrones, histogramas para distribuciones. Evitar gráficos de tarta con muchas categorías y los 3D.</li>
+<li>Buenas prácticas: pocos indicadores y relevantes, contexto (objetivo, tendencia, comparación), colores con significado (verde, ámbar, rojo) y accesibles, actualización automática y posibilidad de profundizar en el detalle (drill-down).</li>
+<li>Herramientas: Grafana, Kibana, Power BI, Tableau, Looker Studio.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>SLA = acuerdo; SLO = objetivo; SLI = medida.</li>
+<li>Señales doradas: latencia, tráfico, errores y saturación.</li>
+<li>SNMP: MIB/OID; traps = avisos del agente; v3 añade seguridad.</li>
+<li>Prometheus funciona por pull; Grafana visualiza.</li>
+</ul></div>

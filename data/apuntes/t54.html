@@ -1,0 +1,61 @@
+<h4>1. Ciencia de datos</h4>
+<ul>
+<li>Disciplina que combina estadística, informática y conocimiento del dominio para <b>extraer conocimiento y valor de los datos</b> y apoyar la toma de decisiones.</li>
+<li>Tipos de análisis: <b>descriptivo</b> (qué ha pasado), <b>diagnóstico</b> (por qué), <b>predictivo</b> (qué pasará) y <b>prescriptivo</b> (qué hacer).</li>
+<li>Perfiles: científico de datos, ingeniero de datos, analista, ingeniero de aprendizaje automático (MLOps).</li>
+<li>Las "V" del big data: volumen, velocidad, variedad, veracidad y valor.</li>
+</ul>
+
+<h4>2. Ciclo de vida del modelado (CRISP-DM)</h4>
+<ol>
+<li><b>Comprensión del negocio</b>: objetivos y criterios de éxito.</li>
+<li><b>Comprensión de los datos</b>: recogida, exploración (EDA), calidad.</li>
+<li><b>Preparación de los datos</b>: la fase que más tiempo consume.</li>
+<li><b>Modelado</b>: elegir técnicas y entrenar.</li>
+<li><b>Evaluación</b>: comprobar que cumple los objetivos de negocio.</li>
+<li><b>Despliegue</b>: puesta en producción, informes, monitorización.</li>
+</ol>
+<p>Es un proceso iterativo. Otros marcos: KDD, SEMMA, TDSP de Microsoft.</p>
+
+<h4>3. ETL</h4>
+<ul>
+<li><b>Extracción</b> de los datos de las fuentes (bases de datos, ficheros, APIs), <b>transformación</b> (limpieza, normalización, integración, agregación, cálculo) y <b>carga</b> en el destino (almacén de datos o data mart).</li>
+<li><b>ELT</b>: se carga primero y se transforma dentro del destino (habitual en la nube y en los data lakes).</li>
+<li>Carga completa o incremental (captura de datos de cambio, CDC); procesamiento por lotes (batch) o en tiempo real (streaming).</li>
+<li>Herramientas: Pentaho/Kettle, Talend, Apache NiFi, Apache Airflow (orquestación), dbt, SSIS, Azure Data Factory.</li>
+<li>Arquitecturas: <b>almacén de datos</b> (data warehouse, datos estructurados y modelados), <b>lago de datos</b> (data lake, datos en bruto) y lakehouse.</li>
+</ul>
+
+<h4>4. Preprocesado</h4>
+<ul>
+<li><b>Limpieza</b>: duplicados, errores, formatos inconsistentes.</li>
+<li><b>Valores perdidos</b>: eliminar filas o columnas, o imputar (media, mediana, moda, modelos).</li>
+<li><b>Valores atípicos</b> (outliers): detectar (rango intercuartílico, puntuación z) y decidir si corregir, eliminar o mantener.</li>
+<li><b>Transformación</b>: normalización (escalar a [0,1]) y estandarización (media 0, desviación 1); codificación de variables categóricas (one-hot, ordinal); discretización.</li>
+<li><b>Reducción</b>: selección de variables y reducción de dimensionalidad (<b>PCA</b>, análisis de componentes principales).</li>
+<li><b>Ingeniería de características</b>: crear variables nuevas a partir de las existentes.</li>
+<li>Seudonimización y anonimización cuando hay datos personales.</li>
+</ul>
+
+<h4>5. Modelado y validación</h4>
+<ul>
+<li>Técnicas: regresión lineal y logística, árboles de decisión, random forest, gradient boosting, k-vecinos, SVM, Naive Bayes, redes neuronales (supervisado); k-means, clustering jerárquico, DBSCAN, reglas de asociación (no supervisado); series temporales.</li>
+<li>División de los datos en <b>entrenamiento</b>, <b>validación</b> y <b>prueba</b>; <b>validación cruzada</b> (k-fold).</li>
+<li><b>Sobreajuste</b> (overfitting: el modelo memoriza el entrenamiento y generaliza mal) e infraajuste. Se combate con regularización, más datos, modelos más simples y parada temprana.</li>
+<li>Métricas de clasificación: <b>matriz de confusión</b>, exactitud (accuracy), <b>precisión</b> (de los que predigo positivos, cuántos lo son), <b>exhaustividad</b> o recall (de los positivos reales, cuántos detecto), <b>F1</b> (media armónica de ambas), curva ROC y <b>AUC</b>. Regresión: <b>MAE</b>, <b>RMSE</b>, <b>R²</b>.</li>
+<li>Ajuste de hiperparámetros (búsqueda en rejilla o aleatoria).</li>
+</ul>
+
+<h4>6. Herramientas, lenguajes y visualización</h4>
+<ul>
+<li><b>Python</b> (pandas, NumPy, scikit-learn, TensorFlow, PyTorch, Matplotlib, seaborn), <b>R</b> (tidyverse, ggplot2, caret), <b>SQL</b>, Julia; entornos <b>Jupyter</b> y RStudio; big data con Apache Spark; plataformas en la nube.</li>
+<li>Visualización: elegir el gráfico adecuado al mensaje (comparar, distribución, composición, relación, evolución), evitar distorsiones (ejes truncados, 3D), contar una historia con los datos (data storytelling). Herramientas: Power BI, Tableau, Looker Studio, Grafana, Matplotlib, ggplot2, D3.js.</li>
+<li>Gobierno y ética: calidad y linaje de los datos, privacidad (RGPD), datos abiertos (Ley 37/2007, Directiva 2019/1024), sesgos.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>CRISP-DM: negocio, datos, preparación, modelado, evaluación, despliegue.</li>
+<li>ETL: extraer, transformar, cargar; ELT carga antes de transformar.</li>
+<li>Precisión = acierto de los positivos predichos; recall = positivos reales detectados.</li>
+<li>Overfitting: bien en entrenamiento, mal con datos nuevos.</li>
+<li>PCA reduce dimensionalidad.</li>
+</ul></div>

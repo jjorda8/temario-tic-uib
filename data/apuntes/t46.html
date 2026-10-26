@@ -1,0 +1,49 @@
+<h4>1. Gestión de la configuración del software (GCS)</h4>
+<ul>
+<li>Disciplina que identifica, controla y registra los elementos de un proyecto de software y sus cambios a lo largo del ciclo de vida, para mantener su integridad y trazabilidad.</li>
+<li><b>Elemento de configuración</b> (ECS): cualquier producto bajo control (código, documentación, requisitos, scripts, configuración, bibliotecas).</li>
+<li><b>Línea base</b>: versión revisada y aprobada de un conjunto de elementos que solo se cambia mediante el procedimiento formal de control de cambios.</li>
+<li>Actividades: <b>identificación</b> de la configuración, <b>control de cambios</b> (petición, evaluación de impacto, aprobación por un comité de control de cambios, implementación y verificación), <b>registro del estado</b> (contabilidad) y <b>auditoría</b> de la configuración (física y funcional).</li>
+<li>Normas: IEEE 828, ISO/IEC/IEEE 12207; en ITIL, gestión de la configuración con la CMDB. En Métrica v3 es una interfaz (GC). En el ENS, gestión de la configuración (<b>op.exp.3</b>) y de cambios (<b>op.exp.5</b>).</li>
+<li>Conceptos: versión, revisión, variante, release (entrega), rama, etiqueta. <b>Versionado semántico</b> MAYOR.MENOR.PARCHE (cambios incompatibles, nuevas funciones compatibles, correcciones).</li>
+</ul>
+
+<h4>2. Sistemas de control de versiones</h4>
+<ul>
+<li>Registran los cambios en ficheros a lo largo del tiempo, permiten volver a versiones anteriores, trabajar en paralelo y saber quién cambió qué.</li>
+<li>Modelos: <b>locales</b>, <b>centralizados</b> (un repositorio en un servidor: CVS, Subversion) y <b>distribuidos</b> (cada copia es un repositorio completo con todo el historial: Git, Mercurial).</li>
+<li>Modelos de concurrencia: <b>bloquear-modificar-desbloquear</b> y <b>copiar-modificar-fusionar</b> (el habitual).</li>
+</ul>
+
+<h4>3. Subversion (SVN)</h4>
+<ul>
+<li>Sistema <b>centralizado</b> de Apache, sucesor de CVS. Números de <b>revisión</b> globales y correlativos para todo el repositorio; commits atómicos.</li>
+<li>Estructura convencional: <b>trunk</b> (línea principal), <b>branches</b> (ramas), <b>tags</b> (etiquetas). Ramas y etiquetas son copias baratas.</li>
+<li>Comandos: <code>svn checkout</code> (obtener una copia de trabajo), <code>update</code>, <code>add</code>, <code>commit</code> (envía directamente al servidor), <code>status</code>, <code>diff</code>, <code>log</code>, <code>merge</code>, <code>revert</code>, <code>copy</code> (crear ramas o etiquetas), <code>lock</code>.</li>
+<li>Necesita conexión con el servidor para la mayoría de operaciones; permite control de acceso por carpetas.</li>
+</ul>
+
+<h4>4. Git</h4>
+<ul>
+<li>Sistema <b>distribuido</b> creado por <b>Linus Torvalds</b> (2005). Guarda <b>instantáneas</b> identificadas por un hash (SHA-1, migrando a SHA-256), no diferencias.</li>
+<li>Tres áreas: <b>directorio de trabajo</b> → <b>área de preparación</b> (staging o índice) → <b>repositorio local</b> (.git) → repositorios <b>remotos</b>.</li>
+<li>Comandos: <code>git init</code>/<code>clone</code>, <code>add</code>, <code>commit</code>, <code>status</code>, <code>log</code>, <code>diff</code>, <code>branch</code>, <code>switch</code>/<code>checkout</code>, <code>merge</code>, <code>rebase</code>, <code>fetch</code> (descarga sin integrar), <code>pull</code> (fetch + merge o rebase), <code>push</code>, <code>tag</code>, <code>stash</code>, <code>reset</code>, <code>revert</code> (deshace creando un commit nuevo), <code>cherry-pick</code>.</li>
+<li><b>Merge</b> conserva la historia con un commit de fusión (o avance rápido, fast-forward); <b>rebase</b> reescribe la historia para dejarla lineal (no hacerlo en ramas ya compartidas).</li>
+<li>Conflictos: cuando dos ramas cambian las mismas líneas; se resuelven a mano y se confirman.</li>
+<li>Flujos de trabajo: <b>GitFlow</b> (main, develop, feature, release, hotfix), <b>GitHub Flow</b> (main + ramas cortas + pull requests), <b>trunk-based development</b> (integración continua en la rama principal). Revisión de código con <b>pull/merge requests</b>.</li>
+<li>Plataformas: GitHub, GitLab, Bitbucket, Gitea. .gitignore para excluir ficheros.</li>
+</ul>
+<div class="tw"><table>
+<tr><th></th><th>SVN</th><th>Git</th></tr>
+<tr><td>Modelo</td><td>Centralizado</td><td>Distribuido</td></tr>
+<tr><td>Commit</td><td>Directamente al servidor</td><td>Local; después push</td></tr>
+<tr><td>Identificador</td><td>Número de revisión correlativo</td><td>Hash</td></tr>
+<tr><td>Ramas</td><td>Copias de directorios</td><td>Punteros ligeros; muy baratas</td></tr>
+<tr><td>Trabajo sin conexión</td><td>Limitado</td><td>Completo</td></tr>
+</table></div>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Línea base = versión aprobada que solo cambia por control de cambios formal.</li>
+<li>SVN: trunk, branches, tags; revisiones globales.</li>
+<li>Git: working directory → staging → repositorio; fetch no integra, pull sí.</li>
+<li>revert crea un commit nuevo; rebase reescribe la historia.</li>
+</ul></div>

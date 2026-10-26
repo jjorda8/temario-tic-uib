@@ -1,0 +1,43 @@
+<h4>1. Concepto y finalidad</h4>
+<ul>
+<li>La <b>inteligencia artificial</b> es la disciplina que busca que las máquinas realicen tareas que requieren inteligencia humana: razonar, aprender, percibir, comprender el lenguaje, planificar y actuar.</li>
+<li>El Reglamento europeo define un <b>sistema de IA</b> como un sistema basado en máquinas, diseñado para funcionar con distintos niveles de autonomía, que puede mostrar capacidad de adaptación y que, a partir de la información de entrada que recibe, infiere cómo generar resultados (predicciones, contenidos, recomendaciones o decisiones) que pueden influir en entornos físicos o virtuales.</li>
+<li><b>IA débil o estrecha</b> (tareas concretas; la actual) frente a <b>IA fuerte o general</b> (AGI, hipotética). Enfoques: <b>simbólico</b> (reglas y lógica) y <b>conexionista</b> o subsimbólico (redes neuronales). Hitos: conferencia de Dartmouth (1956), test de Turing, inviernos de la IA, aprendizaje profundo (2012) y modelos de lenguaje (transformers, 2017).</li>
+</ul>
+
+<h4>2. Clasificación</h4>
+<div class="tw"><table>
+<tr><th>Rama</th><th>Qué hace</th><th>Técnicas y ejemplos</th></tr>
+<tr><td><b>Sistemas expertos</b></td><td>Reproducen el razonamiento de un experto en un dominio</td><td>Base de conocimiento (reglas si-entonces), <b>motor de inferencia</b> (encadenamiento hacia delante o hacia atrás), interfaz y módulo de explicación. Ejemplo clásico: MYCIN</td></tr>
+<tr><td><b>Aprendizaje automático</b></td><td>Aprenden patrones a partir de datos sin programarlos explícitamente</td><td><b>Supervisado</b> (datos etiquetados: clasificación y regresión), <b>no supervisado</b> (clustering, reducción de dimensión), <b>por refuerzo</b> (agente que maximiza recompensas). <b>Aprendizaje profundo</b> con redes neuronales de muchas capas</td></tr>
+<tr><td><b>Robótica</b></td><td>Máquinas que perciben y actúan en el mundo físico</td><td>Sensores, actuadores, navegación, robots colaborativos</td></tr>
+<tr><td><b>Visión por computador</b></td><td>Interpretar imágenes y vídeo</td><td>Clasificación, detección de objetos, reconocimiento facial, OCR; redes convolucionales</td></tr>
+<tr><td><b>Procesamiento del lenguaje natural</b></td><td>Comprender y generar lenguaje humano</td><td>Traducción, análisis de sentimiento, chatbots, reconocimiento de voz; <b>modelos de lenguaje grandes</b> (LLM) basados en transformers</td></tr>
+<tr><td><b>Planificación</b></td><td>Encontrar secuencias de acciones para alcanzar objetivos</td><td>Búsqueda en espacios de estados (A*), planificación automática, optimización</td></tr>
+</table></div>
+<p>La <b>IA generativa</b> crea contenido nuevo (texto, imagen, audio, código). Riesgos específicos: alucinaciones, sesgos, propiedad intelectual y fuga de datos introducidos en los prompts.</p>
+
+<h4>3. Explicabilidad (XAI)</h4>
+<ul>
+<li>Capacidad de entender y explicar por qué un sistema de IA produce un resultado. Esencial para la confianza, la auditoría, la detección de errores y sesgos y el cumplimiento legal.</li>
+<li>Modelos <b>interpretables</b> por naturaleza (regresión lineal, árboles de decisión, reglas) frente a <b>cajas negras</b> (redes profundas, ensembles).</li>
+<li>Técnicas <b>post hoc</b>: <b>LIME</b> (explicaciones locales con un modelo sencillo), <b>SHAP</b> (contribución de cada variable según los valores de Shapley), importancia de variables, mapas de atención o de saliencia, explicaciones contrafactuales ("si X hubiera sido distinto, el resultado habría cambiado").</li>
+<li>Explicaciones globales (cómo funciona el modelo) y locales (por qué esta decisión concreta).</li>
+<li>Derecho a no ser objeto de decisiones basadas únicamente en tratamiento automatizado y a obtener información significativa sobre la lógica aplicada (<b>art. 22 RGPD</b>).</li>
+</ul>
+
+<h4>4. Aspectos éticos: algoritmos equitativos e igualitarios</h4>
+<ul>
+<li><b>Sesgos</b>: datos históricos que reflejan discriminaciones, muestras poco representativas, variables que actúan como sustitutas de características protegidas (código postal por origen), sesgos en el diseño y en la interpretación.</li>
+<li>Medidas de <b>equidad</b> (fairness): paridad demográfica, igualdad de oportunidades, igualdad de tasas de error entre grupos. No se pueden cumplir todas a la vez.</li>
+<li>Mitigación: auditar los datos, equilibrarlos, restricciones de equidad en el entrenamiento, ajustar umbrales, evaluar el impacto por grupos, supervisión humana, auditorías algorítmicas y evaluaciones de impacto.</li>
+<li>Principios éticos (Directrices de la UE para una IA fiable, 2019; Recomendación de la UNESCO; Principios de la OCDE): supervisión humana, solidez técnica y seguridad, privacidad y gobernanza de datos, transparencia, diversidad y no discriminación, bienestar social y ambiental, rendición de cuentas.</li>
+<li><b>Ley 15/2022</b>, art. 23: las administraciones deben favorecer que los algoritmos de toma de decisiones minimicen los sesgos y sean transparentes y responsables.</li>
+<li><b>Reglamento (UE) 2024/1689 de IA</b>: enfoque basado en riesgos. <b>Riesgo inaceptable</b> (prohibido: puntuación social, manipulación, reconocimiento de emociones en el trabajo y la educación, salvo excepciones); <b>alto riesgo</b> (con obligaciones de gestión de riesgos, calidad de datos, documentación, supervisión humana y registro; incluye la <b>educación</b>: acceso, evaluación y supervisión de estudiantes, y el <b>empleo</b>); <b>riesgo limitado</b> (obligaciones de transparencia: avisar de que se interactúa con una IA y marcar los contenidos generados); <b>riesgo mínimo</b>. Obligaciones específicas para los modelos de IA de uso general. En España supervisa la <b>AESIA</b> (sede en A Coruña).</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Sistema experto = base de conocimiento + motor de inferencia.</li>
+<li>Supervisado (etiquetas), no supervisado (clustering), refuerzo (recompensas).</li>
+<li>LIME y SHAP son técnicas de explicabilidad.</li>
+<li>Reglamento de IA: inaceptable, alto, limitado y mínimo. La educación es de alto riesgo.</li>
+</ul></div>

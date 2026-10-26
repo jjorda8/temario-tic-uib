@@ -1,0 +1,56 @@
+<h4>1. Arquitectura cliente/servidor</h4>
+<ul>
+<li>El <b>cliente</b> solicita servicios y el <b>servidor</b> los presta, comunicándose por red mediante un protocolo. Separa presentación, lógica y datos para repartir la carga y centralizar recursos.</li>
+<li><b>Cliente pesado</b> (fat client: lógica en el cliente, aplicación de escritorio) frente a <b>cliente ligero</b> (thin client: solo presentación, por ejemplo el navegador).</li>
+<li><b>Middleware</b>: software intermedio que facilita la comunicación entre componentes (RPC, colas de mensajes, ORB/CORBA, servidores de aplicaciones).</li>
+<li>Ventajas: centralización, escalabilidad, mantenimiento y seguridad. Inconvenientes: dependencia del servidor y de la red, congestión.</li>
+</ul>
+
+<h4>2. Arquitecturas multicapa</h4>
+<div class="tw"><table>
+<tr><th>Modelo</th><th>Capas</th><th>Ejemplo</th></tr>
+<tr><td>Dos capas</td><td>Cliente (presentación + lógica) y servidor de base de datos</td><td>Aplicación de escritorio conectada a una base de datos</td></tr>
+<tr><td>Tres capas</td><td><b>Presentación</b> (interfaz), <b>negocio</b> o aplicación (reglas), <b>datos</b> (persistencia)</td><td>Navegador + servidor de aplicaciones + SGBD</td></tr>
+<tr><td>N capas</td><td>Se añaden capas de servicios, integración, caché, balanceo...</td><td>Aplicaciones web corporativas</td></tr>
+</table></div>
+<ul>
+<li>Las capas lógicas (layers) pueden desplegarse en niveles físicos (tiers) distintos.</li>
+<li>Ventajas: cada capa se escala, se protege (por ejemplo, la base de datos no es accesible desde Internet) y se mantiene por separado.</li>
+<li><b>Servidores de aplicaciones</b>: Jakarta EE (WildFly, Payara, WebLogic), contenedores de servlets (Tomcat), .NET (IIS/Kestrel), Node.js.</li>
+<li>Operación típica: el cliente envía una petición HTTP → servidor web o balanceador → servidor de aplicaciones (lógica, sesiones, transacciones) → base de datos → respuesta (HTML o JSON).</li>
+</ul>
+
+<h4>3. Arquitecturas de servicios web</h4>
+<ul>
+<li><b>Servicio web</b>: componente que ofrece funcionalidad a otras aplicaciones a través de la red mediante protocolos estándar, independientemente de la plataforma.</li>
+<li><b>SOA</b> (arquitectura orientada a servicios): la aplicación se construye a partir de servicios reutilizables y débilmente acoplados; a menudo con un <b>ESB</b> (bus de servicios) que enruta y transforma mensajes. Evolución hacia los <b>microservicios</b>.</li>
+</ul>
+<h5>SOAP</h5>
+<ul>
+<li>Protocolo basado en <b>XML</b> (W3C): mensaje con <b>Envelope</b>, <b>Header</b> opcional, <b>Body</b> y Fault para errores. Normalmente sobre HTTP, pero independiente del transporte.</li>
+<li>Contrato formal en <b>WSDL</b> (operaciones, mensajes, tipos con XSD, enlace y punto de acceso). UDDI como registro (en desuso).</li>
+<li>Estándares <b>WS-*</b>: WS-Security (firma y cifrado de mensajes), WS-ReliableMessaging, WS-Addressing.</li>
+<li>Muy usado en la Administración para la interoperabilidad entre organismos (servicios de intermediación de datos, plataforma SCSP).</li>
+</ul>
+<h5>REST</h5>
+<ul>
+<li>Estilo de arquitectura definido por <b>Roy Fielding</b> (2000). Se basa en <b>recursos</b> identificados por URI y manipulados con los <b>métodos HTTP</b>.</li>
+<li>Restricciones: cliente-servidor, <b>sin estado</b>, cacheable, interfaz uniforme, sistema en capas, código bajo demanda (opcional). <b>HATEOAS</b>: las respuestas incluyen enlaces a las acciones posibles.</li>
+<li>Métodos: <b>GET</b> (leer; seguro e idempotente), <b>POST</b> (crear; no idempotente), <b>PUT</b> (sustituir; idempotente), <b>PATCH</b> (modificar parcialmente), <b>DELETE</b> (borrar; idempotente).</li>
+<li>Códigos de estado: 2xx éxito (200 OK, 201 Created, 204 No Content), 3xx redirección (301, 304), 4xx error del cliente (400, 401 sin autenticar, 403 prohibido, 404, 409), 5xx error del servidor (500, 503).</li>
+<li>Formatos: normalmente JSON; documentación con <b>OpenAPI</b> (antes Swagger).</li>
+</ul>
+<h5>Otros protocolos</h5>
+<ul>
+<li><b>GraphQL</b>: el cliente pide exactamente los campos que necesita en una única petición.</li>
+<li><b>gRPC</b>: llamadas remotas con Protocol Buffers sobre HTTP/2, muy eficiente entre microservicios.</li>
+<li>Mensajería asíncrona: AMQP (RabbitMQ), Kafka, MQTT (IoT); WebSocket para comunicación bidireccional.</li>
+<li>Seguridad: HTTPS/TLS, OAuth 2.0 y tokens JWT, claves de API, WS-Security, limitación de peticiones (rate limiting), gateways de API.</li>
+<li>Protocolos de base: HTTP/1.1, HTTP/2 (multiplexación, binario) y HTTP/3 (sobre QUIC/UDP).</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Tres capas: presentación, negocio y datos.</li>
+<li>SOAP = XML + WSDL; REST = recursos + métodos HTTP, sin estado.</li>
+<li>GET, PUT y DELETE son idempotentes; POST no.</li>
+<li>401 = no autenticado; 403 = sin permiso; 201 = creado.</li>
+</ul></div>

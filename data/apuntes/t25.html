@@ -1,0 +1,41 @@
+<h4>1. Conceptos generales</h4>
+<p>Un <b>cortafuegos</b> (firewall) es un sistema que controla el tráfico entre redes con distinto nivel de confianza aplicando una <b>política de seguridad</b>: qué flujos se permiten y cuáles se bloquean. Puede ser hardware dedicado, software o un servicio virtual o en la nube.</p>
+<h5>Tipos</h5>
+<div class="tw"><table>
+<tr><th>Tipo</th><th>Capa</th><th>Cómo decide</th></tr>
+<tr><td>Filtrado de paquetes (sin estado)</td><td>3-4</td><td>Cada paquete por separado: IP origen/destino, protocolo y puertos (como las ACL de un router)</td></tr>
+<tr><td>Con estado (stateful inspection)</td><td>3-4</td><td>Mantiene una tabla de conexiones; permite automáticamente el tráfico de vuelta de una conexión autorizada</td></tr>
+<tr><td>Pasarela de aplicación (proxy)</td><td>7</td><td>Intermedia la conexión y analiza el protocolo de aplicación (HTTP, SMTP...)</td></tr>
+<tr><td>Nueva generación (NGFW)</td><td>3-7</td><td>Además identifica aplicaciones y usuarios, incluye IPS, filtrado web, antimalware e inspección TLS</td></tr>
+<tr><td>WAF (Web Application Firewall)</td><td>7</td><td>Protege aplicaciones web frente a inyección SQL, XSS y otros ataques del OWASP Top 10</td></tr>
+<tr><td>Cortafuegos personal o de host</td><td>3-7</td><td>En el propio equipo (Windows Defender Firewall, nftables/iptables)</td></tr>
+</table></div>
+
+<h4>2. Reglas de seguridad</h4>
+<ul>
+<li>Cada regla indica origen, destino, servicio o puerto, acción (permitir, denegar, rechazar), y si se registra. Se evalúan <b>en orden</b> y se aplica la primera que coincide.</li>
+<li>Política por defecto <b>denegar todo</b> (lista blanca): solo se permite lo expresamente autorizado. Es la recomendada frente a "permitir todo salvo lo prohibido".</li>
+<li>Principio de <b>mínimo privilegio</b>: reglas lo más concretas posible; evitar "any".</li>
+<li>Filtrar también el <b>tráfico de salida</b> (egress), no solo el de entrada.</li>
+<li>Diferencia entre <b>denegar</b> (drop, descarta sin responder) y <b>rechazar</b> (reject, responde con error).</li>
+<li>Revisión periódica: eliminar reglas obsoletas, sombreadas (nunca se alcanzan) o redundantes; documentar quién pidió cada regla y por qué; gestionar los cambios.</li>
+<li>Registro (logs) y envío a un SIEM para detectar intentos de ataque.</li>
+</ul>
+
+<h4>3. Implantación en redes corporativas</h4>
+<ul>
+<li><b>DMZ</b> (zona desmilitarizada): red intermedia para los servidores accesibles desde Internet (web, correo, DNS públicos). Desde la DMZ no se puede iniciar tráfico hacia la red interna salvo excepciones.</li>
+<li>Arquitecturas: <b>dual-homed</b> (un equipo con dos interfaces), <b>screened host</b>, <b>screened subnet</b> (DMZ entre dos cortafuegos, preferiblemente de fabricantes distintos) y cortafuegos con tres o más interfaces (Internet, DMZ, interna).</li>
+<li><b>Segmentación interna</b>: cortafuegos entre VLAN o zonas (usuarios, servidores, gestión, invitados). <b>Microsegmentación</b> en entornos virtualizados (reglas por VM o carga de trabajo).</li>
+<li>Alta disponibilidad: pares de cortafuegos en activo-pasivo o activo-activo con sincronización de estado.</li>
+<li>Servicios asociados: <b>NAT</b>, <b>VPN</b> (IPsec sitio a sitio; SSL/TLS o IPsec para acceso remoto), <b>proxy</b> web, <b>IDS/IPS</b> (detección y prevención de intrusiones, por firmas o anomalías).</li>
+<li>Modelo <b>Zero Trust</b>: no confiar por estar dentro del perímetro; verificar identidad, dispositivo y contexto en cada acceso.</li>
+<li>En el ENS, la medida <b>mp.com.1</b> (perímetro seguro) exige un sistema de protección perimetral que separe la red interna del exterior; uno de sus refuerzos consiste en usar dos o más cortafuegos de distinto fabricante en cascada.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Stateful = recuerda conexiones; sin estado = analiza paquete a paquete.</li>
+<li>Las reglas se evalúan en orden y gana la primera que coincide; política por defecto: denegar.</li>
+<li>DMZ: servidores públicos aislados de la red interna.</li>
+<li>WAF protege aplicaciones web (capa 7).</li>
+<li>IDS detecta; IPS además bloquea.</li>
+</ul></div>

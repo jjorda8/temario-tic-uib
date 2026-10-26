@@ -1,0 +1,46 @@
+<h4>1. Conceptos básicos</h4>
+<ul>
+<li><b>Red de ordenadores</b>: conjunto de equipos y dispositivos interconectados que comparten recursos e información.</li>
+<li>Elementos: nodos finales (hosts), dispositivos de interconexión, medios de transmisión, protocolos y servicios.</li>
+<li><b>Protocolo</b>: conjunto de reglas (sintaxis, semántica y temporización) para comunicarse.</li>
+<li>Medidas: <b>ancho de banda</b> (bps), <b>latencia</b>, <b>jitter</b> (variación de la latencia), pérdida de paquetes y <b>throughput</b> real.</li>
+<li>Modos de transmisión: simplex, half-duplex, full-duplex. Destino: unicast, multicast, broadcast, anycast.</li>
+</ul>
+
+<h4>2. Modelos de referencia</h4>
+<div class="tw"><table>
+<tr><th>OSI (capa)</th><th>Función</th><th>PDU</th><th>Ejemplos</th><th>TCP/IP</th></tr>
+<tr><td>7 Aplicación</td><td>Servicios al usuario</td><td rowspan="3">Datos</td><td>HTTP, DNS, SMTP</td><td rowspan="3">Aplicación</td></tr>
+<tr><td>6 Presentación</td><td>Formato, cifrado, compresión</td><td>TLS, JPEG</td></tr>
+<tr><td>5 Sesión</td><td>Diálogo entre aplicaciones</td><td>RPC, NetBIOS</td></tr>
+<tr><td>4 Transporte</td><td>Extremo a extremo, puertos</td><td>Segmento / datagrama</td><td>TCP, UDP</td><td>Transporte</td></tr>
+<tr><td>3 Red</td><td>Direccionamiento lógico y enrutamiento</td><td>Paquete</td><td>IP, ICMP</td><td>Internet</td></tr>
+<tr><td>2 Enlace</td><td>Acceso al medio, direcciones MAC</td><td>Trama</td><td>Ethernet, 802.11</td><td rowspan="2">Acceso a la red</td></tr>
+<tr><td>1 Física</td><td>Señales y medios</td><td>Bits</td><td>Cables, conectores</td></tr>
+</table></div>
+<p><b>Encapsulación</b>: cada capa añade su cabecera al bajar. En recepción, cada capa la quita (desencapsulación).</p>
+
+<h4>3. Clasificaciones</h4>
+<ul>
+<li><b>Por alcance</b>: PAN (personal, Bluetooth), LAN (local, edificio o campus), MAN (metropolitana), WAN (amplia, Internet o enlaces entre sedes). También WLAN (LAN inalámbrica) y SAN (almacenamiento).</li>
+<li><b>Por topología física</b>: bus, estrella (la más usada en LAN, con switch central), anillo, malla (total o parcial), árbol o jerárquica. Topología lógica: cómo circulan los datos.</li>
+<li><b>Por medio</b>: guiado (par trenzado, coaxial, fibra óptica) y no guiado (radio, microondas, infrarrojos).</li>
+<li><b>Por titularidad</b>: privada o pública; también intranet, extranet e Internet.</li>
+<li><b>Por arquitectura</b>: cliente-servidor o entre iguales (peer-to-peer).</li>
+<li><b>Por tecnología de conmutación</b>: de circuitos (camino dedicado, telefonía clásica) o de paquetes (Internet).</li>
+</ul>
+
+<h4>4. Medios y dispositivos</h4>
+<ul>
+<li><b>Par trenzado</b>: UTP/FTP/STP. Categorías: Cat 5e (1 Gbps), Cat 6 (1 Gbps; 10 Gbps hasta 55 m), Cat 6A (10 Gbps a 100 m), Cat 8 (25/40 Gbps a 30 m). Distancia máxima típica en Ethernet: 100 m.</li>
+<li><b>Fibra óptica</b>: multimodo (MM, distancias cortas, láser VCSEL, OM3/OM4) y monomodo (SM, largas distancias). Inmune a interferencias.</li>
+<li><b>Dispositivos</b>: repetidor y hub (capa 1), switch y bridge (capa 2), router (capa 3), cortafuegos y proxy (capas 3-7), punto de acceso inalámbrico.</li>
+<li><b>Cableado estructurado</b>: subsistemas troncal (backbone), horizontal y de área de trabajo; armarios (racks) y paneles de parcheo (normas TIA/EIA-568 e ISO/IEC 11801).</li>
+<li><b>Ethernet</b> (IEEE 802.3): acceso CSMA/CD (en half-duplex), direcciones MAC de 48 bits, trama con MTU de 1500 bytes.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>OSI tiene 7 capas; TCP/IP, 4.</li>
+<li>Switch = capa 2 (MAC); router = capa 3 (IP).</li>
+<li>PDU: trama (enlace), paquete (red), segmento (transporte).</li>
+<li>Estrella = topología más común en LAN. Ethernet en cobre: máximo 100 m.</li>
+</ul></div>

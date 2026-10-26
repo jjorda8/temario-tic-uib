@@ -1,0 +1,38 @@
+<h4>1. El modelo relacional</h4>
+<ul>
+<li>Propuesto por <b>E. F. Codd</b> (1970). Los datos se organizan en <b>relaciones</b> (tablas) formadas por <b>tuplas</b> (filas) y <b>atributos</b> (columnas) con un <b>dominio</b> de valores.</li>
+<li><b>Claves</b>: superclave, clave candidata, <b>clave primaria</b> (identifica cada fila; no nula y única), clave alternativa y <b>clave ajena</b> (foránea, referencia a la primaria de otra tabla).</li>
+<li><b>Integridad</b>: de entidad (la clave primaria no puede ser nula), <b>referencial</b> (las claves ajenas apuntan a filas existentes; acciones ON DELETE/UPDATE CASCADE, SET NULL, RESTRICT) y de dominio.</li>
+<li>Álgebra relacional: selección, proyección, unión, diferencia, producto cartesiano, join.</li>
+<li>Diseño: modelo <b>entidad-relación</b> (entidades, atributos, relaciones con cardinalidades 1:1, 1:N, N:M) y paso a tablas (las N:M generan una tabla intermedia).</li>
+<li><b>Normalización</b>: 1FN (valores atómicos), 2FN (sin dependencias parciales de la clave), 3FN (sin dependencias transitivas), FNBC (todo determinante es clave candidata). Se desnormaliza a propósito para rendimiento en análisis.</li>
+</ul>
+
+<h4>2. Características de un SGBD relacional</h4>
+<ul>
+<li><b>Independencia de los datos</b> según la arquitectura <b>ANSI/SPARC</b> de tres niveles: <b>externo</b> (vistas de usuarios), <b>conceptual</b> (lógico) e <b>interno</b> (físico). Independencia lógica y física.</li>
+<li><b>Transacciones ACID</b>: <b>atomicidad</b> (todo o nada), <b>consistencia</b> (de un estado válido a otro), <b>aislamiento</b> (las transacciones concurrentes no interfieren) y <b>durabilidad</b> (lo confirmado persiste).</li>
+<li><b>Niveles de aislamiento</b> (SQL): READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ y SERIALIZABLE. Anomalías que evitan: lectura sucia, lectura no repetible y fantasmas.</li>
+<li><b>Control de concurrencia</b>: bloqueos (compartidos y exclusivos; protocolo de dos fases; interbloqueos) o <b>MVCC</b> (varias versiones de las filas, como en PostgreSQL y Oracle).</li>
+<li>Seguridad (usuarios, roles, privilegios, cifrado), integridad, lenguaje declarativo (SQL), catálogo.</li>
+<li><b>Recuperación</b>: registro de transacciones (log de escritura anticipada, WAL), checkpoints, copias y recuperación a un punto en el tiempo.</li>
+<li>Productos: Oracle, Microsoft SQL Server, PostgreSQL, MySQL/MariaDB, IBM Db2.</li>
+</ul>
+
+<h4>3. Componentes</h4>
+<ul>
+<li><b>Procesador de consultas</b>: analizador (parser), <b>optimizador</b> (elige el plan de ejecución según estadísticas y costes; se consulta con EXPLAIN) y motor de ejecución.</li>
+<li><b>Gestor de almacenamiento</b>: ficheros de datos, páginas o bloques, <b>buffer</b> (caché en memoria), índices.</li>
+<li><b>Gestor de transacciones</b> y de concurrencia; <b>gestor de recuperación</b> con el log.</li>
+<li><b>Diccionario de datos</b> o catálogo: metadatos de tablas, columnas, índices, usuarios.</li>
+<li><b>Índices</b>: árboles <b>B+</b> (los más comunes, búsquedas por rango), hash (igualdad), bitmap (pocos valores distintos), índices agrupados (clustered) y no agrupados. Aceleran las lecturas y penalizan las escrituras.</li>
+<li>Otros objetos: vistas, procedimientos almacenados, funciones, disparadores (triggers), secuencias, sinónimos.</li>
+<li>Alta disponibilidad: replicación, clústeres (Oracle RAC, Always On en SQL Server), log shipping.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>ACID: atomicidad, consistencia, aislamiento, durabilidad.</li>
+<li>ANSI/SPARC: niveles externo, conceptual e interno.</li>
+<li>SERIALIZABLE es el nivel de aislamiento más estricto.</li>
+<li>2FN elimina dependencias parciales; 3FN, transitivas.</li>
+<li>Integridad referencial = claves ajenas válidas.</li>
+</ul></div>

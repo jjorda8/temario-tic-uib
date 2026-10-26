@@ -1,0 +1,46 @@
+<h4>1. Conceptos básicos</h4>
+<ul>
+<li><b>GNU/Linux</b>: núcleo Linux más herramientas GNU. <b>Distribuciones</b>: familia Debian (Debian, Ubuntu; paquetes .deb con <code>apt</code>/<code>dpkg</code>) y familia Red Hat (RHEL, Rocky, AlmaLinux, Fedora; .rpm con <code>dnf</code>/<code>rpm</code>).</li>
+<li><b>Arranque</b>: firmware (BIOS/UEFI) → cargador (GRUB2) → núcleo → <b>systemd</b> (PID 1) → unidades y targets. Gestión de servicios con <code>systemctl start|stop|enable|status</code>; registros con <code>journalctl</code>.</li>
+<li><b>Jerarquía de directorios (FHS)</b>: /etc (configuración), /var (datos variables y logs en /var/log), /home (usuarios), /root, /usr (programas), /bin y /sbin, /tmp, /dev (dispositivos), /proc y /sys (virtuales del núcleo), /boot, /opt, /mnt y /media.</li>
+<li><b>Shell</b> (bash): redirecciones (&gt;, &gt;&gt;, 2&gt;, |), variables, scripts. Comandos básicos: ls, cd, cp, mv, rm, find, grep, ps, top, kill, df, du, free, mount, tar, ssh, scp, ip, ss.</li>
+<li>Procesos y prioridades (nice), tareas programadas (cron, timers de systemd), gestión de discos (particiones, LVM, sistemas de ficheros ext4, XFS), montaje en /etc/fstab.</li>
+</ul>
+
+<h4>2. Usuarios y grupos</h4>
+<ul>
+<li><b>/etc/passwd</b>: usuario, x, <b>UID</b>, GID principal, comentario, directorio personal y shell. Root tiene UID 0; los usuarios del sistema, UID bajos.</li>
+<li><b>/etc/shadow</b>: contraseñas cifradas (hash) y caducidad; solo legible por root. <b>/etc/group</b> y /etc/gshadow para grupos.</li>
+<li>Comandos: <code>useradd</code>/<code>adduser</code>, <code>usermod</code> (-aG para añadir a grupos), <code>userdel</code>, <code>passwd</code>, <code>chage</code> (caducidad), <code>groupadd</code>, <code>id</code>, <code>su</code>.</li>
+<li><b>sudo</b>: ejecutar como otro usuario según <b>/etc/sudoers</b> (editar con <code>visudo</code>); grupo sudo o wheel. Mejor que compartir la contraseña de root.</li>
+<li><b>PAM</b>: módulos de autenticación configurables (políticas de contraseña, bloqueo, MFA). Integración con LDAP o Active Directory (SSSD, realmd).</li>
+</ul>
+
+<h4>3. Permisos</h4>
+<ul>
+<li>Tres tipos de permiso (<b>r</b> lectura = 4, <b>w</b> escritura = 2, <b>x</b> ejecución = 1) para <b>usuario propietario</b>, <b>grupo</b> y <b>otros</b>. Ejemplo: 750 = rwxr-x---; 644 = rw-r--r--.</li>
+<li>En directorios: r = listar, w = crear y borrar ficheros, x = entrar.</li>
+<li>Comandos: <code>chmod</code> (simbólico u octal), <code>chown</code> (propietario y grupo), <code>chgrp</code>.</li>
+<li><b>umask</b>: permisos que se quitan a los ficheros nuevos (022 → ficheros 644 y directorios 755).</li>
+<li>Permisos especiales: <b>SUID</b> (4000, se ejecuta con los permisos del propietario, como passwd), <b>SGID</b> (2000, con el grupo; en directorios, los ficheros heredan el grupo) y <b>sticky bit</b> (1000, en /tmp solo el propietario puede borrar sus ficheros).</li>
+<li><b>ACL</b> para permisos más finos: <code>getfacl</code>, <code>setfacl</code>.</li>
+<li>Atributos especiales (<code>chattr +i</code> hace un fichero inmutable).</li>
+</ul>
+
+<h4>4. Seguridad</h4>
+<ul>
+<li>Actualizaciones periódicas (apt, dnf; actualizaciones automáticas de seguridad).</li>
+<li><b>SSH</b> seguro: autenticación por clave pública, desactivar el acceso de root y las contraseñas (<code>PermitRootLogin no</code>, <code>PasswordAuthentication no</code>), Fail2ban frente a fuerza bruta.</li>
+<li>Cortafuegos: <b>nftables</b> (sucesor de iptables), <b>firewalld</b> (zonas, en Red Hat), <b>ufw</b> (en Ubuntu).</li>
+<li><b>Control de acceso obligatorio</b> (MAC): <b>SELinux</b> (Red Hat; modos enforcing, permissive, disabled) y <b>AppArmor</b> (Debian/Ubuntu, perfiles por programa).</li>
+<li>Auditoría con <b>auditd</b>, registros en /var/log y journald, envío a un SIEM; integridad con AIDE.</li>
+<li>Mínimos servicios instalados, mínimo privilegio, particiones separadas con opciones noexec y nosuid, cifrado de disco (LUKS).</li>
+<li>Guías CCN-STIC de bastionado y benchmarks CIS.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>r=4, w=2, x=1. 755 = rwxr-xr-x.</li>
+<li>SUID 4000, SGID 2000, sticky 1000 (el de /tmp).</li>
+<li>Contraseñas en /etc/shadow; usuarios en /etc/passwd; root UID 0.</li>
+<li>umask 022 → ficheros 644.</li>
+<li>SELinux (Red Hat) y AppArmor (Debian/Ubuntu) son control de acceso obligatorio.</li>
+</ul></div>

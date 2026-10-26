@@ -1,0 +1,38 @@
+<h4>1. Tipos de conmutación</h4>
+<ul>
+<li><b>De circuitos</b>: se establece un camino dedicado durante toda la comunicación (telefonía tradicional). Calidad constante pero se desaprovechan recursos.</li>
+<li><b>De mensajes</b>: cada mensaje completo se almacena y reenvía nodo a nodo (store-and-forward), sin camino dedicado.</li>
+<li><b>De paquetes</b>: el mensaje se divide en paquetes. En modo <b>datagrama</b> cada paquete se encamina por separado (IP); en modo <b>circuito virtual</b> se establece primero una ruta lógica (X.25, Frame Relay, ATM, MPLS).</li>
+</ul>
+
+<h4>2. Conmutación en LAN (switches)</h4>
+<ul>
+<li>El switch de <b>capa 2</b> aprende las MAC de origen de cada puerto (<b>tabla MAC</b> o CAM) y reenvía las tramas solo al puerto del destino. Si no conoce el destino, o es broadcast, inunda todos los puertos de la VLAN.</li>
+<li>Cada puerto es un dominio de colisión distinto; toda la VLAN es un único <b>dominio de broadcast</b>.</li>
+<li>Métodos de reenvío: <b>store-and-forward</b> (recibe la trama entera y comprueba el CRC), <b>cut-through</b> (reenvía tras leer la MAC de destino; menor latencia) y <b>fragment-free</b> (lee los primeros 64 bytes).</li>
+<li>Switches de <b>capa 3</b>: además enrutan entre VLAN en hardware.</li>
+<li><b>STP</b> (802.1D) evita bucles bloqueando enlaces redundantes; elige un puente raíz (menor Bridge ID). <b>RSTP</b> (802.1w) converge en segundos; <b>MSTP</b> (802.1s) por grupos de VLAN.</li>
+<li><b>Agregación de enlaces</b> (LACP, 802.3ad/802.1AX): varios enlaces físicos como uno lógico.</li>
+<li>Seguridad en el puerto: port security (límite de MAC), 802.1X, DHCP snooping, inspección ARP.</li>
+<li><b>PoE</b> (802.3af/at/bt): alimentación por el cable de red para AP, teléfonos y cámaras.</li>
+</ul>
+
+<h4>3. VLAN (redes de área local virtuales)</h4>
+<p>Una VLAN divide un switch físico en varias redes lógicas independientes. Cada VLAN es un dominio de broadcast distinto y suele corresponder a una subred IP.</p>
+<ul>
+<li>Ventajas: <b>seguridad</b> (separar personal, servidores, invitados, IoT, gestión), menos tráfico de broadcast, flexibilidad (agrupar por función y no por ubicación física) y gestión más sencilla.</li>
+<li><b>Estándar IEEE 802.1Q</b>: añade a la trama Ethernet una <b>etiqueta de 4 bytes</b> con el TPID 0x8100, la prioridad (3 bits, 802.1p para QoS) y el <b>VID de 12 bits</b> (VLAN 1 a 4094; 0 y 4095 reservadas).</li>
+<li><b>Puerto de acceso</b>: pertenece a una sola VLAN y envía las tramas sin etiqueta (al equipo final).</li>
+<li><b>Puerto troncal (trunk)</b>: transporta varias VLAN etiquetadas entre switches o hacia servidores e hipervisores. La <b>VLAN nativa</b> viaja sin etiqueta (conviene cambiarla de la VLAN 1 para evitar ataques de VLAN hopping).</li>
+<li>Tipos de asignación: estática por puerto (la más habitual), dinámica por MAC o por usuario (802.1X con asignación de VLAN desde RADIUS).</li>
+<li><b>Enrutamiento entre VLAN</b>: con un router y subinterfaces en un troncal ("router on a stick"), o con interfaces virtuales (SVI) en un switch de capa 3. Entre VLAN se pueden aplicar ACL o un cortafuegos.</li>
+<li>Extensiones: QinQ (802.1ad, doble etiqueta), VXLAN (VLAN sobre capa 3 con 16 millones de identificadores, usado en centros de datos y SDN).</li>
+<li>En el ENS, la medida <b>mp.com.4</b> (separación de flujos de información en la red) se suele implementar con VLAN y cortafuegos.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>802.1Q: etiqueta de 4 bytes; VID de 12 bits; VLAN 1-4094.</li>
+<li>Acceso = una VLAN sin etiqueta; troncal = varias VLAN etiquetadas; VLAN nativa sin etiqueta.</li>
+<li>Cada VLAN es un dominio de broadcast; para comunicar VLAN hace falta capa 3.</li>
+<li>STP evita bucles; RSTP es 802.1w.</li>
+<li>Store-and-forward comprueba el CRC; cut-through tiene menos latencia.</li>
+</ul></div>

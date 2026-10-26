@@ -1,0 +1,52 @@
+<h4>1. Conceptos</h4>
+<ul>
+<li><b>Copia de seguridad</b> (backup): copia de los datos que permite recuperarlos tras una pérdida (fallo, borrado, corrupción, ransomware, desastre).</li>
+<li><b>RPO</b> (Recovery Point Objective): cuántos datos se pueden perder, medido en tiempo desde la última copia. Determina la frecuencia de las copias.</li>
+<li><b>RTO</b> (Recovery Time Objective): cuánto tiempo puede tardar la recuperación. Determina la tecnología de restauración.</li>
+<li><b>Retención</b>: cuánto tiempo se guarda cada copia. <b>Ventana de backup</b>: periodo en que se pueden hacer las copias sin afectar al servicio.</li>
+<li>Una <b>réplica</b> o un <b>RAID</b> no son copias de seguridad: replican también los borrados y la corrupción.</li>
+</ul>
+
+<h4>2. Tipos de copia</h4>
+<div class="tw"><table>
+<tr><th>Tipo</th><th>Qué copia</th><th>Para restaurar</th><th>Ventajas e inconvenientes</th></tr>
+<tr><td>Completa (full)</td><td>Todo</td><td>Solo la completa</td><td>Restauración rápida; ocupa más y tarda más</td></tr>
+<tr><td>Incremental</td><td>Cambios desde la <b>última copia de cualquier tipo</b></td><td>Completa + todas las incrementales</td><td>Copia rápida y pequeña; restauración más lenta</td></tr>
+<tr><td>Diferencial</td><td>Cambios desde la <b>última completa</b></td><td>Completa + última diferencial</td><td>Término medio; crece cada día</td></tr>
+<tr><td>Sintética</td><td>Se construye una completa a partir de la anterior y las incrementales, sin leer el origen</td><td>Solo la sintética</td><td>Ahorra carga en producción</td></tr>
+<tr><td>Incremental para siempre</td><td>Una completa inicial y luego solo incrementales</td><td>Gestiona el software</td><td>Muy eficiente con deduplicación</td></tr>
+</table></div>
+<p>Otras clasificaciones: copia en caliente (con el sistema en marcha, usando snapshots o agentes con consistencia de aplicación) o en frío; a nivel de fichero, de imagen (VM o disco completo) o de aplicación (bases de datos con sus logs); <b>CDP</b> (protección continua de datos) con RPO casi cero.</p>
+
+<h4>3. Infraestructura</h4>
+<ul>
+<li><b>Software de copias</b>: servidor de gestión, agentes o integración con el hipervisor (APIs de snapshot), <b>catálogo</b> (índice de qué hay en cada copia), planificación y alertas.</li>
+<li><b>Destinos</b>: disco (appliances con deduplicación), cinta (<b>LTO</b>, barata y fácil de aislar; con WORM), almacenamiento de objetos o nube.</li>
+<li><b>D2D2T</b>: disco a disco y después a cinta. Copias fuera de las instalaciones (offsite) para desastres.</li>
+<li>Red: tráfico de copias separado (LAN-free o red dedicada) para no afectar a producción.</li>
+</ul>
+
+<h4>4. Políticas y retención</h4>
+<ul>
+<li><b>Regla 3-2-1</b>: 3 copias de los datos, en 2 soportes distintos, 1 fuera de las instalaciones. Variante <b>3-2-1-1-0</b>: además 1 copia inmutable o desconectada (air gap) y 0 errores en la verificación.</li>
+<li><b>Rotación GFS</b> (abuelo-padre-hijo): diarias (hijo), semanales (padre) y mensuales o anuales (abuelo), con retenciones distintas.</li>
+<li><b>Inmutabilidad</b>: copias que no se pueden modificar ni borrar durante un plazo (WORM, object lock). Es la defensa principal frente al ransomware.</li>
+<li>Cifrado de las copias (en tránsito y en reposo) y custodia de las claves.</li>
+<li>La retención debe cumplir la normativa: no guardar datos personales más tiempo del necesario (RGPD) y conservar lo que exige el archivo.</li>
+</ul>
+
+<h4>5. Gestión del entorno</h4>
+<ul>
+<li>Inventario de qué se copia, clasificado según criticidad (RPO/RTO por sistema).</li>
+<li>Supervisión diaria de trabajos fallidos y alertas.</li>
+<li><b>Pruebas periódicas de restauración</b>: una copia no probada no es fiable.</li>
+<li>Documentar procedimientos y el plan de continuidad y recuperación ante desastres (DRP).</li>
+<li>Control de acceso a la consola de copias con MFA y cuentas separadas del dominio.</li>
+<li>En el ENS, la medida <b>mp.info.6</b> exige copias que permitan recuperar los datos, con la misma seguridad que los originales; la continuidad del servicio está en <b>op.cont</b>.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Incremental: desde la última copia de cualquier tipo. Diferencial: desde la última completa.</li>
+<li>RPO = datos que se pueden perder; RTO = tiempo para recuperar.</li>
+<li>3-2-1: 3 copias, 2 soportes, 1 fuera.</li>
+<li>Snapshots, RAID y réplicas no son copias de seguridad.</li>
+</ul></div>

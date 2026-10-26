@@ -1,0 +1,68 @@
+<h4>1. Sintaxis y operadores</h4>
+<ul>
+<li>Java es un lenguaje orientado a objetos, compilado a <b>bytecode</b> (.class) que ejecuta la <b>JVM</b> (máquina virtual), lo que lo hace multiplataforma ("write once, run anywhere"). Gestión automática de memoria con <b>recolector de basura</b>. JDK (desarrollo) y JRE (ejecución). Versiones LTS recientes: 17, 21 y 25.</li>
+<li>Tipos <b>primitivos</b> (8): byte (8 bits), short (16), int (32), long (64), float (32), double (64), char (16, Unicode), boolean. El resto son <b>tipos referencia</b> (objetos, arrays, String). Clases envoltorio (Integer, Double...) y autoboxing.</li>
+<li>Operadores: aritméticos (+ − * / %), incremento (++ −−, prefijo y sufijo), relacionales (== != &lt; &gt;), lógicos (&amp;&amp; || ! con cortocircuito), a nivel de bit (&amp; | ^ ~ &lt;&lt; &gt;&gt; &gt;&gt;&gt;), asignación compuesta (+=), ternario (c ? a : b), instanceof.</li>
+<li>Con objetos, <b>==</b> compara referencias y <b>equals()</b> compara contenido (por ejemplo, en String).</li>
+<li>Conversiones: implícitas (de menor a mayor rango) y explícitas con cast. <code>var</code> para inferencia de tipos locales (Java 10).</li>
+</ul>
+
+<h4>2. Estructuras de control</h4>
+<ul>
+<li>Condicionales: <code>if / else if / else</code>, <code>switch</code> (también con String y enum; switch como expresión con <code>-&gt;</code> desde Java 14).</li>
+<li>Bucles: <code>for</code>, <code>for-each</code> (<code>for (T x : coleccion)</code>), <code>while</code>, <code>do-while</code> (se ejecuta al menos una vez).</li>
+<li>Saltos: <code>break</code>, <code>continue</code>, <code>return</code>, etiquetas.</li>
+</ul>
+
+<h4>3. Orientación a objetos</h4>
+<ul>
+<li><b>Clase</b> (plantilla) y <b>objeto</b> (instancia creada con <code>new</code>). Atributos, métodos y <b>constructores</b> (mismo nombre que la clase, sin tipo de retorno; <code>this(...)</code>).</li>
+<li><b>Encapsulación</b> con modificadores de acceso: <code>private</code> (solo la clase), sin modificador o <i>package-private</i> (el paquete), <code>protected</code> (paquete y subclases), <code>public</code> (todos). Getters y setters.</li>
+<li><code>static</code> (de la clase, no de la instancia), <code>final</code> (constante; método no sobrescribible; clase no heredable), <code>abstract</code>.</li>
+<li><b>Sobrecarga</b> (mismo nombre, distintos parámetros; en compilación) frente a <b>sobrescritura</b> (redefinir un método heredado con la misma firma; anotación @Override; en ejecución).</li>
+<li><b>Polimorfismo</b>: una referencia de tipo padre puede apuntar a objetos hijos y se ejecuta el método del objeto real (enlace dinámico).</li>
+<li><b>Clase abstracta</b> (no se instancia; puede tener métodos abstractos y concretos y estado) frente a <b>interfaz</b> (contrato; métodos abstractos, default y static; una clase puede implementar varias).</li>
+<li>Otros: clases internas y anónimas, <b>enum</b>, <b>record</b> (Java 16, clases de datos inmutables), clases selladas (sealed), lambdas e interfaces funcionales (Java 8), Streams.</li>
+</ul>
+
+<h4>4. Herencia</h4>
+<ul>
+<li><code>class Hija extends Padre</code>: herencia <b>simple</b> de clases (una sola superclase); la múltiple solo existe a través de interfaces (<code>implements A, B</code>).</li>
+<li>Todas las clases heredan de <b>Object</b> (equals, hashCode, toString, getClass...). Si se sobrescribe equals hay que sobrescribir hashCode.</li>
+<li><code>super(...)</code> llama al constructor del padre (debe ser la primera instrucción); <code>super.metodo()</code> llama a la versión del padre.</li>
+<li>Los constructores no se heredan. Los métodos private y static no se sobrescriben.</li>
+<li>Principio de sustitución de Liskov; preferir composición a herencia cuando no hay relación "es un".</li>
+</ul>
+
+<h4>5. Control de excepciones</h4>
+<ul>
+<li>Jerarquía: <b>Throwable</b> → <b>Error</b> (problemas graves de la JVM, como OutOfMemoryError; no se capturan) y <b>Exception</b>.</li>
+<li><b>Checked</b> (comprobadas): heredan de Exception pero no de RuntimeException (IOException, SQLException). El compilador obliga a capturarlas o declararlas con <code>throws</code>.</li>
+<li><b>Unchecked</b>: RuntimeException y subclases (NullPointerException, ArithmeticException, ArrayIndexOutOfBoundsException, IllegalArgumentException). No es obligatorio tratarlas.</li>
+<li><code>try { } catch (TipoA | TipoB e) { } finally { }</code>: finally se ejecuta siempre. Multi-catch desde Java 7. Los catch van de lo más específico a lo más general.</li>
+<li><b>try-with-resources</b> (Java 7): cierra automáticamente los recursos que implementan AutoCloseable.</li>
+<li><code>throw</code> lanza una excepción; <code>throws</code> declara que un método puede lanzarla. Excepciones propias heredando de Exception o RuntimeException.</li>
+</ul>
+
+<h4>6. Genéricos</h4>
+<ul>
+<li>Permiten parametrizar clases, interfaces y métodos con tipos: <code>List&lt;String&gt;</code>, <code>class Caja&lt;T&gt;</code>, <code>&lt;T&gt; void metodo(T x)</code>. Seguridad de tipos en compilación y sin casts. Operador diamante <code>new ArrayList&lt;&gt;()</code>.</li>
+<li>Tipos acotados: <code>&lt;T extends Number&gt;</code>.</li>
+<li>Comodines: <code>&lt;?&gt;</code>, <code>&lt;? extends T&gt;</code> (para leer, productor) y <code>&lt;? super T&gt;</code> (para escribir, consumidor): regla PECS.</li>
+<li><b>Borrado de tipos</b> (type erasure): la información genérica desaparece en tiempo de ejecución; no se pueden usar primitivos (List&lt;int&gt; no; List&lt;Integer&gt; sí).</li>
+<li>Colecciones: List (ArrayList, LinkedList), Set (HashSet, TreeSet), Map (HashMap, TreeMap), Queue y Deque.</li>
+</ul>
+
+<h4>7. El patrón MVC</h4>
+<ul>
+<li><b>Modelo</b>: datos y lógica de negocio. <b>Vista</b>: presentación al usuario. <b>Controlador</b>: recibe las acciones del usuario, actualiza el modelo y elige la vista.</li>
+<li>Ventajas: separación de responsabilidades, reutilización, pruebas y trabajo en paralelo.</li>
+<li>En Java web: <b>Spring MVC</b> (DispatcherServlet como controlador frontal, controladores con @Controller, vistas Thymeleaf/JSP), Jakarta EE (Servlets como controlador, JSP/JSF como vista). Variantes: MVP y MVVM.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Herencia simple de clases; múltiple solo con interfaces.</li>
+<li>Checked = obligatorio tratarlas (IOException); unchecked = RuntimeException.</li>
+<li>finally se ejecuta siempre; try-with-resources cierra AutoCloseable.</li>
+<li>Sobrecarga = parámetros distintos; sobrescritura = misma firma en la subclase.</li>
+<li>protected = paquete + subclases. == compara referencias; equals, contenido.</li>
+</ul></div>

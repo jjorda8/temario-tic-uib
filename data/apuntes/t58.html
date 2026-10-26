@@ -1,0 +1,40 @@
+<h4>1. Concepto</h4>
+<ul>
+<li>El <b>mantenimiento de sistemas</b> agrupa las actividades necesarias para que el hardware, el software y las infraestructuras sigan funcionando correctamente, con seguridad y adaptados a las necesidades durante toda su vida útil.</li>
+<li>En el software suele suponer la mayor parte del coste total de su ciclo de vida. Norma <b>ISO/IEC/IEEE 14764</b> (mantenimiento del software) dentro de ISO/IEC/IEEE 12207.</li>
+</ul>
+
+<h4>2. Tipos de mantenimiento</h4>
+<div class="tw"><table>
+<tr><th>Tipo</th><th>Cuándo y para qué</th><th>Ejemplo</th></tr>
+<tr><td><b>Correctivo</b></td><td>Reactivo: corrige fallos o errores ya producidos</td><td>Sustituir un disco averiado; corregir un error de una aplicación</td></tr>
+<tr><td><b>Preventivo</b></td><td>Programado a intervalos fijos para evitar fallos</td><td>Revisiones periódicas, limpieza, cambio de baterías de SAI, aplicar parches</td></tr>
+<tr><td><b>Predictivo</b></td><td>Según el estado real del equipo, medido con indicadores, para actuar justo antes del fallo</td><td>Sustituir un disco cuando sus valores SMART se degradan; análisis de tendencias de temperatura o errores</td></tr>
+<tr><td><b>Adaptativo</b></td><td>Adaptar el sistema a cambios del entorno (normativa, sistema operativo, hardware, interfaces)</td><td>Adaptar una aplicación a una nueva ley o a una nueva versión de la base de datos</td></tr>
+<tr><td><b>Perfectivo</b> (evolutivo)</td><td>Mejorar el rendimiento o añadir funcionalidades pedidas por los usuarios</td><td>Optimizar consultas; nuevo informe</td></tr>
+</table></div>
+<p>En software, ISO 14764 agrupa: correctivo y preventivo (de corrección) y adaptativo y perfectivo (de mejora). El <b>preventivo de software</b> también incluye la reingeniería y refactorización para evitar problemas futuros.</p>
+
+<h4>3. Planificación del mantenimiento</h4>
+<ul>
+<li><b>Inventario</b> actualizado de activos y de la configuración (<b>CMDB</b>), con su criticidad, garantía, contratos de soporte y fecha de fin de vida (EOL/EOS).</li>
+<li><b>Plan de mantenimiento</b>: tareas preventivas, periodicidad, responsables, recursos y presupuesto.</li>
+<li><b>Ventanas de mantenimiento</b> pactadas y comunicadas con antelación a los usuarios para minimizar el impacto.</li>
+<li>Gestión de parches y actualizaciones: priorizar por criticidad (CVSS) y exposición; probar en preproducción; plan de vuelta atrás.</li>
+<li>Indicadores: <b>MTBF</b> (tiempo medio entre fallos), <b>MTTR</b> (tiempo medio de reparación), disponibilidad = MTBF / (MTBF + MTTR), número de incidencias, cumplimiento de SLA.</li>
+<li>Renovación tecnológica planificada (ciclo de vida de los equipos) y gestión de la obsolescencia.</li>
+</ul>
+
+<h4>4. Gestión del mantenimiento</h4>
+<ul>
+<li>Procesos de <b>ITIL</b> (gestión de servicios TI): gestión de <b>incidencias</b> (restablecer el servicio cuanto antes), de <b>problemas</b> (causa raíz), de <b>cambios</b> (evaluar, aprobar y planificar cambios, con comité CAB; cambios estándar, normales y de emergencia), de <b>versiones y despliegues</b>, de la configuración, de la capacidad y la disponibilidad. Norma ISO/IEC 20000.</li>
+<li>Herramientas: gestor de incidencias (service desk), CMDB, monitorización, gestión de parches (WSUS, SCCM/Intune, Ansible).</li>
+<li><b>Mantenimiento externalizado</b>: contratos de servicios con SLA y penalizaciones (Ley 9/2017 de Contratos del Sector Público); soporte del fabricante con distintos niveles (horario laboral, 24×7, tiempo de respuesta y de resolución).</li>
+<li>En el ENS: mantenimiento y actualizaciones de seguridad (<b>op.exp.4</b>), gestión de cambios (<b>op.exp.5</b>) y configuración de seguridad (op.exp.2).</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Correctivo = reparar; preventivo = periódico; predictivo = según el estado medido; adaptativo = cambios del entorno; perfectivo = mejoras.</li>
+<li>Disponibilidad = MTBF / (MTBF + MTTR).</li>
+<li>ITIL: incidencia (restablecer) frente a problema (causa raíz).</li>
+<li>Mantenimiento del software: ISO/IEC 14764.</li>
+</ul></div>

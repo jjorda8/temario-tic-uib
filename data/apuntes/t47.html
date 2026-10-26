@@ -1,0 +1,51 @@
+<h4>1. Modelado de procesos y BPMN</h4>
+<ul>
+<li>La <b>gestión de procesos de negocio</b> (BPM) analiza, modela, automatiza, supervisa y mejora los procesos de una organización. Ciclo: diseño, modelado, ejecución, monitorización y optimización.</li>
+<li><b>BPMN</b> (Business Process Model and Notation) es la notación gráfica estándar para modelar procesos. Mantenida por la <b>OMG</b>; versión <b>2.0</b> (2011; 2.0.2 de 2013) y norma <b>ISO/IEC 19510</b>.</li>
+<li>Objetivo: una notación comprensible por negocio y técnicos que además pueda ejecutarse en motores de procesos (BPMN 2.0 define un formato XML de intercambio y la semántica de ejecución).</li>
+<li>En la Administración se usa para modelar los procedimientos administrativos (fases de la Ley 39/2015) antes de automatizarlos en un gestor de expedientes.</li>
+</ul>
+
+<h4>2. Elementos</h4>
+<h5>Objetos de flujo</h5>
+<ul>
+<li><b>Eventos</b> (círculos): algo que ocurre. De <b>inicio</b> (borde fino), <b>intermedios</b> (borde doble) y de <b>fin</b> (borde grueso). Tipos según su disparador: mensaje, temporizador, error, señal, condicional, compensación, escalado, cancelación, terminación. Pueden ser de captura o de lanzamiento, y de borde (adjuntos a una actividad, interruptores o no).</li>
+<li><b>Actividades</b> (rectángulos redondeados): <b>tareas</b> (de usuario, de servicio, manual, de script, de envío y recepción, de regla de negocio) y <b>subprocesos</b> (expandidos o contraídos con el signo +; de evento, transaccionales); actividad de llamada. Marcadores de bucle y de multiinstancia (paralela o secuencial).</li>
+<li><b>Compuertas</b> (rombos): controlan la divergencia y convergencia del flujo. <b>Exclusiva</b> (XOR, una "X" o vacía: solo un camino), <b>paralela</b> (AND, "+": todos los caminos), <b>inclusiva</b> (OR, círculo: uno o varios), <b>basada en eventos</b> (el primer evento que ocurre decide), compleja.</li>
+</ul>
+<h5>Objetos de conexión</h5>
+<ul>
+<li><b>Flujo de secuencia</b> (línea continua con flecha): orden de las actividades dentro de un mismo pool.</li>
+<li><b>Flujo de mensajes</b> (línea discontinua con círculo y flecha): comunicación entre participantes (pools distintos).</li>
+<li><b>Asociación</b> (línea de puntos): relaciona artefactos y datos con objetos de flujo.</li>
+</ul>
+<h5>Calles (swimlanes)</h5>
+<ul>
+<li><b>Pool</b>: un participante (organización o sistema). <b>Lane</b> (carril): subdivisión por rol o departamento dentro del pool.</li>
+</ul>
+<h5>Datos y artefactos</h5>
+<ul>
+<li>Objetos de datos, entradas y salidas de datos, almacenes de datos.</li>
+<li>Artefactos: <b>grupos</b> y <b>anotaciones de texto</b>.</li>
+</ul>
+
+<h4>3. Tipos de diagramas</h4>
+<ul>
+<li><b>Proceso</b> (orquestación): privado (interno) o público.</li>
+<li><b>Colaboración</b>: varios pools que intercambian mensajes.</li>
+<li><b>Coreografía</b>: interacciones entre participantes sin detallar sus procesos internos.</li>
+<li><b>Conversación</b>: vista general de los intercambios de mensajes.</li>
+</ul>
+
+<h4>4. Buenas prácticas y herramientas</h4>
+<ul>
+<li>Un evento de inicio y uno o varios de fin claros; tareas con verbo + objeto ("Revisar solicitud"); compuertas con preguntas y salidas etiquetadas; abrir y cerrar con el mismo tipo de compuerta; evitar diagramas enormes (usar subprocesos).</li>
+<li>Estándares relacionados: <b>DMN</b> (decisiones) y <b>CMMN</b> (casos), también de la OMG.</li>
+<li>Herramientas: Camunda Modeler, Bizagi, Bonita, Signavio, draw.io.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Inicio = borde fino; intermedio = doble; fin = grueso.</li>
+<li>Exclusiva = un camino; paralela (+) = todos; inclusiva (círculo) = uno o varios.</li>
+<li>Flujo de secuencia dentro del pool; flujo de mensajes entre pools.</li>
+<li>BPMN 2.0 es de la OMG e ISO/IEC 19510.</li>
+</ul></div>

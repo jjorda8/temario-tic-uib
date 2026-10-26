@@ -1,0 +1,51 @@
+<h4>1. Conceptos</h4>
+<ul>
+<li><b>Integración continua</b> (CI): práctica en la que los desarrolladores integran su código en la rama principal con frecuencia (al menos a diario) y cada integración se verifica automáticamente con una compilación y pruebas. Popularizada por XP y Martin Fowler.</li>
+<li><b>Entrega continua</b> (continuous delivery): el software está siempre en estado desplegable; el paso a producción es una decisión manual con un solo clic.</li>
+<li><b>Despliegue continuo</b> (continuous deployment): todo cambio que supera el pipeline se despliega automáticamente en producción, sin intervención humana.</li>
+<li>Se enmarcan en la cultura <b>DevOps</b>: colaboración entre desarrollo y operaciones, automatización, medición y mejora continua. Métricas DORA: frecuencia de despliegue, tiempo de entrega de cambios, tasa de fallos en los cambios y tiempo de recuperación.</li>
+<li>Beneficios: detectar errores pronto y cuando son baratos de corregir, evitar el "infierno de la integración", entregas más frecuentes y fiables, retroalimentación rápida.</li>
+</ul>
+
+<h4>2. Buenas prácticas de CI</h4>
+<ul>
+<li>Un único repositorio de código con control de versiones (Git).</li>
+<li>Compilación automatizada y reproducible.</li>
+<li>Pruebas automáticas en cada cambio (pirámide de pruebas: muchas unitarias, menos de integración, pocas de extremo a extremo).</li>
+<li>Commits pequeños y frecuentes a la rama principal (trunk-based) o ramas de vida corta con pull requests revisados.</li>
+<li>Si la compilación falla, arreglarla es la prioridad.</li>
+<li>Compilación rápida; entorno de pruebas parecido a producción; resultados visibles para todo el equipo.</li>
+</ul>
+
+<h4>3. El pipeline</h4>
+<ol>
+<li><b>Disparo</b>: push o pull request en el repositorio.</li>
+<li><b>Compilación</b> y resolución de dependencias.</li>
+<li><b>Pruebas unitarias</b> y medición de la cobertura.</li>
+<li><b>Análisis estático</b> de calidad y seguridad (SAST), análisis de dependencias vulnerables (SCA), detección de secretos.</li>
+<li><b>Empaquetado</b> del artefacto (JAR, imagen de contenedor) versionado y almacenado en un repositorio de artefactos.</li>
+<li><b>Despliegue</b> en entornos de integración y preproducción; pruebas de integración, funcionales, de rendimiento y de seguridad dinámica (DAST).</li>
+<li>Aprobación y despliegue en <b>producción</b> (blue-green, canary, rolling) con posibilidad de vuelta atrás.</li>
+</ol>
+
+<h4>4. Herramientas y aplicaciones</h4>
+<div class="tw"><table>
+<tr><th>Función</th><th>Herramientas</th></tr>
+<tr><td>Servidores de CI/CD</td><td><b>Jenkins</b> (código abierto, pipelines en Jenkinsfile, plugins), <b>GitLab CI/CD</b> (.gitlab-ci.yml, runners), <b>GitHub Actions</b> (workflows en YAML), Azure DevOps Pipelines, Bamboo, TeamCity, CircleCI, Tekton, Argo CD (GitOps)</td></tr>
+<tr><td>Construcción</td><td>Maven y Gradle (Java), npm, MSBuild, Make</td></tr>
+<tr><td>Pruebas</td><td>JUnit, TestNG, Mockito, Selenium, Cypress, Playwright, JMeter</td></tr>
+<tr><td>Calidad y seguridad</td><td><b>SonarQube</b> (calidad, deuda técnica, puertas de calidad), OWASP Dependency-Check, Trivy, ESLint</td></tr>
+<tr><td>Repositorio de artefactos</td><td>Nexus, Artifactory, registros de contenedores</td></tr>
+<tr><td>Infraestructura como código y configuración</td><td>Terraform, Ansible, Puppet, Chef, Helm</td></tr>
+<tr><td>Contenedores</td><td>Docker, Kubernetes</td></tr>
+</table></div>
+<ul>
+<li>Aplicaciones: desarrollo de aplicaciones web y móviles, microservicios, infraestructura como código, publicación de documentación y sitios estáticos, y en el sector público desarrollo seguro conforme al ENS (<b>mp.sw.1</b> desarrollo de aplicaciones; <b>mp.sw.2</b> aceptación y puesta en servicio).</li>
+<li><b>DevSecOps</b>: integrar la seguridad en todo el pipeline ("shift left").</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Entrega continua: despliegue a producción manual; despliegue continuo: automático.</li>
+<li>Jenkins usa Jenkinsfile; GitLab, .gitlab-ci.yml; GitHub Actions, workflows YAML.</li>
+<li>SonarQube = calidad del código; Nexus/Artifactory = artefactos.</li>
+<li>Integrar al menos una vez al día y arreglar la compilación rota de inmediato.</li>
+</ul></div>

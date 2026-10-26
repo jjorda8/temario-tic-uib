@@ -1,0 +1,45 @@
+<h4>1. Conceptos</h4>
+<ul>
+<li>La <b>automatización robótica de procesos</b> (RPA, Robotic Process Automation) usa <b>robots de software</b> (bots) que imitan las acciones de una persona en las interfaces de las aplicaciones: hacer clic, escribir, copiar y pegar, leer pantallas, abrir correos, descargar ficheros.</li>
+<li>No son robots físicos ni modifican los sistemas existentes: trabajan "por encima" de ellos (integración no invasiva, en la capa de presentación).</li>
+<li>Procesos adecuados: <b>repetitivos</b>, de <b>gran volumen</b>, basados en <b>reglas</b> claras, con datos estructurados y digitales, estables (pocas excepciones y pocos cambios en las aplicaciones). Ejemplos: alta de datos entre sistemas sin integración, conciliaciones, generación de informes, comprobación de documentación, gestión de altas de usuarios.</li>
+<li><b>Bots atendidos</b> (se ejecutan en el puesto del usuario cuando este los lanza) y <b>desatendidos</b> (funcionan solos en servidores, programados o por eventos).</li>
+</ul>
+
+<h4>2. RPA frente a otras formas de automatizar</h4>
+<ul>
+<li><b>Integración por API</b> o servicios web: más robusta y eficiente; es preferible cuando existe. La RPA se usa cuando no hay API o integrarla es muy costoso.</li>
+<li><b>BPM</b> o gestores de expedientes: rediseñan y orquestan el proceso completo; la RPA automatiza tareas concretas dentro de él.</li>
+<li><b>Automatización inteligente</b> o hiperautomatización: RPA combinada con IA (OCR inteligente o IDP para documentos, procesamiento del lenguaje, aprendizaje automático, process mining para descubrir qué procesos automatizar).</li>
+<li>En la Administración, la <b>actuación administrativa automatizada</b> (art. 41 de la Ley 40/2015) exige determinar previamente el órgano competente para definir especificaciones, programar, mantener, supervisar y auditar el sistema, y el órgano responsable a efectos de impugnación; se firma con sello electrónico.</li>
+</ul>
+
+<h4>3. Ciclo de un proyecto</h4>
+<ol>
+<li>Identificar y priorizar procesos (impacto, volumen, complejidad, estabilidad).</li>
+<li>Analizar y documentar el proceso (PDD: documento de definición del proceso); simplificarlo antes de automatizarlo.</li>
+<li>Diseñar y desarrollar el bot con la herramienta (grabadores, editores visuales de flujos, selectores de elementos, manejo de excepciones).</li>
+<li>Probar con datos reales y casos excepcionales.</li>
+<li>Desplegar en producción y supervisar con el <b>orquestador</b> (programación, colas de trabajo, registros, credenciales).</li>
+<li>Mantener: los cambios en las aplicaciones rompen los bots.</li>
+</ol>
+
+<h4>4. Beneficios, riesgos y gobierno</h4>
+<ul>
+<li>Beneficios: rapidez de implantación, reducción de errores y plazos, funcionamiento 24×7, trazabilidad y liberar al personal de tareas mecánicas.</li>
+<li>Riesgos: fragilidad ante cambios de interfaz, automatizar procesos ineficientes, gestión de credenciales de los bots, proliferación sin control y deuda técnica.</li>
+<li>Gobierno: <b>centro de excelencia</b> (CoE) que fija estándares, prioriza, controla la seguridad y la calidad; inventario de bots y responsables; cuentas de servicio con mínimo privilegio y credenciales en un almacén seguro; registro de las acciones para auditoría.</li>
+</ul>
+
+<h4>5. Herramientas</h4>
+<ul>
+<li><b>UiPath</b> (Studio, Robot, Orchestrator), <b>Microsoft Power Automate</b> (flujos de escritorio y en la nube), <b>Automation Anywhere</b>, <b>Blue Prism</b> (SS&amp;C), Appian, Pega.</li>
+<li>Código abierto: <b>Robot Framework</b> con RPA Framework, OpenRPA, TagUI.</li>
+<li>Scripts y herramientas de automatización clásicas (PowerShell, Python con Selenium o Playwright) para casos sencillos.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>RPA = robots de software que imitan acciones humanas en la interfaz.</li>
+<li>Atendidos (en el puesto del usuario) frente a desatendidos (en servidor).</li>
+<li>Procesos idóneos: repetitivos, de alto volumen y basados en reglas.</li>
+<li>Si hay API, es mejor integrar por API que usar RPA.</li>
+</ul></div>

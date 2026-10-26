@@ -1,0 +1,41 @@
+<h4>1. Concepto</h4>
+<p>La <b>virtualización de puestos de trabajo</b> separa el escritorio del dispositivo físico: el sistema operativo y las aplicaciones se ejecutan en el centro de datos o en la nube y el usuario accede a ellos de forma remota desde cualquier dispositivo.</p>
+<div class="tw"><table>
+<tr><th>Modelo</th><th>Descripción</th></tr>
+<tr><td><b>VDI</b> (Virtual Desktop Infrastructure)</td><td>Cada usuario tiene su propia máquina virtual de escritorio en un hipervisor</td></tr>
+<tr><td><b>RDS / SBC</b> (Remote Desktop Services, Server-Based Computing)</td><td>Varios usuarios comparten un sistema operativo de servidor; se publican escritorios o aplicaciones sueltas</td></tr>
+<tr><td><b>DaaS</b> (Desktop as a Service)</td><td>VDI ofrecido como servicio en la nube (Azure Virtual Desktop, Windows 365, Amazon WorkSpaces)</td></tr>
+<tr><td>Virtualización de aplicaciones</td><td>Solo se entregan aplicaciones (App-V, aplicaciones publicadas, contenedores de aplicaciones)</td></tr>
+<tr><td>Virtualización local</td><td>La máquina virtual se ejecuta en el propio equipo del usuario</td></tr>
+</table></div>
+
+<h4>2. Arquitectura y componentes</h4>
+<ul>
+<li><b>Hipervisor</b> e infraestructura de computación, almacenamiento (muy exigente en IOPS: tormentas de arranque y de inicio de sesión) y red.</li>
+<li><b>Connection broker</b> (agente de conexión): autentica al usuario y le asigna un escritorio del <b>pool</b> según sus derechos.</li>
+<li><b>Pasarela de acceso seguro</b> (gateway) para conexiones desde Internet, con MFA.</li>
+<li><b>Imagen maestra</b> (golden image) a partir de la cual se crean los escritorios mediante <b>clones</b> (completos o enlazados/instantáneos).</li>
+<li><b>Gestión de perfiles y del entorno de usuario</b> (FSLogix, perfiles itinerantes, redirección de carpetas) para que los datos del usuario sobrevivan en escritorios no persistentes.</li>
+<li><b>Protocolo de visualización</b>: RDP (Microsoft), Blast y PCoIP (Omnissa Horizon), HDX/ICA (Citrix).</li>
+<li><b>Clientes</b>: aplicación en PC, navegador HTML5, <b>thin clients</b> (equipos ligeros) o <b>zero clients</b> (sin sistema operativo local).</li>
+<li>Licenciamiento de Windows para escritorios virtuales (VDA o equivalentes) y de la plataforma.</li>
+</ul>
+
+<h4>3. Tipos de escritorio</h4>
+<ul>
+<li><b>Persistente</b> (dedicado): el usuario conserva siempre su máquina y sus cambios. Más parecido a un PC; más almacenamiento y gestión.</li>
+<li><b>No persistente</b> (flotante): al cerrar sesión el escritorio vuelve al estado de la imagen. Fácil de mantener y seguro; requiere gestionar los perfiles aparte.</li>
+</ul>
+
+<h4>4. Ventajas e inconvenientes</h4>
+<ul>
+<li>Ventajas: gestión centralizada (parches y aplicaciones en la imagen), seguridad (los datos no salen del centro de datos), acceso desde cualquier lugar y dispositivo (BYOD, teletrabajo, aulas de informática), recuperación rápida y alargar la vida de los equipos.</li>
+<li>Inconvenientes: inversión inicial, dependencia de la red, dificultad con gráficos exigentes (salvo GPU virtual) y periféricos, licenciamiento complejo y punto único de fallo si no se diseña con alta disponibilidad.</li>
+<li>Productos: <b>Omnissa Horizon</b> (antes VMware Horizon), <b>Citrix</b> Virtual Apps and Desktops, <b>Microsoft</b> RDS y Azure Virtual Desktop.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>El connection broker asigna escritorios a los usuarios.</li>
+<li>No persistente = vuelve a la imagen al cerrar sesión.</li>
+<li>RDS = varios usuarios en un mismo sistema operativo de servidor; VDI = una VM por usuario.</li>
+<li>Protocolos: RDP, PCoIP, Blast, HDX/ICA.</li>
+</ul></div>

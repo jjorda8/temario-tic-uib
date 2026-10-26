@@ -1,0 +1,39 @@
+<h4>1. Conceptos</h4>
+<ul>
+<li><b>E-learning</b>: aprendizaje mediado por tecnologías de la información, normalmente a través de Internet.</li>
+<li>Modalidades: <b>totalmente en línea</b>, <b>semipresencial</b> o <b>blended learning</b> (b-learning), <b>m-learning</b> (dispositivos móviles), docencia <b>híbrida</b> (estudiantes presenciales y remotos a la vez). El RD 822/2021 distingue enseñanzas presenciales, híbridas y virtuales.</li>
+<li>Comunicación <b>síncrona</b> (en tiempo real: videoconferencia, chat) y <b>asíncrona</b> (foros, correo, materiales).</li>
+<li><b>MOOC</b> (cursos masivos abiertos en línea: Coursera, edX, MiríadaX); <b>SPOC</b> (cursos privados y reducidos); <b>OER/REA</b> (recursos educativos abiertos con licencias abiertas); <b>microcredenciales</b>.</li>
+<li>Pedagogía: aula invertida (flipped classroom), aprendizaje colaborativo, gamificación, evaluación continua, e-portfolio. Modelos de diseño instruccional como ADDIE.</li>
+</ul>
+
+<h4>2. Plataformas de aprendizaje en línea</h4>
+<ul>
+<li><b>LMS</b> (Learning Management System): gestiona cursos, usuarios, actividades, evaluación, calificaciones y comunicación. Ejemplos: <b>Moodle</b> (software libre en PHP, el más usado en universidades; la UIB lo usa en su <b>Aula Digital</b>), Canvas, Blackboard, Sakai, Chamilo.</li>
+<li><b>LCMS</b> (Learning Content Management System): además gestiona la creación y reutilización de contenidos en objetos de aprendizaje.</li>
+<li>Funciones típicas: recursos (ficheros, páginas, libros), actividades (tareas, cuestionarios, foros, wikis, talleres de evaluación entre pares, H5P), calificador, seguimiento de finalización, insignias, informes, mensajería, calendario.</li>
+<li>Herramientas complementarias: videoconferencia (BigBlueButton, Teams, Zoom, Google Meet), plataformas de vídeo, antiplagio, supervisión de exámenes en línea (proctoring), libros electrónicos, laboratorios virtuales.</li>
+</ul>
+
+<h4>3. Estándares</h4>
+<ul>
+<li><b>SCORM</b> (ADL): empaquetado de contenidos (manifiesto imsmanifest.xml) y comunicación del contenido con el LMS (progreso, notas). Versiones 1.2 y 2004.</li>
+<li><b>xAPI</b> (Experience API o Tin Can): registra experiencias de aprendizaje dentro y fuera del LMS como sentencias "actor-verbo-objeto" en un <b>LRS</b> (Learning Record Store).</li>
+<li><b>LTI</b> (Learning Tools Interoperability, de 1EdTech, antes IMS Global): integra herramientas externas en el LMS con inicio de sesión único y paso de notas. Versión LTI 1.3 / Advantage (basada en OAuth 2.0 y OpenID Connect).</li>
+<li>Otros: IMS Common Cartridge, QTI (preguntas de evaluación), Open Badges, Caliper.</li>
+</ul>
+
+<h4>4. Sistemas de implantación</h4>
+<ul>
+<li>Modelos: <b>local</b> (on-premise, en servidores propios), <b>alojado</b> por un proveedor o <b>en la nube</b> (SaaS, como MoodleCloud o Canvas).</li>
+<li>Arquitectura de Moodle: servidor web + PHP + base de datos (PostgreSQL o MySQL/MariaDB) + directorio de datos (moodledata); para alta disponibilidad, varios servidores web con balanceador, almacenamiento compartido, caché (Redis) y tareas programadas (cron).</li>
+<li>Integraciones: identidad institucional (LDAP, SAML/SSO, CAS), matrícula automática desde la secretaría académica, sistema de calificaciones, repositorios y videoconferencia.</li>
+<li>Aspectos a planificar: dimensionamiento para picos (exámenes), copias de seguridad de cursos, actualizaciones y plugins, formación del profesorado, soporte, <b>accesibilidad</b> (RD 1112/2018), <b>protección de datos</b> (datos de estudiantes y analítica de aprendizaje; RGPD) y propiedad intelectual de los materiales.</li>
+<li><b>Analítica del aprendizaje</b> (learning analytics): datos de uso para detectar riesgo de abandono y mejorar la docencia.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>LMS gestiona el aprendizaje; LCMS además los contenidos.</li>
+<li>SCORM = empaquetar contenidos; xAPI = registrar experiencias en un LRS; LTI = integrar herramientas externas.</li>
+<li>Moodle es software libre (PHP); el Aula Digital de la UIB funciona con Moodle.</li>
+<li>Blended = semipresencial.</li>
+</ul></div>

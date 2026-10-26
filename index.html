@@ -157,6 +157,47 @@ section.block { padding-top: 28px; display: grid; gap: 10px; }
 .norm .lnk { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 0.85rem; }
 .norm .lnk code { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); }
 
+/* Teoría: apuntes y texto literal */
+.teoria { display: grid; gap: 8px; }
+.teo { border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.teo > summary { list-style: none; cursor: pointer; padding: 10px 12px; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
+.teo > summary::-webkit-details-marker { display: none; }
+.teo > summary::before { content: "›"; display: inline-block; transition: transform .2s; color: var(--accent); font-weight: 700; }
+.teo[open] > summary::before { transform: rotate(90deg); }
+.teo .tl { font-family: var(--font-display); font-weight: 700; }
+.teo .th { font-size: 0.82rem; color: var(--muted); }
+.teo-body { padding: 4px 16px 16px; border-top: 1px solid var(--line); display: grid; gap: 8px; min-width: 0; }
+.apuntes { max-width: 78ch; }
+.apuntes h4 { font-family: var(--font-display); font-size: 1.05rem; text-transform: none; letter-spacing: 0; color: var(--ink); margin: 14px 0 2px; }
+.apuntes h5 { font-size: 0.95rem; margin: 8px 0 0; }
+.apuntes p, .apuntes li { line-height: 1.6; }
+.apuntes ul, .apuntes ol { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+.apuntes .lead { color: var(--muted); font-style: italic; }
+.apuntes pre { background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 10px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.5; }
+.apuntes code { font-family: var(--font-mono); font-size: 0.85em; }
+.tw { overflow-x: auto; }
+.tw table { font-size: 0.88rem; }
+.tw td, .tw th { border: 1px solid var(--line); }
+.claves { background: var(--ok-soft); border-radius: 8px; padding: 10px 14px; margin-top: 10px; }
+.claves h4 { margin-top: 0; color: var(--ok); }
+.ley-norma { border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+.ley-norma > summary { list-style: none; cursor: pointer; padding: 8px 10px; display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: baseline; }
+.ley-norma > summary::-webkit-details-marker { display: none; }
+.ley-norma .rk { font-family: var(--font-mono); font-size: 0.68rem; padding: 1px 6px; border-radius: 4px; }
+.ley-norma .rk.r3 { background: var(--ok-soft); color: var(--ok); }
+.ley-norma .rk.r7 { background: var(--warn-soft); color: var(--warn); }
+.ley-norma .nm { font-weight: 600; font-size: 0.93rem; }
+.ley-norma .yr { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); }
+.ley-what { padding: 0 12px; }
+.ley { padding: 4px 14px 14px; max-width: 80ch; font-size: 0.95rem; max-height: 70vh; overflow-y: auto; }
+.ley p { margin: 0 0 8px; line-height: 1.6; }
+.ley h5.art { font-size: 0.98rem; margin: 18px 0 6px; color: var(--accent); }
+.ley .hd1 { text-align: center; font-weight: 700; margin: 22px 0 0; text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.88rem; }
+.ley .hd2 { text-align: center; font-weight: 600; margin: 0 0 8px; }
+.ley table { border-collapse: collapse; font-size: 0.85rem; margin: 6px 0 10px; }
+.ley td { border: 1px solid var(--line); padding: 4px 6px; vertical-align: top; }
+.ley ul, .ley ol { padding-left: 1.2em; }
+
 /* Simulador de méritos */
 .sim { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr); gap: 16px; align-items: start; }
 @media (max-width: 820px) { .sim { grid-template-columns: 1fr; } }
@@ -1609,6 +1650,44 @@ function normasHtml(n) {
   return `<div class="normas"><div class="normas-head"><h4>Normativa (${list.length})</h4><span class="legend">Ordenada por rango y fecha</span></div>${items}</div>`;
 }
 
+// Teoría: apuntes redactados (temas 19-60) y texto literal de las normas (data/ley), cargados al abrir el desplegable
+const LEY_TEMAS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 31, 32]);
+const pad = n => String(n).padStart(2, "0");
+function teoriaHtml(n) {
+  let s = "";
+  if (n >= 19) s += `<details class="teo" data-kind="apuntes" data-n="${n}">
+      <summary><span class="tl">Apuntes del tema</span><span class="th">Teoría desarrollada y claves para el test</span></summary>
+      <div class="teo-body apuntes"><p class="small muted">Cargando…</p></div></details>`;
+  if (LEY_TEMAS.has(n)) s += `<details class="teo" data-kind="ley" data-n="${n}">
+      <summary><span class="tl">Texto de la norma</span><span class="th">Artículos literales que entran en este tema</span></summary>
+      <div class="teo-body"><p class="small muted">Cargando…</p></div></details>`;
+  return s ? `<div class="teoria">${s}</div>` : "";
+}
+async function loadTeoria(d) {
+  if (d.dataset.loaded) return;
+  d.dataset.loaded = "1";
+  const box = d.querySelector(".teo-body"), n = +d.dataset.n;
+  try {
+    if (d.dataset.kind === "apuntes") {
+      const r = await fetch(`data/apuntes/t${pad(n)}.html`);
+      if (!r.ok) throw new Error(r.status);
+      box.innerHTML = await r.text();
+    } else {
+      const r = await fetch(`data/ley/t${pad(n)}.json`);
+      if (!r.ok) throw new Error(r.status);
+      const parts = await r.json();
+      box.innerHTML = parts.map((p, i) => `<details class="ley-norma"${parts.length === 1 ? " open" : ""}>
+          <summary><span class="rk ${p.src === "FOU" ? "r7" : "r3"}">${esc(p.src)}</span><span class="nm">${esc(p.name)}</span><span class="yr">${p.n ? p.n + " arts." : ""}</span></summary>
+          <p class="small muted ley-what">${esc(p.what)} · <a href="${esc(p.url)}" target="_blank" rel="noopener">Ver la fuente oficial</a></p>
+          <div class="ley">${p.html}</div>
+        </details>`).join("") + `<p class="small muted">Texto consolidado a 26/10/2026. Las normas de la UIB se publican en catalán.</p>`;
+    }
+  } catch (e) {
+    delete d.dataset.loaded;
+    box.innerHTML = `<p class="small">No se ha podido cargar el texto. Comprueba la conexión y vuelve a abrir este apartado.</p>`;
+  }
+}
+
 const counts = t => `${normList(t.n).length} normas · ${t.links.length} enlaces`;
 
 function card(t) {
@@ -1626,6 +1705,7 @@ function card(t) {
         <div><h4>Qué estudiar</h4><ul>${t.study.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div>
         <div><h4>Dónde leerlo</h4><ul class="links">${links}</ul></div>
       </div>
+      ${teoriaHtml(t.n)}
       ${normasHtml(t.n)}
       ${t.note ? `<p class="note"><b>Ojo:</b> ${esc(t.note)}</p>` : ""}
       <label class="mark"><input type="checkbox" id="chk${t.n}" data-n="${t.n}" ${isDone ? "checked" : ""}> Lo tengo estudiado</label>
@@ -1684,6 +1764,9 @@ document.getElementById("list").addEventListener("change", e => {
   progress();
   if (filter === "done" || filter === "todo") apply();
 });
+document.getElementById("list").addEventListener("toggle", e => {
+  if (e.target.matches && e.target.matches("details.teo") && e.target.open) loadTeoria(e.target);
+}, true);
 document.getElementById("q").addEventListener("input", apply);
 document.querySelectorAll("[data-filter]").forEach(b => b.addEventListener("click", () => {
   filter = b.dataset.filter;

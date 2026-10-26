@@ -1,0 +1,57 @@
+<p class="lead">Esquema para estudiar el Real Decreto 311/2022. El texto literal de los capítulos I a IV y del Anexo I está en el apartado «Texto de la norma».</p>
+<h4>1. Disposiciones generales (capítulo I)</h4>
+<ul>
+<li><b>Objeto</b>: regular el ENS, previsto en el art. 156.2 de la Ley 40/2015, formado por los principios básicos y requisitos mínimos para proteger adecuadamente la información y los servicios.</li>
+<li><b>Ámbito</b>: todo el sector público (Ley 40/2015, art. 2), incluidas las <b>universidades públicas</b>, y los sistemas que tratan información clasificada en lo que no tengan normativa propia. También los proveedores del sector privado que prestan servicios a la Administración (deben cumplir el ENS).</li>
+<li>Los sistemas que tratan <b>datos personales</b> aplican las medidas del ENS (disposición adicional primera de la LOPDGDD).</li>
+</ul>
+
+<h4>2. Principios básicos (capítulo II)</h4>
+<ol>
+<li><b>Seguridad como proceso integral</b> (técnico, humano, material y organizativo).</li>
+<li><b>Gestión de la seguridad basada en los riesgos</b>.</li>
+<li><b>Prevención, detección, respuesta y conservación</b>.</li>
+<li><b>Existencia de líneas de defensa</b> (capas organizativas, físicas y lógicas).</li>
+<li><b>Vigilancia continua</b> y reevaluación periódica.</li>
+<li><b>Diferenciación de responsabilidades</b>: responsable de la información, del servicio, de la seguridad (distinto del responsable del sistema) y del sistema.</li>
+</ol>
+
+<h4>3. Política de seguridad y requisitos mínimos (capítulo III)</h4>
+<ul>
+<li>Cada organización debe tener una <b>política de seguridad</b> aprobada por su órgano superior (art. 12), que defina objetivos, marco normativo, roles, comités, estructura de la documentación y gestión de riesgos.</li>
+<li><b>Requisitos mínimos</b>: organización e implantación del proceso de seguridad; análisis y gestión de riesgos; gestión de personal; profesionalidad; autorización y control de accesos; protección de las instalaciones; adquisición de productos y contratación de servicios de seguridad; mínimo privilegio; integridad y actualización del sistema; protección de la información almacenada y en tránsito; prevención ante otros sistemas interconectados; registro de actividad y detección de código dañino; incidentes de seguridad; continuidad de la actividad; mejora continua.</li>
+<li>Los requisitos se cumplen aplicando las <b>medidas del Anexo II</b>, seleccionadas según la categoría y documentadas en la <b>Declaración de Aplicabilidad</b>. Se pueden sustituir por medidas compensatorias justificadas.</li>
+<li>Sistemas con <b>perfiles de cumplimiento específicos</b> aprobados por el CCN (por ejemplo, para universidades o entidades locales).</li>
+</ul>
+
+<h4>4. Seguridad de los sistemas: auditoría, informe e incidentes (capítulo IV)</h4>
+<ul>
+<li><b>Auditoría</b>: ordinaria al menos <b>cada dos años</b> y extraordinaria cuando haya cambios sustanciales. En categoría <b>básica</b> basta una autoevaluación; en <b>media y alta</b>, auditoría formal que da lugar a la <b>certificación</b> de conformidad (Anexo III; ITS de auditoría).</li>
+<li><b>Informe del estado de la seguridad</b> (INES): las entidades informan periódicamente al CCN mediante la herramienta INES (ITS de informe del estado de la seguridad).</li>
+<li><b>Respuesta a incidentes</b>: el <b>CCN-CERT</b> es la capacidad de respuesta del sector público; las entidades notifican los incidentes con impacto significativo (ITS de notificación de incidentes; herramienta LUCIA).</li>
+<li>Prestación de servicios de respuesta a incidentes a las entidades del sector público por el CCN y coordinación con otros CSIRT.</li>
+</ul>
+
+<h4>5. Anexo I: categorías de seguridad</h4>
+<ul>
+<li>Cinco <b>dimensiones</b>: <b>confidencialidad [C]</b>, <b>integridad [I]</b>, <b>trazabilidad [T]</b>, <b>autenticidad [A]</b> y <b>disponibilidad [D]</b>.</li>
+<li>Para cada información y servicio se valora el impacto de un incidente en cada dimensión con niveles <b>BAJO</b>, <b>MEDIO</b> o <b>ALTO</b> (o no aplica).</li>
+<li>La <b>categoría del sistema</b> es <b>BÁSICA</b>, <b>MEDIA</b> o <b>ALTA</b>, y la determina el nivel más alto de cualquier dimensión de cualquier información o servicio: si alguna es ALTA, el sistema es de categoría ALTA; si ninguna es alta y alguna es MEDIA, es MEDIA; si todas son BAJAS, es BÁSICA.</li>
+<li>Pasos: identificar informaciones y servicios, valorar cada dimensión, determinar la categoría. La categorización la aprueba el responsable de la información/servicio con asesoramiento del responsable de seguridad.</li>
+</ul>
+
+<h4>6. Anexo II: estructura de las medidas (para el práctico)</h4>
+<div class="tw"><table>
+<tr><th>Marco</th><th>Grupos</th></tr>
+<tr><td><b>Organizativo (org)</b></td><td>org.1 política de seguridad, org.2 normativa, org.3 procedimientos, org.4 proceso de autorización</td></tr>
+<tr><td><b>Operacional (op)</b></td><td>op.pl planificación (análisis de riesgos, arquitectura, adquisición, dimensionamiento, componentes certificados), op.acc control de acceso, op.exp explotación (inventario, configuración, mantenimiento, cambios, código dañino, incidentes, registro de actividad, claves), op.ext recursos externos, op.nub servicios en la nube, op.cont continuidad, op.mon monitorización</td></tr>
+<tr><td><b>Medidas de protección (mp)</b></td><td>mp.if instalaciones, mp.per personal, mp.eq equipos, mp.com comunicaciones, mp.si soportes, mp.sw aplicaciones, mp.info información, mp.s servicios</td></tr>
+</table></div>
+<p>Cada medida tiene requisitos base y <b>refuerzos</b> (R1, R2...) que se exigen según la categoría o la dimensión afectada.</p>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Dimensiones: C, I, T, A, D. Categorías: básica, media, alta.</li>
+<li>La categoría es la del nivel más alto de cualquier dimensión.</li>
+<li>Auditoría al menos cada 2 años; en básica, autoevaluación.</li>
+<li>El responsable de la seguridad debe ser distinto del responsable del sistema.</li>
+<li>Tres marcos de medidas: organizativo, operacional y de protección.</li>
+</ul></div>

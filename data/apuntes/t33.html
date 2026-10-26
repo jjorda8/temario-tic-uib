@@ -1,0 +1,47 @@
+<h4>1. Conceptos básicos</h4>
+<ul>
+<li><b>Activo</b>: lo que tiene valor para la organización (información, servicios, aplicaciones, equipos, personas, instalaciones).</li>
+<li><b>Amenaza</b>: causa potencial de un incidente (natural, accidental o intencionada).</li>
+<li><b>Vulnerabilidad</b>: debilidad de un activo que una amenaza puede aprovechar.</li>
+<li><b>Riesgo</b>: probabilidad de que una amenaza materialice un daño × <b>impacto</b>. Riesgo residual: el que queda tras aplicar salvaguardas.</li>
+<li>Dimensiones de la seguridad: <b>confidencialidad</b>, <b>integridad</b> y <b>disponibilidad</b> (tríada CIA), más <b>autenticidad</b> y <b>trazabilidad</b> en el ENS.</li>
+<li>Gestión de riesgos: identificar activos, amenazas y vulnerabilidades, estimar el riesgo, decidir el tratamiento (mitigar, transferir, aceptar o evitar). Metodología <b>MAGERIT</b> y herramienta <b>PILAR</b> (CCN); ISO/IEC 27005.</li>
+<li>Vulnerabilidades: identificador <b>CVE</b>, gravedad con <b>CVSS</b> (0-10); ataque de <b>día cero</b> = vulnerabilidad sin parche conocido.</li>
+</ul>
+
+<h4>2. Tipos de ataques y amenazas</h4>
+<div class="tw"><table>
+<tr><th>Categoría</th><th>Ejemplos</th></tr>
+<tr><td>Malware</td><td>Virus (necesita un huésped), gusano (se propaga solo), troyano (aparenta ser legítimo), <b>ransomware</b> (cifra y pide rescate; hoy también exfiltra datos: doble extorsión), spyware, keylogger, rootkit, botnet</td></tr>
+<tr><td>Ingeniería social</td><td><b>Phishing</b>, spear phishing (dirigido), whaling (directivos), smishing (SMS), vishing (voz), fraude del CEO, pretexting</td></tr>
+<tr><td>Contra la disponibilidad</td><td><b>DoS y DDoS</b> (volumétricos, de protocolo como SYN flood, de aplicación)</td></tr>
+<tr><td>Contra las comunicaciones</td><td>Hombre en el medio (MitM), sniffing, spoofing (IP, ARP, DNS), secuestro de sesión</td></tr>
+<tr><td>Contra aplicaciones web</td><td><b>Inyección SQL</b>, <b>XSS</b> (cross-site scripting), CSRF, control de acceso roto, deserialización insegura (OWASP Top 10)</td></tr>
+<tr><td>Contra credenciales</td><td>Fuerza bruta, diccionario, credential stuffing, password spraying, pass-the-hash</td></tr>
+<tr><td>Avanzadas</td><td><b>APT</b> (amenazas persistentes avanzadas), ataques a la cadena de suministro, amenaza interna</td></tr>
+</table></div>
+<p>Fases típicas de un ataque (Cyber Kill Chain): reconocimiento, preparación, entrega, explotación, instalación, mando y control, acciones sobre el objetivo. El marco <b>MITRE ATT&amp;CK</b> cataloga las tácticas y técnicas de los atacantes.</p>
+
+<h4>3. Prevención y detección</h4>
+<ul>
+<li><b>Prevención</b>: bastionado (hardening) con guías CCN-STIC, gestión de parches, mínimo privilegio, <b>MFA</b>, segmentación de red, cortafuegos, cifrado, copias inmutables, antimalware y <b>EDR</b>, filtrado de correo y web, control de dispositivos, formación y concienciación, desarrollo seguro.</li>
+<li><b>Detección</b>: <b>IDS/IPS</b> (por firmas o anomalías), <b>SIEM</b> (recoge y correlaciona eventos; en el sector público, soluciones del CCN como CLARA, GLORIA o el sistema de alerta temprana SAT), <b>SOC</b> (centro de operaciones de seguridad), honeypots, análisis de vulnerabilidades y pruebas de intrusión (pentesting), threat hunting.</li>
+<li><b>Defensa en profundidad</b>: varias capas de protección para que el fallo de una no comprometa el sistema.</li>
+</ul>
+
+<h4>4. Gestión de incidentes</h4>
+<ul>
+<li><b>Incidente de seguridad</b>: suceso inesperado o no deseado que compromete la seguridad de la información o de los servicios.</li>
+<li>Fases (NIST SP 800-61 y guía <b>CCN-STIC 817</b>): <b>preparación</b>; <b>detección y análisis</b> (clasificación y nivel de peligrosidad); <b>contención, erradicación y recuperación</b>; <b>actividad posterior</b> (lecciones aprendidas e informe).</li>
+<li>Conservar evidencias con <b>cadena de custodia</b> para un posible análisis forense o denuncia.</li>
+<li><b>Notificación</b>: al <b>CCN-CERT</b> (sector público; herramienta LUCIA) según la ITS de notificación de incidentes y el RDL 12/2018; las brechas de datos personales a la <b>AEPD en 72 horas</b> (art. 33 RGPD) y, si hay alto riesgo, a los afectados (art. 34).</li>
+<li><b>NIS2</b>: alerta temprana en 24 horas, notificación en 72 horas e informe final en un mes para entidades esenciales e importantes.</li>
+<li>Otros actores: INCIBE-CERT (ciudadanos y empresas), ESPDEF-CERT (Defensa), CSIRT autonómicos.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Riesgo = probabilidad × impacto. MAGERIT/PILAR son del CCN.</li>
+<li>Gusano se propaga solo; virus necesita huésped; troyano se disfraza.</li>
+<li>SIEM correlaciona eventos; IPS bloquea; EDR protege los equipos.</li>
+<li>Brechas de datos personales: 72 horas a la autoridad de control.</li>
+<li>CCN-CERT es el CERT del sector público; INCIBE-CERT, el de ciudadanos y empresas.</li>
+</ul></div>

@@ -1,0 +1,43 @@
+<h4>1. Conceptos básicos de Windows Server</h4>
+<ul>
+<li>Ediciones de Windows Server (Standard, Datacenter) e instalación con escritorio o <b>Server Core</b> (sin interfaz gráfica, menor superficie de ataque).</li>
+<li><b>Roles</b> (AD DS, DNS, DHCP, servidor de archivos, IIS, Hyper-V, RDS, WSUS...) y <b>características</b>. Herramientas: Administrador del servidor, consolas MMC, <b>Windows Admin Center</b> y <b>PowerShell</b> (cmdlets Verbo-Sustantivo, remoting).</li>
+<li>Sistema de ficheros <b>NTFS</b> (permisos, cifrado EFS, cuotas) y ReFS. Cifrado de disco con <b>BitLocker</b>.</li>
+<li>Permisos NTFS (control total, modificar, lectura y ejecución, lectura, escritura) y de recurso compartido: se aplica el <b>más restrictivo</b> de los dos al acceder por red. Las denegaciones explícitas prevalecen.</li>
+<li>Cuentas y grupos <b>locales</b> frente a cuentas de <b>dominio</b>. Control de cuentas de usuario (UAC).</li>
+</ul>
+
+<h4>2. Dominios y Directorio Activo (AD DS)</h4>
+<ul>
+<li><b>Active Directory Domain Services</b>: servicio de directorio que centraliza identidades, equipos, recursos y políticas. Se basa en <b>LDAP</b>, <b>Kerberos</b> y <b>DNS</b> (los clientes localizan los controladores con registros SRV).</li>
+<li><b>Estructura lógica</b>: <b>bosque</b> (límite de seguridad, esquema y catálogo comunes) → <b>árboles</b> (dominios con espacio de nombres contiguo) → <b>dominios</b> (límite de replicación y administración) → <b>unidades organizativas</b> (OU; contenedores para delegar administración y aplicar GPO).</li>
+<li><b>Estructura física</b>: <b>controladores de dominio</b> (DC) con réplica multimaestro; <b>sitios</b> (ubicaciones con buena conectividad) que optimizan la replicación y la autenticación; DC de solo lectura (RODC) para sedes poco seguras.</li>
+<li><b>Catálogo global</b>: copia parcial de todos los objetos del bosque para búsquedas y para resolver la pertenencia a grupos universales.</li>
+<li><b>Roles FSMO</b> (5): de bosque, <b>maestro de esquema</b> y <b>maestro de nombres de dominio</b>; de dominio, <b>maestro RID</b>, <b>emulador de PDC</b> (hora, contraseñas, bloqueos) y <b>maestro de infraestructura</b>.</li>
+<li><b>Relaciones de confianza</b> entre dominios y bosques (transitivas o no, unidireccionales o bidireccionales).</li>
+<li><b>Grupos</b>: tipo seguridad o distribución; ámbito <b>local de dominio</b> (para asignar permisos a recursos), <b>global</b> (para agrupar usuarios del dominio) y <b>universal</b> (de todo el bosque). Estrategia AGDLP: cuentas → grupos globales → grupos locales de dominio → permisos.</li>
+<li>Niveles funcionales del dominio y del bosque. Entra ID (antes Azure AD) para la nube, sincronizado con Entra Connect.</li>
+</ul>
+
+<h4>3. Directivas de grupo (GPO)</h4>
+<ul>
+<li>Conjunto de configuraciones de <b>equipo</b> y de <b>usuario</b> que se vinculan a sitios, dominios u OU.</li>
+<li>Orden de aplicación <b>LSDOU</b>: Local → Sitio → Dominio → OU (de la más alta a la más anidada). La última aplicada prevalece si hay conflicto.</li>
+<li>Herencia, <b>bloqueo de herencia</b> en una OU y <b>exigido</b> (enforced) en un vínculo, que gana al bloqueo. Filtrado por grupos de seguridad y filtros WMI. <b>Preferencias</b> frente a directivas.</li>
+<li>Comandos: <code>gpupdate /force</code> (aplicar), <code>gpresult /r</code> (ver las aplicadas). Gestión con la consola GPMC.</li>
+</ul>
+
+<h4>4. Directivas de seguridad</h4>
+<ul>
+<li><b>Directivas de cuenta</b> (en el dominio): contraseñas (longitud mínima, complejidad, historial, vigencia), <b>bloqueo de cuentas</b> (umbral, duración, restablecimiento) y Kerberos. Directivas de contraseña <b>específicas</b> (fine-grained) para grupos concretos.</li>
+<li><b>Directivas locales</b>: auditoría, asignación de derechos de usuario (inicio de sesión local, por red, como servicio...), opciones de seguridad.</li>
+<li>Auditoría avanzada, registro de eventos y reenvío a un SIEM; firewall de Windows con seguridad avanzada; restricción de aplicaciones (AppLocker, WDAC); Microsoft Defender.</li>
+<li>Buenas prácticas: modelo de niveles (tiering) para cuentas administrativas, <b>LAPS</b> (contraseña única y rotatoria del administrador local), grupo Usuarios protegidos, desactivar NTLMv1 y SMBv1, actualizaciones con WSUS o Intune, guías <b>CCN-STIC</b> de bastionado de Windows, configuración segura del ENS (<b>op.exp.2</b>).</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Bosque = límite de seguridad; dominio = límite de replicación y administración; OU = delegar y aplicar GPO.</li>
+<li>LSDOU: local, sitio, dominio, OU.</li>
+<li>5 roles FSMO: 2 de bosque (esquema, nombres de dominio) y 3 de dominio (RID, emulador PDC, infraestructura).</li>
+<li>Ámbitos de grupo: local de dominio, global, universal.</li>
+<li>Entre permisos NTFS y de recurso compartido se aplica el más restrictivo.</li>
+</ul></div>

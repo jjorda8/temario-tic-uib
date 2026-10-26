@@ -1,0 +1,48 @@
+<h4>1. Conceptos y tipos de virtualización</h4>
+<ul>
+<li>La <b>virtualización</b> crea máquinas virtuales (VM) que comparten el hardware físico gracias al <b>hipervisor</b> (VMM).</li>
+<li><b>Hipervisor de tipo 1</b> (nativo, bare-metal): se ejecuta directamente sobre el hardware (VMware ESXi, Microsoft Hyper-V, KVM, Xen). Es el usado en servidores.</li>
+<li><b>Tipo 2</b> (alojado): se ejecuta sobre un sistema operativo (VMware Workstation, VirtualBox).</li>
+<li>Técnicas: <b>virtualización completa</b> (el invitado no se modifica; traducción binaria), <b>paravirtualización</b> (el invitado se modifica o usa drivers que colaboran con el hipervisor) y <b>asistida por hardware</b> (Intel VT-x, AMD-V).</li>
+<li>Otros niveles: virtualización de sistema operativo (contenedores), de almacenamiento y de red (SDN, NSX).</li>
+<li>Ventajas: consolidación de servidores, mejor uso de recursos, aislamiento, despliegue rápido con plantillas, snapshots, movilidad y alta disponibilidad.</li>
+<li>Conceptos: <b>sobreasignación</b> (overcommit) de CPU y memoria; técnicas de memoria (ballooning, compartición de páginas, compresión, swap); P2V (de físico a virtual).</li>
+</ul>
+
+<h4>2. Infraestructura VMware vSphere</h4>
+<ul>
+<li><b>ESXi</b>: hipervisor de tipo 1.</li>
+<li><b>vCenter Server</b>: gestión centralizada (se despliega como appliance Linux, VCSA). Organiza el inventario en centros de datos, clústeres, hosts, máquinas virtuales, carpetas y pools de recursos; gestiona permisos (roles), alarmas, plantillas, rendimiento y tareas. Interfaz web vSphere Client; APIs y PowerCLI.</li>
+<li><b>Almacenamiento</b>: datastores <b>VMFS</b> (sistema de ficheros de clúster sobre LUN de SAN), <b>NFS</b>, <b>vSAN</b> (con los discos locales de los hosts) y vVols. Discos virtuales VMDK thick o thin.</li>
+<li><b>Red</b>: <b>vSphere Standard Switch</b> (por host) y <b>vSphere Distributed Switch</b> (gestionado desde vCenter para todo el clúster); grupos de puertos con VLAN; adaptadores VMkernel para gestión, vMotion, almacenamiento.</li>
+<li><b>Ficheros de una VM</b>: .vmx (configuración), .vmdk (disco), .nvram, .vswp (swap), logs y ficheros de snapshot.</li>
+<li><b>VMware Tools</b>: drivers y servicios dentro de la VM invitada.</li>
+<li><b>vSphere Lifecycle Manager</b>: actualización de hosts con imágenes. Tras la compra por <b>Broadcom</b> (2023) el licenciamiento pasó a suscripción (VMware Cloud Foundation, vSphere Foundation).</li>
+</ul>
+
+<h4>3. Funciones de movilidad, alta disponibilidad y balanceo</h4>
+<div class="tw"><table>
+<tr><th>Función</th><th>Qué hace</th></tr>
+<tr><td><b>vMotion</b></td><td>Migra en caliente una VM de un host a otro sin parada</td></tr>
+<tr><td><b>Storage vMotion</b></td><td>Migra en caliente los discos de una VM entre datastores</td></tr>
+<tr><td><b>DRS</b> (Distributed Resource Scheduler)</td><td>Reparte la carga del clúster moviendo VM con vMotion; reglas de afinidad y antiafinidad</td></tr>
+<tr><td><b>vSphere HA</b></td><td>Si cae un host, reinicia sus VM en otros hosts del clúster (hay una breve parada). También vigila el sistema invitado</td></tr>
+<tr><td><b>Fault Tolerance (FT)</b></td><td>Mantiene una copia secundaria sincronizada de la VM en otro host: si cae el primario, no hay parada ni pérdida de datos</td></tr>
+<tr><td><b>DPM</b></td><td>Apaga hosts cuando hay poca carga</td></tr>
+<tr><td>vSphere Replication y Site Recovery Manager</td><td>Réplica de VM a otro centro y orquestación de la recuperación ante desastres</td></tr>
+</table></div>
+
+<h4>4. Alta disponibilidad y balanceo de carga en general</h4>
+<ul>
+<li><b>Alta disponibilidad</b>: eliminar puntos únicos de fallo con redundancia en todos los niveles (alimentación, red, almacenamiento, servidores). Se mide en porcentaje: 99,9 % ≈ 8,76 h de parada al año; 99,99 % ≈ 52,6 min.</li>
+<li><b>Clústeres</b> activo-pasivo (failover) y activo-activo; mecanismos de latido (heartbeat) y quórum para evitar el split-brain.</li>
+<li><b>Balanceadores de carga</b>: reparten peticiones entre servidores. De <b>capa 4</b> (por IP y puerto) o de <b>capa 7</b> (por URL, cabeceras, cookies; terminan TLS). Algoritmos: round robin, round robin ponderado, menos conexiones, menor tiempo de respuesta, hash de IP de origen. Comprobaciones de salud (health checks) y persistencia de sesión (sticky sessions). Ejemplos: F5, HAProxy, NGINX, balanceadores de la nube.</li>
+<li>Recuperación ante desastres: centro secundario, réplica y pruebas periódicas.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>ESXi = hipervisor tipo 1; vCenter = gestión centralizada.</li>
+<li>HA reinicia las VM (hay parada); FT no tiene parada.</li>
+<li>DRS balancea la carga con vMotion.</li>
+<li>VMFS = sistema de ficheros de clúster para datastores en bloque.</li>
+<li>Distributed Switch se gestiona desde vCenter.</li>
+</ul></div>

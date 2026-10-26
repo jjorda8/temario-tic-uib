@@ -1,0 +1,57 @@
+<h4>1. Conceptos fundamentales</h4>
+<ul>
+<li>El <b>DNS</b> es una base de datos distribuida y jerárquica que traduce nombres de dominio a direcciones IP (y otros datos). Definido en las RFC 1034 y 1035.</li>
+<li>Usa el <b>puerto 53</b>: UDP para consultas normales y TCP para respuestas grandes y transferencias de zona.</li>
+<li>Espacio de nombres en árbol: <b>raíz</b> (".") → dominios de primer nivel (<b>TLD</b>: genéricos como .com, .org; geográficos como .es; patrocinados) → segundo nivel (uib.es) → subdominios.</li>
+<li><b>FQDN</b>: nombre completo terminado en punto (www.uib.es.).</li>
+<li><b>Zona</b>: parte del espacio de nombres que administra un servidor; se puede <b>delegar</b> un subdominio a otros servidores mediante registros NS.</li>
+<li>La gestión de .es corresponde a Red.es (disposición adicional sexta de la LSSI); la de la raíz, a ICANN/IANA.</li>
+</ul>
+
+<h4>2. Tipos de servidores</h4>
+<ul>
+<li><b>Servidores raíz</b>: 13 identidades (A a M), replicadas en cientos de instancias con anycast.</li>
+<li><b>Servidores de TLD</b>.</li>
+<li><b>Autoritativos</b>: tienen la información oficial de una zona. El <b>primario</b> (maestro) tiene la copia editable; los <b>secundarios</b> (esclavos) la copian por transferencia de zona.</li>
+<li><b>Recursivos</b> (resolvers): resuelven las consultas de los clientes preguntando a otros servidores y guardan las respuestas en <b>caché</b> durante el TTL.</li>
+<li><b>Solo caché</b> y <b>reenviadores</b> (forwarders): pasan las consultas a otro servidor.</li>
+<li><b>DNS dividido</b> (split DNS): respuestas distintas para la red interna y para Internet.</li>
+<li>Software habitual: BIND, Unbound, PowerDNS, Microsoft DNS (integrado en Active Directory).</li>
+</ul>
+
+<h4>3. Resolución de nombres</h4>
+<ul>
+<li>El cliente (stub resolver) consulta primero su caché y el fichero hosts, y después pide al resolver una <b>consulta recursiva</b> (quiere la respuesta final).</li>
+<li>El resolver hace <b>consultas iterativas</b>: pregunta a la raíz, que le remite al TLD, que le remite al autoritativo, que da la respuesta.</li>
+<li>Respuestas: <b>autoritativa</b> (del servidor de la zona) o <b>no autoritativa</b> (de caché). Respuesta negativa NXDOMAIN (no existe).</li>
+<li><b>Resolución inversa</b>: de IP a nombre con registros PTR en in-addr.arpa (IPv4) o ip6.arpa (IPv6).</li>
+</ul>
+
+<h4>4. Registros (Resource Records)</h4>
+<div class="tw"><table>
+<tr><th>Tipo</th><th>Contenido</th></tr>
+<tr><td><b>SOA</b></td><td>Inicio de autoridad: servidor primario, correo del responsable, número de serie y temporizadores (refresh, retry, expire, TTL negativo)</td></tr>
+<tr><td><b>NS</b></td><td>Servidores autoritativos de la zona</td></tr>
+<tr><td><b>A</b> / <b>AAAA</b></td><td>Nombre → IPv4 / IPv6</td></tr>
+<tr><td><b>CNAME</b></td><td>Alias de otro nombre (no puede coexistir con otros registros del mismo nombre ni usarse en la raíz de la zona)</td></tr>
+<tr><td><b>MX</b></td><td>Servidores de correo del dominio, con prioridad (menor número = más prioridad)</td></tr>
+<tr><td><b>PTR</b></td><td>IP → nombre (resolución inversa)</td></tr>
+<tr><td><b>TXT</b></td><td>Texto libre: SPF, DKIM, DMARC, verificaciones de dominio</td></tr>
+<tr><td><b>SRV</b></td><td>Ubicación de servicios (servicio, protocolo, prioridad, peso, puerto), usado por Active Directory</td></tr>
+<tr><td><b>CAA</b></td><td>Qué autoridades de certificación pueden emitir certificados para el dominio</td></tr>
+<tr><td>DNSKEY, RRSIG, DS, NSEC</td><td>Registros de DNSSEC</td></tr>
+</table></div>
+
+<h4>5. Seguridad del DNS</h4>
+<ul>
+<li>Amenazas: envenenamiento de caché (cache poisoning), suplantación, ataques DDoS de amplificación, túneles DNS para exfiltrar datos, secuestro de dominios.</li>
+<li><b>DNSSEC</b> (RFC 4033-4035): firma los registros para garantizar <b>autenticidad e integridad</b> (no cifra). Cadena de confianza desde la raíz con registros DS.</li>
+<li><b>DoT</b> (DNS sobre TLS, puerto 853) y <b>DoH</b> (DNS sobre HTTPS, 443): cifran la consulta para proteger la privacidad.</li>
+<li>Restringir las transferencias de zona (AXFR completa, IXFR incremental) a los secundarios autorizados (TSIG) y no ofrecer recursión abierta a Internet.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Puerto 53: UDP para consultas, TCP para transferencias de zona.</li>
+<li>Cliente → resolver: recursiva; resolver → servidores: iterativas.</li>
+<li>MX = correo; PTR = inversa; CNAME = alias; SOA = datos de la zona; SRV = servicios.</li>
+<li>DNSSEC autentica, no cifra. DoH/DoT cifran.</li>
+</ul></div>

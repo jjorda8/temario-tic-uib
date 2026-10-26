@@ -1,0 +1,79 @@
+<h4>1. Conceptos básicos</h4>
+<p>El almacenamiento empresarial se clasifica según <b>cómo se conecta</b> el almacenamiento al servidor y <b>a qué nivel</b> se accede a los datos: por <b>bloques</b> (el servidor ve un disco y pone su propio sistema de ficheros) o por <b>ficheros</b> (el servidor pide ficheros a otro equipo que gestiona el sistema de ficheros).</p>
+<div class="tw"><table>
+<tr><th></th><th>DAS</th><th>SAN</th><th>NAS</th></tr>
+<tr><td>Qué es</td><td>Almacenamiento conectado directamente a un servidor</td><td>Red dedicada que da acceso a almacenamiento compartido por bloques</td><td>Equipo que comparte ficheros por la red de datos</td></tr>
+<tr><td>Nivel de acceso</td><td>Bloques</td><td>Bloques</td><td>Ficheros</td></tr>
+<tr><td>Protocolos</td><td>SATA, SAS, NVMe, SCSI</td><td>Fibre Channel, iSCSI, FCoE, NVMe-oF</td><td>NFS, SMB/CIFS, (también FTP, HTTP, S3)</td></tr>
+<tr><td>Red</td><td>Ninguna (cable directo)</td><td>Dedicada (FC) o Ethernet separada (iSCSI)</td><td>La LAN de siempre (TCP/IP)</td></tr>
+<tr><td>Compartición</td><td>No (un servidor)</td><td>Sí, entre servidores (con sistema de ficheros de clúster, p. ej. VMFS)</td><td>Sí, entre muchos clientes</td></tr>
+<tr><td>Uso típico</td><td>Servidor aislado, discos locales</td><td>Bases de datos, virtualización</td><td>Ficheros de usuarios, carpetas compartidas</td></tr>
+</table></div>
+
+<h4>2. DAS (Direct Attached Storage)</h4>
+<ul>
+<li>Discos internos o cabina externa conectada por SAS/SATA/NVMe a <b>un único</b> servidor.</li>
+<li>Ventajas: sencillo, barato, latencia baja. Inconvenientes: no se comparte, escala mal, capacidad infrautilizada ("islas de almacenamiento").</li>
+<li>El sistema de ficheros lo gestiona el propio servidor.</li>
+</ul>
+
+<h4>3. SAN (Storage Area Network)</h4>
+<p>Red de alta velocidad dedicada a conectar servidores con cabinas de almacenamiento. Los servidores ven <b>LUN</b> (Logical Unit Number: unidades lógicas de bloques) como si fueran discos locales.</p>
+<h5>Componentes</h5>
+<ul>
+<li><b>HBA</b> (Host Bus Adapter): tarjeta del servidor para FC; en iSCSI, tarjeta de red o iniciador software.</li>
+<li><b>Switches</b> de la SAN (FC o Ethernet) y <b>fabric</b> (conjunto de switches interconectados).</li>
+<li><b>Cabina</b> (storage array) con controladoras redundantes, caché y discos/SSD.</li>
+<li>Identificadores: en FC, <b>WWN</b>/WWPN (World Wide Name); en iSCSI, <b>IQN</b> (iSCSI Qualified Name).</li>
+</ul>
+<h5>Seguridad y disponibilidad</h5>
+<ul>
+<li><b>Zoning</b> (en los switches): qué puertos/WWN pueden verse entre sí.</li>
+<li><b>LUN masking</b> (en la cabina): qué hosts pueden ver cada LUN.</li>
+<li><b>Multipath</b> (MPIO): varios caminos físicos entre host y cabina para redundancia y reparto de carga.</li>
+</ul>
+<h5>Protocolos</h5>
+<ul>
+<li><b>Fibre Channel (FC)</b>: protocolo propio sobre fibra (8/16/32/64 Gbps), topologías punto a punto, bucle arbitrado y fabric conmutado. Muy fiable y baja latencia, pero caro.</li>
+<li><b>iSCSI</b>: comandos SCSI encapsulados en TCP/IP (puerto 3260; RFC 7143). Usa red Ethernet; conviene red/VLAN separada, jumbo frames y autenticación CHAP.</li>
+<li><b>FCoE</b>: tramas FC sobre Ethernet sin pérdidas (DCB), sin TCP/IP.</li>
+<li><b>NVMe-oF</b>: NVMe sobre fabric (RDMA, FC o TCP), latencias muy bajas.</li>
+</ul>
+
+<h4>4. NAS (Network Attached Storage)</h4>
+<p>Servidor especializado ("filer") con sistema operativo propio que exporta <b>ficheros</b> por la red. El sistema de ficheros lo gestiona el NAS, lo que facilita compartir y aplicar permisos.</p>
+<ul>
+<li><b>NFS</b> (Network File System, de origen Unix/Linux). NFSv3 sin estado sobre UDP/TCP; <b>NFSv4</b> con estado, un único puerto (2049), ACL y seguridad Kerberos (RFC 7530, 8881).</li>
+<li><b>SMB/CIFS</b> (entorno Windows, puerto 445). SMB 3.x aporta cifrado y multicanal. En Linux se implementa con Samba.</li>
+<li>Integración con el directorio (Active Directory/LDAP) para los permisos.</li>
+<li>Un <b>NAS gateway</b> da acceso de ficheros a almacenamiento que está en una SAN. Los sistemas <b>unificados</b> ofrecen bloque y fichero a la vez.</li>
+</ul>
+
+<h4>5. Tecnologías comunes</h4>
+<div class="tw"><table>
+<tr><th>RAID</th><th>Cómo funciona</th><th>Discos mín.</th><th>Tolera</th><th>Capacidad útil</th></tr>
+<tr><td>0</td><td>Striping, sin redundancia</td><td>2</td><td>0 fallos</td><td>100 %</td></tr>
+<tr><td>1</td><td>Espejo</td><td>2</td><td>1 fallo</td><td>50 %</td></tr>
+<tr><td>5</td><td>Striping con paridad distribuida</td><td>3</td><td>1 fallo</td><td>(n−1)/n</td></tr>
+<tr><td>6</td><td>Doble paridad distribuida</td><td>4</td><td>2 fallos</td><td>(n−2)/n</td></tr>
+<tr><td>10 (1+0)</td><td>Striping de espejos</td><td>4</td><td>1 por espejo</td><td>50 %</td></tr>
+</table></div>
+<ul>
+<li><b>Thin provisioning</b>: se asigna capacidad lógica mayor que la física y se consume a medida que se escribe (riesgo de sobresuscripción).</li>
+<li><b>Snapshots</b> (instantáneas): copias puntuales, normalmente con copy-on-write o redirect-on-write. No sustituyen a una copia de seguridad.</li>
+<li><b>Deduplicación</b> y <b>compresión</b> para ahorrar espacio; <b>tiering</b> (mover datos entre SSD, disco rápido y lento según su uso); <b>replicación</b> síncrona (RPO 0, distancias cortas) o asíncrona.</li>
+<li>Medidas de rendimiento: <b>IOPS</b>, <b>throughput</b> (MB/s) y <b>latencia</b> (ms).</li>
+</ul>
+
+<h4>6. Otras arquitecturas</h4>
+<ul>
+<li><b>Almacenamiento de objetos</b>: datos + metadatos + identificador único en un espacio plano, accesible por HTTP/API (S3, Swift). Muy escalable; adecuado para copias, archivos y contenido no estructurado.</li>
+<li><b>SDS</b> (Software-Defined Storage) e <b>hiperconvergencia</b>: el almacenamiento se crea con los discos de los propios servidores (vSAN, Ceph, Nutanix).</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>SAN y DAS = bloques; NAS = ficheros.</li>
+<li>iSCSI usa TCP/IP (puerto 3260); FCoE va sobre Ethernet sin TCP/IP; FC tiene su propia pila.</li>
+<li>Zoning en el switch, LUN masking en la cabina.</li>
+<li>NFS puerto 2049, SMB puerto 445. WWN identifica en FC; IQN en iSCSI.</li>
+<li>RAID 5 tolera 1 fallo con 3 discos mínimo; RAID 6, 2 fallos con 4 discos mínimo.</li>
+</ul></div>

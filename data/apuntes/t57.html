@@ -1,0 +1,42 @@
+<h4>1. Conceptos de gestión documental</h4>
+<ul>
+<li><b>Gestión documental</b>: conjunto de normas, técnicas y prácticas para controlar de forma eficiente y sistemática la creación, recepción, mantenimiento, uso, conservación y eliminación de los documentos de una organización.</li>
+<li><b>Documento</b>: información de cualquier naturaleza registrada en un soporte. <b>Documento de archivo</b> (record): el que se crea o recibe como prueba de una actividad. Características: autenticidad, fiabilidad, integridad y disponibilidad.</li>
+<li><b>Ciclo de vida</b>: archivo de gestión u oficina (fase activa), archivo central o intermedio (semiactiva), archivo histórico (inactiva, conservación permanente). Teoría de las tres edades frente al modelo del continuo (records continuum).</li>
+<li>Instrumentos: <b>cuadro de clasificación</b>, calendario de conservación, <b>valoración</b> y tablas de disposición (conservar o eliminar), esquema de metadatos, política de gestión documental, control de acceso.</li>
+<li>Normas: <b>ISO 15489</b> (gestión de documentos), <b>ISO 30300/30301</b> (sistemas de gestión para los documentos), ISO 23081 (metadatos), ISO 14721 (<b>OAIS</b>, modelo de archivo digital a largo plazo), MoReq.</li>
+</ul>
+
+<h4>2. Documento y expediente electrónico en la Administración</h4>
+<ul>
+<li><b>Documento electrónico</b> (NTI): <b>contenido</b>, <b>firma</b> electrónica y <b>metadatos</b> mínimos obligatorios (versión NTI, identificador, órgano, fecha de captura, origen, estado de elaboración, formato, tipo documental...). Intercambio en XML según el esquema de la NTI.</li>
+<li><b>Expediente electrónico</b> (art. 70 Ley 39/2015 y NTI): conjunto ordenado de documentos con un <b>índice electrónico</b> foliado y firmado que garantiza su integridad, más metadatos.</li>
+<li><b>Copias auténticas</b> (art. 27 Ley 39/2015) y conversión de formatos; <b>digitalización</b> con requisitos de resolución, formato e imagen fiel (NTI de digitalización).</li>
+<li><b>Archivo electrónico único</b> de cada administración (art. 17 Ley 39/2015; art. 46 Ley 40/2015; RD 203/2021): conservación en formato que garantice autenticidad, integridad y conservación; Archive como solución de la AGE.</li>
+<li><b>Política de gestión de documentos electrónicos</b> obligatoria (NTI de política de gestión de documentos), aprobada por cada organización.</li>
+<li><b>Esquema Nacional de Interoperabilidad</b> (RD 4/2010) y sus NTI; formatos admitidos en la NTI de catálogo de estándares (PDF/A para conservación, entre otros).</li>
+</ul>
+
+<h4>3. Sistemas de gestión documental</h4>
+<ul>
+<li><b>DMS</b> (gestión de documentos), <b>ECM</b> (gestión de contenidos empresariales: captura, gestión, almacenamiento, conservación y entrega) y <b>ERMS</b> (gestión de documentos de archivo).</li>
+<li>Funciones: captura y digitalización, indexación y metadatos, control de versiones, <b>check-in/check-out</b>, búsqueda (texto completo y por metadatos), flujos de trabajo, permisos, auditoría, retención y disposición, integración con la firma electrónica.</li>
+<li>Productos: <b>Alfresco</b> (Hyland), Nuxeo, OpenText, SharePoint, Documentum, y en la Administración soluciones como InSide (expediente), Archive y gestores de expedientes.</li>
+</ul>
+
+<h4>4. El estándar CMIS</h4>
+<ul>
+<li><b>CMIS</b> (Content Management Interoperability Services) es un estándar abierto de <b>OASIS</b> (versión 1.0 en 2010 y <b>1.1</b> en 2013) que define una interfaz común para que las aplicaciones accedan a <b>repositorios de contenido</b> de distintos fabricantes sin depender de sus APIs propietarias.</li>
+<li><b>Modelo de dominio</b>: <b>repositorio</b> con capacidades declaradas; objetos <b>documento</b> (con flujo de contenido y versiones), <b>carpeta</b> (jerarquía), <b>relación</b>, <b>política</b> y, desde la 1.1, <b>ítem</b> y tipos secundarios (aspectos). Cada objeto tiene un tipo y propiedades (metadatos). Listas de control de acceso (ACL) y versionado (check-out, check-in, versiones mayores y menores).</li>
+<li><b>Servicios</b>: de repositorio, navegación, objetos, multifichero, descubrimiento (consultas con un lenguaje basado en <b>SQL-92</b>), versionado, relaciones, políticas, ACL y cambios.</li>
+<li><b>Enlaces (bindings)</b>: <b>AtomPub</b> (REST con Atom/XML), <b>Web Services</b> (SOAP) y <b>Browser binding</b> (JSON y formularios HTML, desde la 1.1, pensado para aplicaciones web).</li>
+<li>Implementación de referencia: Apache Chemistry (OpenCMIS). Soportado por Alfresco, Nuxeo, SharePoint, Documentum.</li>
+<li>Ventajas: interoperabilidad, menor dependencia del proveedor y facilidad para migrar o integrar.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>CMIS es de OASIS; bindings AtomPub, Web Services y Browser (JSON).</li>
+<li>Objetos CMIS: documento, carpeta, relación, política e ítem.</li>
+<li>Documento electrónico = contenido + firma + metadatos.</li>
+<li>El índice electrónico firmado garantiza la integridad del expediente.</li>
+<li>ISO 15489 = gestión de documentos; OAIS = archivo digital a largo plazo.</li>
+</ul></div>

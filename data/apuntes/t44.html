@@ -1,0 +1,48 @@
+<h4>1. Lenguajes de marcas</h4>
+<p>Codifican un documento junto con etiquetas que describen su estructura o su presentación. Origen en SGML (ISO 8879); de él derivan HTML y XML. Se usan para <b>intercambiar información</b> entre sistemas de forma independiente de la plataforma.</p>
+
+<h4>2. XML (eXtensible Markup Language)</h4>
+<ul>
+<li>Recomendación del <b>W3C</b> (1998). Metalenguaje: permite definir lenguajes propios. Describe datos, no su presentación.</li>
+<li>Estructura: prólogo (<code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</code>), un único <b>elemento raíz</b>, elementos anidados, <b>atributos</b>, texto, comentarios, secciones CDATA, instrucciones de procesamiento y entidades (&amp;lt; &amp;gt; &amp;amp; &amp;quot; &amp;apos;).</li>
+<li><b>Documento bien formado</b>: cumple la sintaxis (una raíz, etiquetas cerradas y bien anidadas, sensible a mayúsculas, atributos entre comillas y sin repetir).</li>
+<li><b>Documento válido</b>: además es conforme a un esquema (DTD o XSD). Todo documento válido está bien formado, pero no al revés.</li>
+<li><b>DTD</b>: definición de tipo de documento (ELEMENT, ATTLIST, ENTITY); no usa sintaxis XML y tiene pocos tipos de datos.</li>
+<li><b>XML Schema (XSD)</b>: escrito en XML, con tipos de datos (string, integer, date...), tipos simples y complejos, restricciones (facetas), cardinalidad (minOccurs, maxOccurs) y espacios de nombres. Alternativas: RELAX NG, Schematron.</li>
+<li><b>Espacios de nombres</b> (namespaces): evitan conflictos entre vocabularios (<code>xmlns:prefijo="URI"</code>).</li>
+</ul>
+<h5>Tecnologías asociadas</h5>
+<ul>
+<li><b>XPath</b>: lenguaje para seleccionar nodos (<code>/raiz/elemento[@atributo='x']</code>, <code>//</code> cualquier nivel).</li>
+<li><b>XSLT</b>: transformación de XML en otro XML, HTML o texto mediante plantillas. <b>XSL-FO</b> para presentación (PDF).</li>
+<li><b>XQuery</b>: consultas sobre XML.</li>
+<li><b>Procesadores (parsers)</b>: <b>DOM</b> (carga todo el documento como árbol en memoria; permite navegar y modificar), <b>SAX</b> (basado en eventos, secuencial, poca memoria, solo lectura) y <b>StAX</b> (streaming en el que el programa pide los eventos, pull). En Java, JAXB para mapear XML a objetos.</li>
+<li>Usos: SOAP y WSDL, ficheros de configuración, documentos ofimáticos (OOXML, ODF), RSS y Atom, SVG, firmas XAdES, y en la Administración las <b>NTI</b> de documento y expediente electrónico (esquemas XSD de intercambio).</li>
+</ul>
+
+<h4>3. JSON (JavaScript Object Notation)</h4>
+<ul>
+<li>Formato ligero de intercambio de datos basado en texto, derivado de la sintaxis de objetos de JavaScript. Especificado en el estándar ECMA-404 y en la RFC 8259 (UTF-8 obligatorio en intercambio).</li>
+<li>Estructuras: <b>objeto</b> (pares nombre-valor entre llaves; los nombres siempre entre comillas dobles) y <b>array</b> (lista ordenada entre corchetes).</li>
+<li>Tipos de valores: cadena, número, objeto, array, <b>true</b>, <b>false</b> y <b>null</b>. No admite comentarios, fechas como tipo propio, comillas simples ni comas finales.</li>
+<li><b>JSON Schema</b>: valida la estructura de documentos JSON (type, properties, required...).</li>
+<li>Variantes y relacionados: JSON-LD (datos enlazados), GeoJSON, JSON Lines; consultas con JSONPath y jq; formatos binarios (BSON, CBOR); YAML (superconjunto más legible).</li>
+<li>Uso principal: APIs REST, configuración, bases de datos documentales (MongoDB), tokens JWT.</li>
+</ul>
+
+<h4>4. Comparación</h4>
+<div class="tw"><table>
+<tr><th></th><th>XML</th><th>JSON</th></tr>
+<tr><td>Verbosidad</td><td>Mayor (etiquetas de apertura y cierre)</td><td>Menor, más compacto</td></tr>
+<tr><td>Tipos de datos</td><td>Todo es texto salvo que lo defina un esquema</td><td>Cadena, número, booleano, null, objeto, array</td></tr>
+<tr><td>Validación</td><td>DTD, XSD (muy madura)</td><td>JSON Schema</td></tr>
+<tr><td>Espacios de nombres, atributos, comentarios</td><td>Sí</td><td>No</td></tr>
+<tr><td>Transformación y consulta</td><td>XSLT, XPath, XQuery</td><td>JSONPath, jq</td></tr>
+<tr><td>Uso típico</td><td>Documentos, SOAP, firma electrónica, interoperabilidad administrativa</td><td>APIs web, aplicaciones JavaScript y móviles</td></tr>
+</table></div>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>Bien formado = sintaxis correcta; válido = además cumple un esquema.</li>
+<li>DOM carga todo en memoria; SAX funciona por eventos.</li>
+<li>XSLT transforma; XPath selecciona.</li>
+<li>JSON: claves entre comillas dobles; no admite comentarios.</li>
+</ul></div>

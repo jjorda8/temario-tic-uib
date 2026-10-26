@@ -1,0 +1,53 @@
+<h4>1. Lenguajes de interrogación</h4>
+<ul>
+<li>Lenguajes <b>procedimentales</b> (dicen cómo obtener los datos, como el álgebra relacional) y <b>declarativos</b> (dicen qué datos se quieren, como el cálculo relacional y SQL).</li>
+<li><b>SQL</b> (Structured Query Language), originado en el System R de IBM (SEQUEL). Estándar <b>ANSI</b> en 1986 e <b>ISO/IEC 9075</b>; versiones SQL-86, SQL-89, <b>SQL-92</b>, SQL:1999 (consultas recursivas, triggers), SQL:2003 (funciones de ventana, XML), SQL:2008, SQL:2011 (datos temporales), SQL:2016 (JSON), SQL:2023 (grafos con SQL/PGQ, JSON ampliado).</li>
+<li>Cada producto añade extensiones procedimentales: PL/SQL (Oracle), T-SQL (SQL Server), PL/pgSQL (PostgreSQL).</li>
+<li>Otros lenguajes: QBE, consultas de bases NoSQL (MQL de MongoDB, Cypher para grafos), SPARQL (RDF).</li>
+</ul>
+
+<h4>2. Sublenguajes de SQL</h4>
+<div class="tw"><table>
+<tr><th>Tipo</th><th>Sentencias</th></tr>
+<tr><td><b>DDL</b> (definición)</td><td>CREATE, ALTER, DROP, TRUNCATE (tablas, vistas, índices, esquemas)</td></tr>
+<tr><td><b>DML</b> (manipulación)</td><td>SELECT, INSERT, UPDATE, DELETE, MERGE</td></tr>
+<tr><td><b>DCL</b> (control)</td><td>GRANT, REVOKE</td></tr>
+<tr><td><b>TCL</b> (transacciones)</td><td>COMMIT, ROLLBACK, SAVEPOINT, SET TRANSACTION</td></tr>
+</table></div>
+<p>Restricciones en CREATE TABLE: PRIMARY KEY, FOREIGN KEY ... REFERENCES, UNIQUE, NOT NULL, CHECK, DEFAULT.</p>
+
+<h4>3. La sentencia SELECT</h4>
+<pre>SELECT [DISTINCT] columnas | expresiones | funciones de agregado
+FROM tabla [JOIN otra ON condición]
+WHERE condición sobre filas
+GROUP BY columnas
+HAVING condición sobre grupos
+ORDER BY columnas [ASC|DESC]
+FETCH FIRST n ROWS ONLY;   -- (LIMIT en MySQL/PostgreSQL, TOP en SQL Server)</pre>
+<ul>
+<li><b>Orden lógico de evaluación</b>: FROM → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → límite. Por eso en WHERE no se pueden usar alias del SELECT ni funciones de agregado.</li>
+<li><b>Funciones de agregado</b>: COUNT, SUM, AVG, MIN, MAX. COUNT(*) cuenta filas; COUNT(columna) ignora los NULL.</li>
+<li><b>Operadores</b>: =, &lt;&gt;, BETWEEN, IN, LIKE ('%' cualquier cadena, '_' un carácter), IS NULL (nunca "= NULL"), EXISTS, ANY/SOME, ALL.</li>
+<li><b>Joins</b>: INNER JOIN (solo coincidencias), LEFT/RIGHT [OUTER] JOIN (todas las filas de un lado y NULL en el otro), FULL OUTER JOIN, CROSS JOIN (producto cartesiano), NATURAL JOIN, autojoin.</li>
+<li><b>Subconsultas</b>: escalares, en IN/EXISTS, correlacionadas (se evalúan por cada fila de la consulta externa), en FROM (tablas derivadas).</li>
+<li><b>Operadores de conjuntos</b>: UNION (sin duplicados), UNION ALL (con duplicados), INTERSECT, EXCEPT (MINUS en Oracle).</li>
+<li><b>CTE</b> (WITH) y consultas recursivas (WITH RECURSIVE).</li>
+<li><b>Funciones de ventana</b>: ROW_NUMBER(), RANK(), DENSE_RANK(), SUM() OVER (PARTITION BY ... ORDER BY ...).</li>
+<li>CASE, COALESCE, NULLIF, CAST; lógica de tres valores con NULL.</li>
+</ul>
+
+<h4>4. Otros elementos</h4>
+<ul>
+<li><b>Vistas</b> (CREATE VIEW): consultas guardadas; sirven para simplificar y para seguridad. Vistas materializadas.</li>
+<li><b>Transacciones</b>: COMMIT confirma, ROLLBACK deshace; SAVEPOINT para puntos intermedios.</li>
+<li><b>Privilegios</b>: GRANT SELECT, INSERT ON tabla TO usuario [WITH GRANT OPTION]; REVOKE.</li>
+<li><b>Seguridad</b>: consultas parametrizadas (prepared statements) para evitar la <b>inyección SQL</b>.</li>
+<li>Diferencias: DELETE borra filas (con WHERE, se puede deshacer); TRUNCATE vacía la tabla (DDL, rápido); DROP elimina la tabla.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>WHERE filtra filas; HAVING filtra grupos.</li>
+<li>Comparar con NULL: IS NULL.</li>
+<li>UNION quita duplicados; UNION ALL no.</li>
+<li>LEFT JOIN devuelve todas las filas de la tabla de la izquierda.</li>
+<li>GRANT y REVOKE son DCL; COMMIT y ROLLBACK, TCL.</li>
+</ul></div>

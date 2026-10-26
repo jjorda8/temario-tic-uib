@@ -1,0 +1,52 @@
+<h4>1. Definición y elementos de una PKI</h4>
+<p>Una <b>infraestructura de clave pública</b> es el conjunto de hardware, software, personas, políticas y procedimientos necesarios para crear, gestionar, distribuir, usar, almacenar y revocar <b>certificados digitales</b> basados en criptografía asimétrica.</p>
+<ul>
+<li><b>Criptografía asimétrica</b>: cada titular tiene una clave privada (secreta) y una pública. Lo que se cifra con una se descifra con la otra. Algoritmos: RSA, ECDSA, EdDSA.</li>
+<li><b>Certificado digital</b> (X.509 v3, RFC 5280): documento firmado por una CA que vincula una clave pública con una identidad. Contiene versión, número de serie, algoritmo de firma, emisor, periodo de validez, sujeto, clave pública y extensiones (uso de clave, nombres alternativos, puntos de distribución de CRL...).</li>
+<li><b>Autoridad de certificación (CA)</b>: emite, firma y revoca certificados. Jerarquía de CA raíz (offline) y subordinadas.</li>
+<li><b>Autoridad de registro (RA)</b>: comprueba la identidad del solicitante antes de la emisión.</li>
+<li><b>Autoridad de validación (VA)</b>: informa del estado de los certificados mediante <b>CRL</b> (listas de revocación publicadas periódicamente) u <b>OCSP</b> (consulta en tiempo real).</li>
+<li><b>Autoridad de sellado de tiempo (TSA)</b>: emite sellos que prueban que unos datos existían en un momento (RFC 3161).</li>
+<li>Repositorio, <b>Declaración de Prácticas de Certificación (DPC)</b> y políticas de certificación; módulos <b>HSM</b> para proteger las claves.</li>
+<li>Cadena de confianza: el certificado del usuario lo firma una CA subordinada, cuyo certificado lo firma la CA raíz, en la que se confía.</li>
+</ul>
+
+<h4>2. Ciclo de vida de un certificado</h4>
+<ol>
+<li><b>Solicitud</b>: generación del par de claves (en el dispositivo del titular o en un HSM) y petición (CSR, PKCS#10).</li>
+<li><b>Registro y verificación</b> de la identidad por la RA (presencial o por medios equivalentes en certificados cualificados).</li>
+<li><b>Emisión</b> y entrega del certificado firmado por la CA.</li>
+<li><b>Uso</b>: firma, autenticación, cifrado.</li>
+<li><b>Renovación</b> antes de caducar (con o sin cambio de claves).</li>
+<li><b>Suspensión</b> (temporal) o <b>revocación</b> (definitiva) por pérdida, compromiso de la clave o cambio de datos; se publica en la CRL/OCSP.</li>
+<li><b>Expiración</b> y archivo.</li>
+</ol>
+<p>Tipos de certificados en la Administración: de persona física, de representante, de empleado público, de sede electrónica, de sello electrónico (para actuación automatizada) y de componente (servidor).</p>
+
+<h4>3. Conceptos técnicos de firma electrónica</h4>
+<ul>
+<li>Proceso: se calcula el <b>hash</b> del documento (SHA-256), se cifra con la clave privada y se adjunta junto al certificado. El verificador descifra con la clave pública y compara hashes.</li>
+<li>Garantiza <b>autenticidad</b>, <b>integridad</b> y <b>no repudio</b> (no da confidencialidad).</li>
+<li><b>Tipos según eIDAS</b>: firma <b>simple</b> (cualquier dato electrónico de firma), <b>avanzada</b> (vinculada al firmante de forma única, bajo su control exclusivo y que detecta cambios) y <b>cualificada</b> (avanzada + certificado cualificado + dispositivo cualificado de creación de firma). Solo la cualificada equivale por ley a la firma manuscrita.</li>
+<li><b>Sello electrónico</b>: equivalente para personas jurídicas.</li>
+<li><b>Formatos</b>: <b>CAdES</b> (binario, CMS), <b>XAdES</b> (XML: enveloped, enveloping o detached), <b>PAdES</b> (dentro del PDF), <b>JAdES</b> (JSON) y ASiC (contenedor).</li>
+<li><b>Niveles de firma longeva</b> (ETSI): <b>B</b> (básica), <b>T</b> (con sello de tiempo), <b>LT</b> (incluye certificados e información de revocación) y <b>LTA</b> (con sellos de archivo periódicos).</li>
+<li>Firma en cliente (AutoFirma, Cliente @firma) o en servidor/nube (firma centralizada con FIRe y Cl@ve Firma). Validación con <b>@firma</b> y VALIDe.</li>
+<li>Norma Técnica de Interoperabilidad de <b>política de firma y sello</b>: formatos admitidos y reglas de validación en la Administración.</li>
+</ul>
+
+<h4>4. Conservación a largo plazo</h4>
+<ul>
+<li>Problema: los certificados caducan o se revocan, los algoritmos se debilitan y los formatos quedan obsoletos.</li>
+<li>Solución: <b>firmas longevas</b> (LT/LTA) que incorporan la información de validación del momento de la firma, y <b>resellado</b> periódico con sellos de tiempo de archivo antes de que caduque el anterior o se debilite el algoritmo.</li>
+<li>Servicio cualificado de <b>conservación</b> de firmas y sellos (eIDAS).</li>
+<li>Conservar también los metadatos y el contexto; formatos estables (PDF/A).</li>
+<li>Marco: eIDAS, Ley 6/2020 de servicios electrónicos de confianza, Leyes 39 y 40/2015, ENI (capítulo de conservación), NTI de documento electrónico y de política de firma.</li>
+</ul>
+<div class="claves"><h4>Claves para el test</h4><ul>
+<li>La CA emite y firma; la RA verifica la identidad; la VA informa del estado (CRL/OCSP).</li>
+<li>Certificados X.509 v3 (RFC 5280).</li>
+<li>Firma: simple, avanzada y cualificada; solo la cualificada equivale a la manuscrita.</li>
+<li>CAdES binario, XAdES XML, PAdES PDF. LTA = archivo a largo plazo.</li>
+<li>La firma no da confidencialidad.</li>
+</ul></div>
