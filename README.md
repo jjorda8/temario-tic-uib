@@ -13,9 +13,25 @@ También recoge el formato del examen, un simulador de méritos con el baremo de
 
 Las normas estatales se comprobaron contra la API de legislación consolidada del BOE (todas vigentes a 26/10/2026) y los acuerdos de la UIB contra el FOU.
 
+## Página de lectura
+
+`lectura.html` muestra el temario como texto continuo para leer o imprimir: índice lateral, apuntes, texto literal de las normas y normativa de cada tema.
+
+- `lectura.html`: los 60 temas.
+- `lectura.html?parte=gen` o `?parte=tic`: solo una parte.
+- `lectura.html?t=31`: un solo tema, con enlaces al anterior y al siguiente.
+
+## Estructura
+
+- `index.html`: la web principal (temario, simulador de méritos, exámenes).
+- `lectura.html`: la página de lectura.
+- `data/datos.js`: datos compartidos (temas, normativa y su relación).
+- `data/ley/tNN.json`: artículos literales de cada tema (BOE y FOU).
+- `data/apuntes/tNN.html`: apuntes de los temas 19-60.
+
 ## Uso
 
-Es un único archivo, `index.html`, sin dependencias de compilación. Para verlo en local basta con abrirlo en el navegador.
+No necesita compilación. Para verlo en local hay que servir la carpeta (por ejemplo `python3 -m http.server`), porque los textos se cargan con `fetch`.
 
 Las marcas de «estudiado» se guardan en el `localStorage` del navegador, así que no pasan de un dispositivo a otro.
 
