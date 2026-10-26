@@ -61,6 +61,13 @@ h2 { font-size: 1.35rem; }
 .btn.sm { padding: 5px 10px; font-size: 0.88rem; }
 .chip { border: 1px solid var(--line); background: var(--surface); padding: 5px 11px; border-radius: 999px; cursor: pointer; font-size: 0.9rem; }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.users { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.user { display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid var(--line); background: var(--surface); padding: 6px 12px 6px 6px; border-radius: 999px; cursor: pointer; font-weight: 600; }
+.user .av { width: 28px; height: 28px; border-radius: 50%; display: inline-grid; place-items: center; font-family: var(--font-mono); font-size: 0.8rem; color: var(--surface); background: var(--muted); }
+.user[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.user[aria-pressed="true"] .av { background: var(--accent); }
+.user .sub { font-weight: 400; font-size: 0.8rem; color: var(--muted); }
+.whoami { font-size: 0.85rem; color: var(--muted); }
 .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
 section.screen { padding-top: 24px; display: grid; gap: 18px; }
@@ -167,6 +174,11 @@ td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
     </header>
 
     <div class="panel">
+      <div class="row" style="justify-content:space-between"><h2>¿Quién estudia?</h2><span class="small muted">Cada usuario guarda su propio progreso en este navegador.</span></div>
+      <div class="users" id="users" role="group" aria-label="Usuario"></div>
+    </div>
+
+    <div class="panel">
       <div class="row" style="justify-content:space-between">
         <h2>Temas</h2>
         <div class="row" role="group" aria-label="Selección rápida">
@@ -211,7 +223,7 @@ td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
     </div>
 
     <div class="panel hist" id="histPanel" hidden>
-      <div class="row" style="justify-content:space-between"><h2>Tus últimos tests</h2><button class="btn sm danger" type="button" id="resetStats">Borrar estadísticas</button></div>
+      <div class="row" style="justify-content:space-between"><h2 id="histTitle">Tus últimos tests</h2><button class="btn sm danger" type="button" id="resetStats">Borrar estadísticas</button></div>
       <p class="small muted" id="resetMsg" hidden></p>
       <ul id="hist"></ul>
     </div>
@@ -226,6 +238,7 @@ td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
   <section class="screen" id="run" hidden>
     <div class="qhead">
       <span class="small"><b id="qpos">1</b> de <span id="qtot">10</span></span>
+      <span class="whoami" id="whoRun"></span>
       <span class="prog"><i id="progbar"></i></span>
       <span class="timer" id="timerBox" hidden>--:--</span>
       <button class="btn sm" type="button" id="quit">Salir</button>
@@ -261,7 +274,7 @@ td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
 
   <!-- Resultados -->
   <section class="screen" id="res" hidden>
-    <header style="display:grid;gap:6px"><span class="eyebrow" id="resMode">Resultado</span><h1 id="resTitle">Resultado del test</h1></header>
+    <header style="display:grid;gap:6px"><span class="eyebrow"><span id="resMode">Resultado</span> · <span id="resUser"></span></span><h1 id="resTitle">Resultado del test</h1></header>
     <div class="score" id="score"></div>
     <div class="verdict" id="verdict"></div>
     <div class="row">
@@ -295,11 +308,28 @@ const temaName = n => (TEMAS.find(t => t.n === n) || {}).es || "";
 const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const fmt = (v, d = 2) => v.toLocaleString("es-ES", { minimumFractionDigits: d, maximumFractionDigits: d });
 
-// Estadísticas guardadas en este navegador
-const SKEY = "temario-tic-uib-tests";
-let stats = { q: {}, hist: [] };
-try { stats = Object.assign(stats, JSON.parse(localStorage.getItem(SKEY) || "{}")); } catch (e) {}
-const saveStats = () => { try { localStorage.setItem(SKEY, JSON.stringify(stats)); } catch (e) {} };
+// Usuarios y estadísticas: cada usuario tiene las suyas en este navegador
+const USERS = ["Wili", "Pepe Jeans", "Titi30n"];
+const UKEY = "temario-tic-uib-usuario";
+const statsKey = u => "temario-tic-uib-tests:" + u;
+const ls = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }, del(k) { try { localStorage.removeItem(k); } catch (e) {} } };
+// Migra las estadísticas de antes de existir los usuarios a Wili
+if (ls.get("temario-tic-uib-tests") && !ls.get(statsKey("Wili"))) { ls.set(statsKey("Wili"), ls.get("temario-tic-uib-tests")); ls.del("temario-tic-uib-tests"); }
+let user = USERS.includes(ls.get(UKEY)) ? ls.get(UKEY) : USERS[0];
+let stats;
+const loadStats = () => { stats = { q: {}, hist: [] }; try { stats = Object.assign(stats, JSON.parse(ls.get(statsKey(user)) || "{}")); } catch (e) {} };
+const saveStats = () => ls.set(statsKey(user), JSON.stringify(stats));
+loadStats();
+function renderUsers() {
+  $("users").innerHTML = USERS.map(u => {
+    let h = [];
+    try { h = (JSON.parse(ls.get(statsKey(u)) || "{}").hist) || []; } catch (e) {}
+    const lastTest = h[0] ? `${h.length} ${h.length === 1 ? "test" : "tests"} · último ${new Date(h[0].d).toLocaleDateString("es-ES")}` : "sin tests todavía";
+    const ini = u.replace(/[^A-Za-z0-9 ]/g, "").split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+    return `<button class="user" type="button" data-user="${esc(u)}" aria-pressed="${u === user}"><span class="av" aria-hidden="true">${esc(ini)}</span><span>${esc(u)}<br><span class="sub">${lastTest}</span></span></button>`;
+  }).join("");
+  $("histTitle").textContent = `Últimos tests de ${user}`;
+}
 let studied = [];
 try { studied = JSON.parse(localStorage.getItem("temario-tic-uib-estudiados") || "[]"); } catch (e) {}
 
@@ -364,6 +394,7 @@ function startTest(questions, cfg) {
   $("cfg").hidden = true; $("res").hidden = true; $("run").hidden = false;
   $("quitConfirm").hidden = true; $("finishConfirm").hidden = true;
   $("qtot").textContent = items.length;
+  $("whoRun").textContent = `· ${user}`;
   $("flag").hidden = cfg.mode !== "examen";
   $("finish").hidden = cfg.mode !== "examen";
   $("palette").hidden = cfg.mode !== "examen";
@@ -470,6 +501,7 @@ function finish() {
 
   $("run").hidden = true; $("res").hidden = false;
   $("resMode").textContent = run.mode === "examen" ? "Modo examen" : "Modo práctica";
+  $("resUser").textContent = user;
   $("resTitle").textContent = `${ok} de ${n} correctas`;
   const mm = Math.floor(secs / 60), ss = secs % 60;
   $("score").innerHTML = `
@@ -520,6 +552,13 @@ function renderHist() {
 
 function setSel(ns) { sel = new Set(ns); renderBlocks(); updateAvail(); }
 
+$("users").addEventListener("click", e => {
+  const b = e.target.closest("[data-user]"); if (!b || b.dataset.user === user) return;
+  user = b.dataset.user; ls.set(UKEY, user); loadStats();
+  delete $("resetStats").dataset.armed; $("resetStats").textContent = "Borrar estadísticas"; $("resetMsg").hidden = true;
+  renderUsers(); renderBlocks(); renderHist(); updateAvail();
+});
+
 // Eventos de configuración
 $("blocks").addEventListener("change", e => {
   const c = e.target.closest("input[type=checkbox]"); if (!c) return;
@@ -552,9 +591,9 @@ $("start").addEventListener("click", () => {
 });
 const resetBtn = $("resetStats");
 resetBtn.addEventListener("click", () => {
-  if (!resetBtn.dataset.armed) { resetBtn.dataset.armed = "1"; resetBtn.textContent = "Pulsa otra vez para borrar"; return; }
+  if (!resetBtn.dataset.armed) { resetBtn.dataset.armed = "1"; resetBtn.textContent = `Pulsa otra vez para borrar las de ${user}`; return; }
   stats = { q: {}, hist: [] }; saveStats(); delete resetBtn.dataset.armed; resetBtn.textContent = "Borrar estadísticas";
-  $("resetMsg").textContent = "Estadísticas borradas."; $("resetMsg").hidden = false; renderBlocks(); renderHist(); updateAvail();
+  $("resetMsg").textContent = `Estadísticas de ${user} borradas.`; $("resetMsg").hidden = false; renderUsers(); renderBlocks(); renderHist(); updateAvail();
 });
 
 // Eventos del test
@@ -573,7 +612,7 @@ $("finishYes").addEventListener("click", finish);
 $("finishNo").addEventListener("click", () => { $("finishConfirm").hidden = true; });
 $("quit").addEventListener("click", () => { $("quitConfirm").hidden = false; });
 $("quitNo").addEventListener("click", () => { $("quitConfirm").hidden = true; });
-$("quitYes").addEventListener("click", () => { clearInterval(run.timerId); run = null; $("run").hidden = true; $("cfg").hidden = false; renderBlocks(); renderHist(); updateAvail(); });
+$("quitYes").addEventListener("click", () => { clearInterval(run.timerId); run = null; $("run").hidden = true; $("cfg").hidden = false; renderUsers(); renderBlocks(); renderHist(); updateAvail(); });
 document.addEventListener("keydown", e => {
   if (!run || run.done || $("run").hidden || e.target.matches("input, select, textarea")) return;
   const k = e.key.toUpperCase();
@@ -591,7 +630,7 @@ $("retryFailed").addEventListener("click", () => {
   startTest(shuffle(qs), Object.assign({}, last, { mode: last.mode }));
 });
 $("again").addEventListener("click", () => { const p = pool(); startTest(pick(p, Math.min(last.n || p.length, p.length)), last); });
-$("toCfg").addEventListener("click", () => { run = null; $("res").hidden = true; $("cfg").hidden = false; renderBlocks(); renderHist(); updateAvail(); window.scrollTo(0, 0); });
+$("toCfg").addEventListener("click", () => { run = null; $("res").hidden = true; $("cfg").hidden = false; renderUsers(); renderBlocks(); renderHist(); updateAvail(); window.scrollTo(0, 0); });
 
 // Arranque: ?t=5 o ?temas=1,2,3 preseleccionan temas
 (async () => {
@@ -609,7 +648,7 @@ $("toCfg").addEventListener("click", () => { run = null; $("res").hidden = true;
   const params = new URLSearchParams(location.search);
   const pre = (params.get("temas") || params.get("t") || "").split(",").map(Number).filter(n => n >= 1 && n <= 60);
   if (pre.length) sel = new Set(pre);
-  renderBlocks(); renderHist(); updateAvail();
+  renderUsers(); renderBlocks(); renderHist(); updateAvail();
 })();
 </script>
 </body>

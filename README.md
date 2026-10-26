@@ -23,13 +23,13 @@ Las normas estatales se comprobaron contra la API de legislación consolidada de
 
 ## Tests
 
-`test.html` genera tests con preguntas de los temas que se elijan (707 preguntas de los 60 temas, con su explicación y la norma de referencia):
+`test.html` genera tests con preguntas de los temas que se elijan (1.202 preguntas, entre 20 y 22 por tema, con su explicación y la norma de referencia):
 
 - **Práctica**: corrige cada pregunta al momento con la explicación.
 - **Examen**: se corrige al final como en la oposición (cada error resta un tercio), con cronómetro opcional y paleta para revisar.
 - Filtros: todas las preguntas, solo las no respondidas o solo las falladas; selección rápida de la parte general, la TIC, los temas marcados como estudiados o los puntos débiles.
 - `test.html?t=5` o `test.html?temas=1,2,3` preseleccionan temas.
-- Las estadísticas se guardan en el navegador.
+- Tres usuarios (Wili, Pepe Jeans y Titi30n), cada uno con su historial y sus estadísticas. Se guardan en el `localStorage` del navegador, así que no pasan de un dispositivo a otro.
 
 ## Estructura
 
