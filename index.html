@@ -32,6 +32,8 @@ img { max-width: 100%; }
   --ok-soft: #dff2e8;
   --warn: #9a4b00;
   --warn-soft: #fbecd9;
+  --eu: #4b3a99;
+  --eu-soft: #e8e4f7;
   --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --font-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -41,6 +43,7 @@ img { max-width: 100%; }
     --bg: #0e171d; --surface: #15222b; --ink: #e3edf2; --muted: #9db1be; --line: #29404e;
     --accent: #6cb8e6; --accent-soft: #17334a; --gen: #e3bf6a; --gen-soft: #33290f;
     --tic: #6cb8e6; --tic-soft: #17334a; --ok: #6fd3a0; --ok-soft: #133426; --warn: #f0a85c; --warn-soft: #3a2611;
+    --eu: #b9aaf5; --eu-soft: #2a2350;
     color-scheme: dark;
   }
 }
@@ -48,6 +51,7 @@ img { max-width: 100%; }
   --bg: #0e171d; --surface: #15222b; --ink: #e3edf2; --muted: #9db1be; --line: #29404e;
   --accent: #6cb8e6; --accent-soft: #17334a; --gen: #e3bf6a; --gen-soft: #33290f;
   --tic: #6cb8e6; --tic-soft: #17334a; --ok: #6fd3a0; --ok-soft: #133426; --warn: #f0a85c; --warn-soft: #3a2611;
+  --eu: #b9aaf5; --eu-soft: #2a2350;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -133,6 +137,58 @@ section.block { padding-top: 28px; display: grid; gap: 10px; }
 .mark input { width: 18px; height: 18px; accent-color: var(--ok); }
 .empty { color: var(--muted); padding: 20px 0; }
 
+/* Normativa de cada tema */
+.normas { display: grid; gap: 6px; }
+.normas-head { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: baseline; justify-content: space-between; }
+.normas-head .legend { font-size: 0.78rem; color: var(--muted); }
+.norm { border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+.norm > summary { list-style: none; cursor: pointer; padding: 8px 10px; display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: baseline; }
+.norm > summary::-webkit-details-marker { display: none; }
+.norm .rk { font-family: var(--font-mono); font-size: 0.68rem; padding: 1px 6px; border-radius: 4px; white-space: nowrap; background: var(--accent-soft); color: var(--accent); }
+.norm .rk.r1 { background: var(--eu-soft); color: var(--eu); }
+.norm .rk.r2, .norm .rk.r3 { background: var(--ok-soft); color: var(--ok); }
+.norm .rk.r6 { background: var(--gen-soft); color: var(--gen); }
+.norm .rk.r7 { background: var(--warn-soft); color: var(--warn); }
+.norm .nm { font-weight: 600; font-size: 0.93rem; min-width: 0; }
+.norm .yr { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.norm .nb { padding: 0 10px 10px 10px; display: grid; gap: 6px; font-size: 0.9rem; }
+.norm .full { color: var(--muted); font-style: italic; }
+.norm .why { border-left: 3px solid var(--accent); padding-left: 8px; }
+.norm .lnk { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 0.85rem; }
+.norm .lnk code { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); }
+
+/* Simulador de méritos */
+.sim { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 820px) { .sim { grid-template-columns: 1fr; } }
+.sim-form { display: grid; gap: 12px; min-width: 0; }
+.sim fieldset { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 12px 14px 14px; margin: 0; display: grid; gap: 10px; min-width: 0; }
+.sim legend { font-family: var(--font-display); font-weight: 700; padding: 0 6px; }
+.sim .hint { font-size: 0.85rem; color: var(--muted); }
+.sim label.f { display: grid; gap: 3px; font-size: 0.85rem; color: var(--muted); min-width: 0; }
+.sim input, .sim select { font: inherit; font-size: 0.93rem; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); min-width: 0; width: 100%; }
+.sim input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--ok); }
+.sim .rows { display: grid; gap: 8px; }
+.sim .r { display: grid; gap: 8px; align-items: end; padding: 8px; border: 1px dashed var(--line); border-radius: 8px; }
+.sim .r.ant { grid-template-columns: 1.4fr 1fr 1fr auto auto; }
+.sim .r.cur { grid-template-columns: 1.6fr 0.7fr 1.1fr 0.9fr auto auto; }
+.sim .r.idi { grid-template-columns: 1.3fr 1fr auto auto; }
+@media (max-width: 640px) { .sim .r.ant, .sim .r.cur, .sim .r.idi { grid-template-columns: 1fr 1fr; } }
+.sim .pts { font-family: var(--font-mono); font-size: 0.85rem; font-variant-numeric: tabular-nums; white-space: nowrap; align-self: center; }
+.sim .del { font: inherit; border: none; background: transparent; color: var(--muted); cursor: pointer; font-size: 1.1rem; padding: 4px 6px; align-self: center; }
+.sim .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.sim .chk { display: flex; gap: 8px; align-items: center; font-size: 0.93rem; color: var(--ink); }
+.result { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 10px; }
+.result .big { font-family: var(--font-display); font-size: 2.2rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.result .big small { font-size: 1rem; color: var(--muted); }
+.meter { display: grid; gap: 3px; font-size: 0.85rem; }
+.meter .top { display: flex; justify-content: space-between; gap: 8px; font-variant-numeric: tabular-nums; }
+.meter .bar { height: 6px; }
+.meter .bar i { background: var(--accent); }
+.meter.full .bar i { background: var(--ok); }
+.result hr { border: none; border-top: 1px solid var(--line); margin: 2px 0; }
+.result .warn { font-size: 0.85rem; color: var(--warn); }
+.result .ok { font-size: 0.85rem; color: var(--ok); }
+
 /* Secciones de texto */
 section.info { padding-top: 36px; display: grid; gap: 14px; }
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 10px; min-width: 0; }
@@ -167,6 +223,7 @@ footer { padding-top: 36px; color: var(--muted); font-size: 0.88rem; display: gr
   <nav class="sections" aria-label="Secciones">
     <a href="#temario">Temario</a>
     <a href="#examen">Cómo es el examen</a>
+    <a href="#simulador">Simulador de méritos</a>
     <a href="#proceso">Cómo fue en 2024-2026</a>
     <a href="#practica">Exámenes para practicar</a>
     <a href="#recursos">Recursos generales</a>
@@ -223,6 +280,82 @@ footer { padding-top: 36px; color: var(--muted); font-size: 0.88rem; display: gr
           <li>Para superar la oposición hacen falta 67,5 puntos entre el 1.º y el 2.º ejercicio.</li>
         </ul>
       </div>
+    </div>
+  </section>
+
+  <section class="info" id="simulador">
+    <h2>Simulador de méritos</h2>
+    <p class="muted small">Calcula la fase de concurso con el baremo del anexo IV de la convocatoria de 2024. Lo que escribas se guarda solo en este navegador. Es una estimación: el tribunal decide qué cursos guardan relación con las funciones.</p>
+    <div class="sim">
+      <div class="sim-form">
+        <fieldset>
+          <legend>Antigüedad · máx. 60</legend>
+          <p class="hint">0,75 puntos por mes o fracción en universidades públicas (tu interinidad en la UIB cuenta aquí) y 0,25 en otras administraciones o fundaciones de la UIB. No cuentan los servicios como profesor. Los periodos que se solapan se cuentan una sola vez.</p>
+          <div class="rows" id="antRows"></div>
+          <div class="row"><button class="btn" type="button" id="addAnt">Añadir periodo</button><label class="f" style="flex:1 1 180px">Fecha de cálculo (fin del plazo de méritos)<input type="date" id="refDate"></label></div>
+        </fieldset>
+        <fieldset>
+          <legend>Segunda titulación · máx. 8</legend>
+          <p class="hint">No cuenta la titulación con la que accedes. Solo se valora una más, la de mayor nivel.</p>
+          <label class="f">Titulación adicional
+            <select id="tit">
+              <option value="0">Ninguna</option>
+              <option value="6.4">Grado, diplomatura o ingeniería técnica (MECES 2): 6,4</option>
+              <option value="8">Máster oficial, licenciatura, ingeniería o grado de nivel MECES 3: 8</option>
+              <option value="8">Doctorado (MECES 4): 8</option>
+            </select>
+          </label>
+        </fieldset>
+        <fieldset>
+          <legend>Formación · máx. 24</legend>
+          <p class="hint">Por hora: asistencia 0,031, aprovechamiento 0,050, impartida 0,080. Si el curso acabó hace más de 10 años vale aproximadamente la mitad (0,016, 0,025 y 0,041). Si no consta la duración, cuenta 1 hora (o 1 hora por día en jornadas y seminarios).</p>
+          <div class="rows" id="curRows"></div>
+          <div class="row"><button class="btn" type="button" id="addCur">Añadir curso</button></div>
+          <div class="grid3">
+            <label class="f">Títulos propios de posgrado (ECTS; 25 horas = 1 ECTS)<input type="number" id="ects" min="0" step="0.5" placeholder="0"></label>
+            <label class="f">Certificados CertiUni de nivel medio o superior<input type="number" id="certiuni" min="0" step="1" placeholder="0"></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Catalán · máx. 4</legend>
+          <p class="hint">El C1 es requisito y no puntúa. Para A2: C2 = 1,6, y el certificado de lenguaje administrativo (LA) suma 0,8 más.</p>
+          <div class="grid3">
+            <label class="f">Nivel más alto
+              <select id="cat"><option value="0">C1 (requisito)</option><option value="1.6">C2: 1,6</option></select>
+            </label>
+            <label class="chk"><input type="checkbox" id="catLA"> Tengo el certificado LA</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Otros idiomas · máx. 4</legend>
+          <p class="hint">Se valora el nivel más alto de cada idioma. Inglés: A1 0,4 · A2 0,8 · B1 1,2 · B2 1,6 · C1 2 · C2 2,4. Los demás idiomas valen la mitad.</p>
+          <div class="rows" id="idiRows"></div>
+          <div class="row"><button class="btn" type="button" id="addIdi">Añadir idioma</button></div>
+        </fieldset>
+        <fieldset>
+          <legend>Otros méritos · 1</legend>
+          <label class="chk"><input type="checkbox" id="otros"> He aprobado antes un proceso selectivo de la UIB del mismo grupo o superior sin obtener plaza</label>
+        </fieldset>
+        <fieldset>
+          <legend>Notas de la oposición (opcional)</legend>
+          <p class="hint">Para ver la nota final. Sin notas, el simulador solo calcula el concurso.</p>
+          <div class="grid3">
+            <label class="f">Test (0–45, mín. 18)<input type="number" id="nTest" min="0" max="45" step="0.01"></label>
+            <label class="f">Preguntas cortas (0–45, mín. 18)<input type="number" id="nCortas" min="0" max="45" step="0.01"></label>
+            <label class="f">Supuesto práctico (0–45, mín. 22,5)<input type="number" id="nPract" min="0" max="45" step="0.01"></label>
+            <label class="f">Idioma voluntario (0–15)<input type="number" id="nIdioma" min="0" max="15" step="0.01"></label>
+          </div>
+        </fieldset>
+        <div class="row"><button class="btn" type="button" id="simReset">Vaciar el simulador</button><span class="small muted" id="simResetMsg"></span></div>
+      </div>
+      <aside class="result" aria-live="polite">
+        <span class="eyebrow">Fase de concurso</span>
+        <div class="big" id="rConcurso">0 <small>/ 100</small></div>
+        <div id="rMeters"></div>
+        <hr>
+        <div id="rOpos"></div>
+        <p class="small muted">Desempate: nota de oposición, después otros méritos, antigüedad, formación, titulación, catalán e idiomas.</p>
+      </aside>
     </div>
   </section>
 
@@ -327,6 +460,850 @@ footer { padding-top: 36px; color: var(--muted); font-size: 0.88rem; display: gr
   </footer>
 </div>
 
+<script>
+const NORMS = {
+"L39": {
+"r": 3,
+"s": "Ley 39/2015, del Procedimiento Administrativo Común",
+"t": "Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas.",
+"d": "2015-10-01",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-10565",
+"id": "BOE-A-2015-10565"
+},
+"L40": {
+"r": 3,
+"s": "Ley 40/2015, de Régimen Jurídico del Sector Público",
+"t": "Ley 40/2015, de 1 de octubre, de Régimen Jurídico del Sector Público.",
+"d": "2015-10-01",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566",
+"id": "BOE-A-2015-10566"
+},
+"RD203": {
+"r": 4,
+"s": "RD 203/2021, Reglamento de actuación por medios electrónicos",
+"t": "Real Decreto 203/2021, de 30 de marzo, por el que se aprueba el Reglamento de actuación y funcionamiento del sector público por medios electrónicos.",
+"d": "2021-03-30",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2021-5032",
+"id": "BOE-A-2021-5032"
+},
+"LJCA": {
+"r": 3,
+"s": "Ley 29/1998, de la Jurisdicción Contencioso-administrativa",
+"t": "Ley 29/1998, de 13 de julio, reguladora de la Jurisdicción Contencioso-administrativa.",
+"d": "1998-07-13",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-1998-16718",
+"id": "BOE-A-1998-16718"
+},
+"LOI": {
+"r": 2,
+"s": "LO 3/2007, para la igualdad efectiva de mujeres y hombres",
+"t": "Ley Orgánica 3/2007, de 22 de marzo, para la igualdad efectiva de mujeres y hombres.",
+"d": "2007-03-22",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2007-6115",
+"id": "BOE-A-2007-6115"
+},
+"RDL6_19": {
+"r": 3,
+"s": "RDL 6/2019, igualdad de trato en el empleo",
+"t": "Real Decreto-ley 6/2019, de 1 de marzo, de medidas urgentes para garantía de la igualdad de trato y de oportunidades entre mujeres y hombres en el empleo y la ocupación.",
+"d": "2019-03-01",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2019-3244",
+"id": "BOE-A-2019-3244"
+},
+"LO10_22": {
+"r": 2,
+"s": "LO 10/2022, de garantía integral de la libertad sexual",
+"t": "Ley Orgánica 10/2022, de 6 de septiembre, de garantía integral de la libertad sexual.",
+"d": "2022-09-06",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-14630",
+"id": "BOE-A-2022-14630"
+},
+"L15_22": {
+"r": 3,
+"s": "Ley 15/2022, integral para la igualdad de trato y la no discriminación",
+"t": "Ley 15/2022, de 12 de julio, integral para la igualdad de trato y la no discriminación.",
+"d": "2022-07-12",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-11589",
+"id": "BOE-A-2022-11589"
+},
+"RD901": {
+"r": 4,
+"s": "RD 901/2020, planes de igualdad y su registro",
+"t": "Real Decreto 901/2020, de 13 de octubre, por el que se regulan los planes de igualdad y su registro y se modifica el Real Decreto 713/2010, de 28 de mayo, sobre registro y depósito de convenios y acuerdos colectivos de trabajo.",
+"d": "2020-10-13",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2020-12214",
+"id": "BOE-A-2020-12214"
+},
+"LO2_24": {
+"r": 2,
+"s": "LO 2/2024, de representación paritaria",
+"t": "Ley Orgánica 2/2024, de 1 de agosto, de representación paritaria y presencia equilibrada de mujeres y hombres.",
+"d": "2024-08-01",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2024-15936",
+"id": "BOE-A-2024-15936"
+},
+"LIB11_16": {
+"r": 6,
+"s": "Ley 11/2016 de las Illes Balears, de igualdad de mujeres y hombres",
+"t": "Ley 11/2016, de 28 de julio, de igualdad de mujeres y hombres.",
+"d": "2016-07-28",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2016-7994",
+"id": "BOE-A-2016-7994"
+},
+"TREBEP": {
+"r": 3,
+"s": "RDLeg 5/2015, Estatuto Básico del Empleado Público (TREBEP)",
+"t": "Real Decreto Legislativo 5/2015, de 30 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto Básico del Empleado Público.",
+"d": "2015-10-30",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11719",
+"id": "BOE-A-2015-11719"
+},
+"L19": {
+"r": 3,
+"s": "Ley 19/2013, de transparencia",
+"t": "Ley 19/2013, de 9 de diciembre, de transparencia, acceso a la información pública y buen gobierno.",
+"d": "2013-12-09",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2013-12887",
+"id": "BOE-A-2013-12887"
+},
+"L37_07": {
+"r": 3,
+"s": "Ley 37/2007, sobre reutilización de la información del sector público",
+"t": "Ley 37/2007, de 16 de noviembre, sobre reutilización de la información del sector público.",
+"d": "2007-11-16",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2007-19814",
+"id": "BOE-A-2007-19814"
+},
+"LIB4_11": {
+"r": 6,
+"s": "Ley 4/2011 de las Illes Balears, de buena administración y buen gobierno",
+"t": "Ley 4/2011, de 31 de marzo, de la buena administración y del buen gobierno de las Illes Balears.",
+"d": "2011-03-31",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2011-7709",
+"id": "BOE-A-2011-7709"
+},
+"LOPDGDD": {
+"r": 2,
+"s": "LO 3/2018, de Protección de Datos (LOPDGDD)",
+"t": "Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales.",
+"d": "2018-12-05",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673",
+"id": "BOE-A-2018-16673"
+},
+"LOSU": {
+"r": 2,
+"s": "LO 2/2023, del Sistema Universitario (LOSU)",
+"t": "Ley Orgánica 2/2023, de 22 de marzo, del Sistema Universitario.",
+"d": "2023-03-22",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-7500",
+"id": "BOE-A-2023-7500"
+},
+"RD640": {
+"r": 4,
+"s": "RD 640/2021, creación y reconocimiento de universidades",
+"t": "Real Decreto 640/2021, de 27 de julio, de creación, reconocimiento y autorización de universidades y centros universitarios, y acreditación institucional de centros universitarios.",
+"d": "2021-07-27",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2021-12613",
+"id": "BOE-A-2021-12613"
+},
+"LPRL": {
+"r": 3,
+"s": "Ley 31/1995, de Prevención de Riesgos Laborales",
+"t": "Ley 31/1995, de 8 de noviembre, de Prevención de Riesgos Laborales.",
+"d": "1995-11-08",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-1995-24292",
+"id": "BOE-A-1995-24292"
+},
+"RD39_97": {
+"r": 4,
+"s": "RD 39/1997, Reglamento de los Servicios de Prevención",
+"t": "Real Decreto 39/1997, de 17 de enero, por el que se aprueba el Reglamento de los Servicios de Prevención.",
+"d": "1997-01-17",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-1997-1853",
+"id": "BOE-A-1997-1853"
+},
+"RD488": {
+"r": 4,
+"s": "RD 488/1997, trabajo con pantallas de visualización",
+"t": "Real Decreto 488/1997, de 14 de abril, sobre disposiciones mínimas de seguridad y salud relativas al trabajo con equipos que incluyen pantallas de visualización.",
+"d": "1997-04-14",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-1997-8671",
+"id": "BOE-A-1997-8671"
+},
+"L20_21": {
+"r": 3,
+"s": "Ley 20/2021, reducción de la temporalidad en el empleo público",
+"t": "Ley 20/2021, de 28 de diciembre, de medidas urgentes para la reducción de la temporalidad en el empleo público.",
+"d": "2021-12-28",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2021-21651",
+"id": "BOE-A-2021-21651"
+},
+"L53_84": {
+"r": 3,
+"s": "Ley 53/1984, de Incompatibilidades",
+"t": "Ley 53/1984, de 26 de diciembre, de Incompatibilidades del personal al servicio de las Administraciones Públicas.",
+"d": "1984-12-26",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-1985-151",
+"id": "BOE-A-1985-151"
+},
+"LFPIB": {
+"r": 6,
+"s": "Ley 3/2007 de las Illes Balears, de la Función Pública",
+"t": "Ley 3/2007, de 27 de marzo, de la Función Pública de la Comunidad Autónoma de las Illes Balears.",
+"d": "2007-03-27",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2007-8713",
+"id": "BOE-A-2007-8713"
+},
+"RD364": {
+"r": 4,
+"s": "RD 364/1995, Reglamento General de Ingreso y Provisión",
+"t": "Real Decreto 364/1995, de 10 de marzo, por el que se aprueba el Reglamento General de Ingreso del Personal al servicio de la Administración general del Estado y de Provisión de Puestos de Trabajo y Promoción Profesional de los Funcionarios Civiles de la Administración general del Estado.",
+"d": "1995-03-10",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-1995-8729",
+"id": "BOE-A-1995-8729"
+},
+"RD678": {
+"r": 4,
+"s": "RD 678/2023, acreditación estatal y concursos de acceso",
+"t": "Real Decreto 678/2023, de 18 de julio, por el que se regula la acreditación estatal para el acceso a los cuerpos docentes universitarios y el régimen de los concursos de acceso a plazas de dichos cuerpos.",
+"d": "2023-07-18",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-19027",
+"id": "BOE-A-2023-19027"
+},
+"RD898": {
+"r": 4,
+"s": "RD 898/1985, régimen del profesorado universitario",
+"t": "Real Decreto 898/1985, de 30 de abril, sobre régimen del profesorado universitario.",
+"d": "1985-04-30",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-1985-11578",
+"id": "BOE-A-1985-11578"
+},
+"RD1086": {
+"r": 4,
+"s": "RD 1086/1989, retribuciones del profesorado universitario",
+"t": "Real Decreto 1086/1989, de 28 de agosto, sobre retribuciones del profesorado universitario.",
+"d": "1989-08-28",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-1989-21967",
+"id": "BOE-A-1989-21967"
+},
+"L14_11": {
+"r": 3,
+"s": "Ley 14/2011, de la Ciencia, la Tecnología y la Innovación",
+"t": "Ley 14/2011, de 1 de junio, de la Ciencia, la Tecnología y la Innovación.",
+"d": "2011-06-01",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2011-9617",
+"id": "BOE-A-2011-9617"
+},
+"L17_22": {
+"r": 3,
+"s": "Ley 17/2022, que modifica la Ley de la Ciencia",
+"t": "Ley 17/2022, de 5 de septiembre, por la que se modifica la Ley 14/2011, de 1 de junio, de la Ciencia, la Tecnología y la Innovación.",
+"d": "2022-09-05",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-14581",
+"id": "BOE-A-2022-14581"
+},
+"RD822": {
+"r": 4,
+"s": "RD 822/2021, organización de las enseñanzas universitarias",
+"t": "Real Decreto 822/2021, de 28 de septiembre, por el que se establece la organización de las enseñanzas universitarias y del procedimiento de aseguramiento de su calidad.",
+"d": "2021-09-28",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2021-15781",
+"id": "BOE-A-2021-15781"
+},
+"RD99": {
+"r": 4,
+"s": "RD 99/2011, enseñanzas oficiales de doctorado",
+"t": "Real Decreto 99/2011, de 28 de enero, por el que se regulan las enseñanzas oficiales de doctorado.",
+"d": "2011-01-28",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2011-2541",
+"id": "BOE-A-2011-2541"
+},
+"RD1125": {
+"r": 4,
+"s": "RD 1125/2003, sistema europeo de créditos (ECTS)",
+"t": "Real Decreto 1125/2003, de 5 de septiembre, por el que se establece el sistema europeo de créditos y el sistema de calificaciones en las titulaciones universitarias de carácter oficial y validez en todo el territorio nacional.",
+"d": "2003-09-05",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2003-17643",
+"id": "BOE-A-2003-17643"
+},
+"RD1027": {
+"r": 4,
+"s": "RD 1027/2011, Marco Español de Cualificaciones (MECES)",
+"t": "Real Decreto 1027/2011, de 15 de julio, por el que se establece el Marco Español de Cualificaciones para la Educación Superior.",
+"d": "2011-07-15",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2011-13317",
+"id": "BOE-A-2011-13317"
+},
+"RD889": {
+"r": 4,
+"s": "RD 889/2022, homologación, equivalencia y convalidación de títulos",
+"t": "Real Decreto 889/2022, de 18 de octubre, por el que se establecen las condiciones y los procedimientos de homologación, de declaración de equivalencia y de convalidación de enseñanzas universitarias de sistemas educativos extranjeros y por el que se regula el procedimiento para establecer la correspondencia al nivel del Marco Español de Cualificaciones para la Educación Superior de los títulos universitarios oficiales pertenecientes a ordenaciones académicas anteriores.",
+"d": "2022-10-18",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-17045",
+"id": "BOE-A-2022-17045"
+},
+"L3_22": {
+"r": 3,
+"s": "Ley 3/2022, de convivencia universitaria",
+"t": "Ley 3/2022, de 24 de febrero, de convivencia universitaria.",
+"d": "2022-02-24",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-2978",
+"id": "BOE-A-2022-2978"
+},
+"LGP": {
+"r": 3,
+"s": "Ley 47/2003, General Presupuestaria",
+"t": "Ley 47/2003, de 26 de noviembre, General Presupuestaria.",
+"d": "2003-11-26",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2003-21614",
+"id": "BOE-A-2003-21614"
+},
+"LOEP": {
+"r": 2,
+"s": "LO 2/2012, de Estabilidad Presupuestaria",
+"t": "Ley Orgánica 2/2012, de 27 de abril, de Estabilidad Presupuestaria y Sostenibilidad Financiera.",
+"d": "2012-04-27",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2012-5730",
+"id": "BOE-A-2012-5730"
+},
+"LFIB": {
+"r": 6,
+"s": "Ley 14/2014 de las Illes Balears, de finanzas",
+"t": "Ley 14/2014, de 29 de diciembre, de finanzas de la Comunidad Autónoma de las Illes Balears.",
+"d": "2014-12-29",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-6017",
+"id": "BOE-A-2015-6017"
+},
+"LGTel": {
+"r": 3,
+"s": "Ley 11/2022, General de Telecomunicaciones",
+"t": "Ley 11/2022, de 28 de junio, General de Telecomunicaciones.",
+"d": "2022-06-28",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-10757",
+"id": "BOE-A-2022-10757"
+},
+"RD123": {
+"r": 4,
+"s": "RD 123/2017, Reglamento de uso del dominio público radioeléctrico",
+"t": "Real Decreto 123/2017, de 24 de febrero, por el que se aprueba el Reglamento sobre el uso del dominio público radioeléctrico.",
+"d": "2017-02-24",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2017-2460",
+"id": "BOE-A-2017-2460"
+},
+"RDL12_18": {
+"r": 3,
+"s": "RDL 12/2018, de seguridad de las redes y sistemas de información",
+"t": "Real Decreto-ley 12/2018, de 7 de septiembre, de seguridad de las redes y sistemas de información.",
+"d": "2018-09-07",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-12257",
+"id": "BOE-A-2018-12257"
+},
+"RD43_21": {
+"r": 4,
+"s": "RD 43/2021, desarrollo del RDL 12/2018",
+"t": "Real Decreto 43/2021, de 26 de enero, por el que se desarrolla el Real Decreto-ley 12/2018, de 7 de septiembre, de seguridad de las redes y sistemas de información.",
+"d": "2021-01-26",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2021-1192",
+"id": "BOE-A-2021-1192"
+},
+"ENS": {
+"r": 4,
+"s": "RD 311/2022, Esquema Nacional de Seguridad (ENS)",
+"t": "Real Decreto 311/2022, de 3 de mayo, por el que se regula el Esquema Nacional de Seguridad.",
+"d": "2022-05-03",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-7191",
+"id": "BOE-A-2022-7191"
+},
+"LSSI": {
+"r": 3,
+"s": "Ley 34/2002, de servicios de la sociedad de la información (LSSI)",
+"t": "Ley 34/2002, de 11 de julio, de servicios de la sociedad de la información y de comercio electrónico.",
+"d": "2002-07-11",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2002-13758",
+"id": "BOE-A-2002-13758"
+},
+"CP": {
+"r": 2,
+"s": "LO 10/1995, del Código Penal",
+"t": "Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal.",
+"d": "1995-11-23",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-1995-25444",
+"id": "BOE-A-1995-25444"
+},
+"L6_20": {
+"r": 3,
+"s": "Ley 6/2020, de servicios electrónicos de confianza",
+"t": "Ley 6/2020, de 11 de noviembre, reguladora de determinados aspectos de los servicios electrónicos de confianza.",
+"d": "2020-11-11",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2020-14046",
+"id": "BOE-A-2020-14046"
+},
+"ENI": {
+"r": 4,
+"s": "RD 4/2010, Esquema Nacional de Interoperabilidad (ENI)",
+"t": "Real Decreto 4/2010, de 8 de enero, por el que se regula el Esquema Nacional de Interoperabilidad en el ámbito de la Administración Electrónica.",
+"d": "2010-01-08",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2010-1331",
+"id": "BOE-A-2010-1331"
+},
+"NTI_DOC": {
+"r": 5,
+"s": "NTI de Documento electrónico",
+"t": "Resolución de 19 de julio de 2011, de la Secretaría de Estado para la Función Pública, por la que se aprueba la Norma Técnica de Interoperabilidad de Documento Electrónico.",
+"d": "2011-07-19",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2011-13169",
+"id": "BOE-A-2011-13169"
+},
+"NTI_EXP": {
+"r": 5,
+"s": "NTI de Expediente electrónico",
+"t": "Resolución de 19 de julio de 2011, de la Secretaría de Estado para la Función Pública, por la que se aprueba la Norma Técnica de Interoperabilidad de Expediente Electrónico.",
+"d": "2011-07-19",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2011-13170",
+"id": "BOE-A-2011-13170"
+},
+"NTI_DIG": {
+"r": 5,
+"s": "NTI de Digitalización de documentos",
+"t": "Resolución de 19 de julio de 2011, de la Secretaría de Estado para la Función Pública, por la que se aprueba la Norma Técnica de Interoperabilidad de Digitalización de Documentos.",
+"d": "2011-07-19",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2011-13168",
+"id": "BOE-A-2011-13168"
+},
+"NTI_COP": {
+"r": 5,
+"s": "NTI de Procedimientos de copiado auténtico y conversión",
+"t": "Resolución de 19 de julio de 2011, de la Secretaría de Estado para la Función Pública, por la que se aprueba la Norma Técnica de Interoperabilidad de Procedimientos de copiado auténtico y conversión entre documentos electrónicos.",
+"d": "2011-07-19",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2011-13172",
+"id": "BOE-A-2011-13172"
+},
+"NTI_PGD": {
+"r": 5,
+"s": "NTI de Política de gestión de documentos electrónicos",
+"t": "Resolución de 28 de junio de 2012, de la Secretaría de Estado de Administraciones Públicas, por la que se aprueba la Norma Técnica de Interoperabilidad de Política de gestión de documentos electrónicos.",
+"d": "2012-06-28",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2012-10048",
+"id": "BOE-A-2012-10048"
+},
+"NTI_CAT": {
+"r": 5,
+"s": "NTI de Catálogo de estándares",
+"t": "Resolución de 3 de octubre de 2012, de la Secretaría de Estado de Administraciones Públicas, por la que se aprueba la Norma Técnica de Interoperabilidad de Catálogo de estándares.",
+"d": "2012-10-03",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2012-13501",
+"id": "BOE-A-2012-13501"
+},
+"NTI_SARA": {
+"r": 5,
+"s": "NTI de Requisitos de conexión a la Red SARA",
+"t": "Resolución de 19 de julio de 2011, de la Secretaría de Estado para la Función Pública, por la que se aprueba la Norma Técnica de Interoperabilidad de requisitos de conexión a la red de comunicaciones de las Administraciones Públicas españolas.",
+"d": "2011-07-19",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2011-13173",
+"id": "BOE-A-2011-13173"
+},
+"NTI_INT": {
+"r": 5,
+"s": "NTI de Protocolos de intermediación de datos",
+"t": "Resolución de 28 de junio de 2012, de la Secretaría de Estado de Administraciones Públicas, por la que se aprueba la Norma Técnica de Interoperabilidad de Protocolos de intermediación de datos.",
+"d": "2012-06-28",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2012-10049",
+"id": "BOE-A-2012-10049"
+},
+"NTI_FIR": {
+"r": 5,
+"s": "NTI de Política de firma y sello electrónicos",
+"t": "Resolución de 27 de octubre de 2016, de la Secretaría de Estado de Administraciones Públicas, por la que se aprueba la Norma Técnica de Interoperabilidad de Política de Firma y Sello Electrónicos y de Certificados de la Administración.",
+"d": "2016-10-27",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2016-10146",
+"id": "BOE-A-2016-10146"
+},
+"NTI_MOD": {
+"r": 5,
+"s": "NTI de Relación de modelos de datos",
+"t": "Resolución de 22 de julio de 2021, de la Secretaría de Estado de Digitalización e Inteligencia Artificial, por la que se aprueba la Norma Técnica de Interoperabilidad de Modelo de Datos para el intercambio de asientos entre las entidades registrales.",
+"d": "2021-07-22",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2021-13749",
+"id": "BOE-A-2021-13749"
+},
+"ITS_INES": {
+"r": 5,
+"s": "ITS de Informe del Estado de la Seguridad",
+"t": "Resolución de 7 de octubre de 2016, de la Secretaría de Estado de Administraciones Públicas, por la que se aprueba la Instrucción Técnica de Seguridad de Informe del Estado de la Seguridad.",
+"d": "2016-10-07",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2016-10108",
+"id": "BOE-A-2016-10108"
+},
+"ITS_CONF": {
+"r": 5,
+"s": "ITS de Conformidad con el ENS",
+"t": "Resolución de 13 de octubre de 2016, de la Secretaría de Estado de Administraciones Públicas, por la que se aprueba la Instrucción Técnica de Seguridad de conformidad con el Esquema Nacional de Seguridad.",
+"d": "2016-10-13",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2016-10109",
+"id": "BOE-A-2016-10109"
+},
+"ITS_INC": {
+"r": 5,
+"s": "ITS de Notificación de incidentes de seguridad",
+"t": "Resolución de 13 de abril de 2018, de la Secretaría de Estado de Función Pública, por la que se aprueba la Instrucción Técnica de Seguridad de Notificación de Incidentes de Seguridad.",
+"d": "2018-04-13",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-5370",
+"id": "BOE-A-2018-5370"
+},
+"ITS_AUD": {
+"r": 5,
+"s": "ITS de Auditoría de la seguridad de los sistemas",
+"t": "Resolución de 27 de marzo de 2018, de la Secretaría de Estado de Función Pública, por la que se aprueba la Instrucción Técnica de Seguridad de Auditoría de la Seguridad de los Sistemas de Información.",
+"d": "2018-03-27",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-4573",
+"id": "BOE-A-2018-4573"
+},
+"RD1112": {
+"r": 4,
+"s": "RD 1112/2018, accesibilidad de sitios web y apps del sector público",
+"t": "Real Decreto 1112/2018, de 7 de septiembre, sobre accesibilidad de los sitios web y aplicaciones para dispositivos móviles del sector público.",
+"d": "2018-09-07",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-12699",
+"id": "BOE-A-2018-12699"
+},
+"RDLeg1_13": {
+"r": 3,
+"s": "RDLeg 1/2013, Ley General de derechos de las personas con discapacidad",
+"t": "Real Decreto Legislativo 1/2013, de 29 de noviembre, por el que se aprueba el Texto Refundido de la Ley General de derechos de las personas con discapacidad y de su inclusión social.",
+"d": "2013-11-29",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2013-12632",
+"id": "BOE-A-2013-12632"
+},
+"L11_23": {
+"r": 3,
+"s": "Ley 11/2023, accesibilidad de productos y servicios (entre otras materias)",
+"t": "Ley 11/2023, de 8 de mayo, de trasposición de Directivas de la Unión Europea en materia de accesibilidad de determinados productos y servicios, migración de personas altamente cualificadas, tributaria y digitalización de actuaciones notariales y registrales; y por la que se modifica la Ley 12/2011, de 27 de mayo, sobre responsabilidad civil por daños nucleares o producidos por materiales radiactivos.",
+"d": "2023-05-08",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-11022",
+"id": "BOE-A-2023-11022"
+},
+"RD1509": {
+"r": 4,
+"s": "RD 1509/2008, Registro de Universidades, Centros y Títulos (RUCT)",
+"t": "Real Decreto 1509/2008, de 12 de septiembre, por el que se regula el Registro de Universidades, Centros y Títulos.",
+"d": "2008-09-12",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2008-15464",
+"id": "BOE-A-2008-15464"
+},
+"LCSP": {
+"r": 3,
+"s": "Ley 9/2017, de Contratos del Sector Público",
+"t": "Ley 9/2017, de 8 de noviembre, de Contratos del Sector Público, por la que se transponen al ordenamiento jurídico español las Directivas del Parlamento Europeo y del Consejo 2014/23/UE y 2014/24/UE, de 26 de febrero de 2014.",
+"d": "2017-11-08",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2017-12902",
+"id": "BOE-A-2017-12902"
+},
+"RD729": {
+"r": 4,
+"s": "RD 729/2023, Estatuto de la AESIA",
+"t": "Real Decreto 729/2023, de 22 de agosto, por el que se aprueba el Estatuto de la Agencia Española de Supervisión de Inteligencia Artificial.",
+"d": "2023-08-22",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-18911",
+"id": "BOE-A-2023-18911"
+},
+"L10_21": {
+"r": 3,
+"s": "Ley 10/2021, de trabajo a distancia",
+"t": "Ley 10/2021, de 9 de julio, de trabajo a distancia.",
+"d": "2021-07-09",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-2021-11472",
+"id": "BOE-A-2021-11472"
+},
+"LPHE": {
+"r": 3,
+"s": "Ley 16/1985, del Patrimonio Histórico Español",
+"t": "Ley 16/1985, de 25 de junio, del Patrimonio Histórico Español.",
+"d": "1985-06-25",
+"u": "https://www.boe.es/buscar/act.php?id=BOE-A-1985-12534",
+"id": "BOE-A-1985-12534"
+},
+"RGPD": {
+"r": 1,
+"s": "Reglamento (UE) 2016/679, General de Protección de Datos (RGPD)",
+"t": "Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016, relativo a la protección de las personas físicas en lo que respecta al tratamiento de datos personales y a la libre circulación de estos datos.",
+"d": "2016-04-27",
+"u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32016R0679",
+"id": "CELEX 32016R0679"
+},
+"eIDAS": {
+"r": 1,
+"s": "Reglamento (UE) 910/2014 (eIDAS)",
+"t": "Reglamento (UE) n.º 910/2014 del Parlamento Europeo y del Consejo, de 23 de julio de 2014, relativo a la identificación electrónica y los servicios de confianza para las transacciones electrónicas en el mercado interior.",
+"d": "2014-07-23",
+"u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32014R0910",
+"id": "CELEX 32014R0910"
+},
+"eIDAS2": {
+"r": 1,
+"s": "Reglamento (UE) 2024/1183 (eIDAS 2, cartera de identidad digital)",
+"t": "Reglamento (UE) 2024/1183 del Parlamento Europeo y del Consejo, de 11 de abril de 2024, por el que se modifica el Reglamento (UE) n.º 910/2014 en lo que respecta al establecimiento del marco europeo de identidad digital.",
+"d": "2024-04-11",
+"u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32024R1183",
+"id": "CELEX 32024R1183"
+},
+"RIA": {
+"r": 1,
+"s": "Reglamento (UE) 2024/1689, de Inteligencia Artificial",
+"t": "Reglamento (UE) 2024/1689 del Parlamento Europeo y del Consejo, de 13 de junio de 2024, por el que se establecen normas armonizadas en materia de inteligencia artificial.",
+"d": "2024-06-13",
+"u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32024R1689",
+"id": "CELEX 32024R1689"
+},
+"NIS2": {
+"r": 1,
+"s": "Directiva (UE) 2022/2555 (NIS2)",
+"t": "Directiva (UE) 2022/2555 del Parlamento Europeo y del Consejo, de 14 de diciembre de 2022, relativa a las medidas destinadas a garantizar un elevado nivel común de ciberseguridad en toda la Unión.",
+"d": "2022-12-14",
+"u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32022L2555",
+"id": "CELEX 32022L2555"
+},
+"CSA": {
+"r": 1,
+"s": "Reglamento (UE) 2019/881, de Ciberseguridad",
+"t": "Reglamento (UE) 2019/881 del Parlamento Europeo y del Consejo, de 17 de abril de 2019, relativo a ENISA y a la certificación de la ciberseguridad de las tecnologías de la información y la comunicación.",
+"d": "2019-04-17",
+"u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32019R0881",
+"id": "CELEX 32019R0881"
+},
+"CRA": {
+"r": 1,
+"s": "Reglamento (UE) 2024/2847, de Ciberresiliencia",
+"t": "Reglamento (UE) 2024/2847 del Parlamento Europeo y del Consejo, de 23 de octubre de 2024, relativo a los requisitos horizontales de ciberseguridad para los productos con elementos digitales.",
+"d": "2024-10-23",
+"u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32024R2847",
+"id": "CELEX 32024R2847"
+},
+"DATA": {
+"r": 1,
+"s": "Reglamento (UE) 2023/2854, de Datos (Data Act)",
+"t": "Reglamento (UE) 2023/2854 del Parlamento Europeo y del Consejo, de 13 de diciembre de 2023, sobre normas armonizadas para un acceso justo a los datos y su utilización.",
+"d": "2023-12-13",
+"u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32023R2854",
+"id": "CELEX 32023R2854"
+},
+"DGA": {
+"r": 1,
+"s": "Reglamento (UE) 2022/868, de Gobernanza de Datos",
+"t": "Reglamento (UE) 2022/868 del Parlamento Europeo y del Consejo, de 30 de mayo de 2022, relativo a la gobernanza europea de datos.",
+"d": "2022-05-30",
+"u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32022R0868",
+"id": "CELEX 32022R0868"
+},
+"DOPEN": {
+"r": 1,
+"s": "Directiva (UE) 2019/1024, de datos abiertos",
+"t": "Directiva (UE) 2019/1024 del Parlamento Europeo y del Consejo, de 20 de junio de 2019, relativa a los datos abiertos y la reutilización de la información del sector público.",
+"d": "2019-06-20",
+"u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32019L1024",
+"id": "CELEX 32019L1024"
+},
+"DACC": {
+"r": 1,
+"s": "Directiva (UE) 2016/2102, accesibilidad web del sector público",
+"t": "Directiva (UE) 2016/2102 del Parlamento Europeo y del Consejo, de 26 de octubre de 2016, sobre la accesibilidad de los sitios web y aplicaciones para dispositivos móviles de los organismos del sector público.",
+"d": "2016-10-26",
+"u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32016L2102",
+"id": "CELEX 32016L2102"
+},
+"EAA": {
+"r": 1,
+"s": "Directiva (UE) 2019/882, Acta Europea de Accesibilidad",
+"t": "Directiva (UE) 2019/882 del Parlamento Europeo y del Consejo, de 17 de abril de 2019, sobre los requisitos de accesibilidad de los productos y servicios.",
+"d": "2019-04-17",
+"u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32019L0882",
+"id": "CELEX 32019L0882"
+},
+"EST": {
+"r": 6,
+"s": "Decreto 64/2010, Estatutos de la UIB",
+"t": "Decreto 64/2010, de 14 de mayo, por el que se aprueban los Estatutos de la Universidad de las Illes Balears (BOIB núm. 76, de 22/05/2010; BOE-A-2010-9721).",
+"d": "2010-05-14",
+"u": "https://www.boe.es/boe/dias/2010/06/19/pdfs/BOE-A-2010-9721.pdf",
+"id": "BOE-A-2010-9721 (PDF original)"
+},
+"AN14427": {
+"r": 7,
+"s": "AN 14427/2022, Reglamento de administración electrónica de la UIB",
+"t": "Acord normatiu 14427/2022, del dia 23 de març, pel qual s'aprova el Reglament per a la implantació de l'administració electrònica a la Universitat de les Illes Balears.",
+"d": "2022-03-23",
+"u": "https://seu.uib.cat/fou/acord/14427/",
+"id": "FOU, acord 14427"
+},
+"AE14431": {
+"r": 7,
+"s": "AE 14431/2022, registro de funcionarios habilitados",
+"t": "Acord executiu 14431/2022, del dia 23 de març, pel qual es crea i regula el registre de funcionaris habilitats per a la identificació i l'autenticació de ciutadans i per a la realització de còpies autèntiques en l'àmbit de la UIB.",
+"d": "2022-03-23",
+"u": "https://seu.uib.cat/fou/acord/14431/",
+"id": "FOU, acord 14431"
+},
+"AN14978": {
+"r": 7,
+"s": "AN 14978/2023, III Plan de Igualdad de la UIB 2023-2027",
+"t": "Acord normatiu 14978/2023, del dia 14 de juny, pel qual s'aprova el III Pla d'igualtat de la Universitat de les Illes Balears (2023-2027).",
+"d": "2023-06-14",
+"u": "https://seu.uib.cat/fou/acord/14978/",
+"id": "FOU, acord 14978"
+},
+"AN13256": {
+"r": 7,
+"s": "AN 13256/2019, Reglamento de transparencia de la UIB",
+"t": "Acord normatiu 13256/2019, del dia 8 de novembre, pel qual s'aprova el Reglament de transparència de la Universitat de les Illes Balears.",
+"d": "2019-11-08",
+"u": "https://seu.uib.cat/fou/acord/13256/",
+"id": "FOU, acord 13256"
+},
+"R9439": {
+"r": 7,
+"s": "Resolución 9439/2010, publicación de los Estatutos (FOU)",
+"t": "Resolució del Rectorat 9439/2010, del dia 24 de maig, per la qual es fan publicar els Estatuts de la Universitat de les Illes Balears.",
+"d": "2010-05-24",
+"u": "https://seu.uib.cat/fou/acord/9439/",
+"id": "FOU, acord 9439"
+},
+"AE15603": {
+"r": 7,
+"s": "AE 15603/2024, carrera horizontal del PTGAS",
+"t": "Acord executiu 15603/2024, del dia 11 de setembre, pel qual es regula la carrera horitzontal del personal tècnic, de gestió i d'administració i serveis de la UIB.",
+"d": "2024-09-11",
+"u": "https://seu.uib.cat/fou/acord/15603/",
+"id": "FOU, acord 15603"
+},
+"AN15637": {
+"r": 7,
+"s": "AN 15637/2024, carrera horizontal y evaluación del desempeño",
+"t": "Acord normatiu 15637/2024, del dia 27 de setembre, sobre carrera professional horitzontal mitjançant l'avaluació de l'acompliment del personal funcionari tècnic, de gestió i d'administració i serveis de la UIB.",
+"d": "2024-09-27",
+"u": "https://seu.uib.cat/fou/acord/15637/",
+"id": "FOU, acord 15637"
+},
+"AN15416": {
+"r": 7,
+"s": "AN 15416/2024, Reglamento académico",
+"t": "Acord normatiu 15416/2024, del dia 26 de març, pel qual s'aprova el Reglament acadèmic de la Universitat de les Illes Balears.",
+"d": "2024-03-26",
+"u": "https://seu.uib.cat/fou/acord/15416/",
+"id": "FOU, acord 15416"
+},
+"AN15417": {
+"r": 7,
+"s": "AN 15417/2024, normativa de permanencia",
+"t": "Acord normatiu 15417/2024, del dia 26 de març, pel qual s'aprova la normativa de permanència i progressió dels estudiants a la UIB.",
+"d": "2024-03-26",
+"u": "https://seu.uib.cat/fou/acord/15417/",
+"id": "FOU, acord 15417"
+},
+"AN15556": {
+"r": 7,
+"s": "AN 15556/2024, modificación de la permanencia",
+"t": "Acord normatiu 15556/2024, del dia 26 de juliol, pel qual es modifica l'Acord normatiu 15417/2024 de permanència i progressió dels estudiants.",
+"d": "2024-07-26",
+"u": "https://seu.uib.cat/fou/acord/15556/",
+"id": "FOU, acord 15556"
+},
+"AN15350": {
+"r": 7,
+"s": "AN 15350/2024, estructuras de investigación",
+"t": "Acord normatiu 15350/2024, del dia 21 de febrer, pel qual es regulen les estructures d'organització de la recerca, la innovació i la transferència a la UIB.",
+"d": "2024-02-21",
+"u": "https://seu.uib.cat/fou/acord/15350/",
+"id": "FOU, acord 15350"
+},
+"AN14881": {
+"r": 7,
+"s": "AN 14881/2023, política de seguridad TIC de la UIB",
+"t": "Acord normatiu 14881/2023, del dia 30 de març, pel qual s'aprova la política de seguretat de la informació de les TIC de la Universitat de les Illes Balears.",
+"d": "2023-03-30",
+"u": "https://seu.uib.cat/fou/acord/14881/",
+"id": "FOU, acord 14881"
+},
+"AN14430": {
+"r": 7,
+"s": "AN 14430/2022, teletrabajo del PTGAS",
+"t": "Acord normatiu 14430/2022, del dia 23 de març, pel qual es regula la modalitat de teletreball per al personal d'administració i serveis de la UIB.",
+"d": "2022-03-23",
+"u": "https://seu.uib.cat/fou/acord/14430/",
+"id": "FOU, acord 14430"
+},
+"AN15139": {
+"r": 7,
+"s": "AN 15139/2023, modificación del teletrabajo",
+"t": "Acord normatiu 15139/2023, del dia 6 de novembre, pel qual es modifica l'Acord normatiu 14430/2022 de teletreball del PTGAS.",
+"d": "2023-11-06",
+"u": "https://seu.uib.cat/fou/acord/15139/",
+"id": "FOU, acord 15139"
+}
+};
+
+// Para cada tema: [clave de NORMS, qué mirar de esa norma en este tema]
+const TEMA_NORMS = {
+ 1: [["L39", "Título preliminar, Título I (interesados) y Título II (actividad de las AAPP, términos y plazos): arts. 1-33."], ["L40", "Principios generales (art. 3) y su relación con la Ley 39/2015, que regula la relación ad extra."], ["RD203", "Desarrolla la Ley 39/2015 en registros, apoderamientos, identificación, notificaciones electrónicas y funcionarios habilitados."], ["AN14427", "Cómo aplica la UIB la obligación de relacionarse electrónicamente (art. 14 de la Ley 39/2015)."]],
+ 2: [["L39", "Título IV (arts. 53-105): garantías, iniciación, ordenación, instrucción, finalización, tramitación simplificada y ejecución."], ["RD203", "Expediente y documento electrónicos, y actuaciones del procedimiento por medios electrónicos."], ["AN14427", "Tramitación electrónica de los procedimientos en la UIB."]],
+ 3: [["L39", "Título V (arts. 106-126): revisión de oficio, recurso de alzada, reposición y revisión."], ["LJCA", "Plazo para el recurso contencioso-administrativo (art. 46) una vez agotada la vía administrativa."], ["LOSU", "Qué actos de los órganos universitarios agotan la vía administrativa."]],
+ 4: [["LOI", "Arts. 1-13 (principio de igualdad y tutela), art. 14 (criterios de actuación), art. 25 (educación superior) y Título V (arts. 51-68, empleo público)."], ["LO2_24", "Presencia equilibrada de mujeres y hombres en órganos y la modificación de la LO 3/2007."], ["LO10_22", "Prevención del acoso sexual y por razón de sexo en el ámbito laboral y educativo."], ["L15_22", "Igualdad de trato y no discriminación por cualquier motivo; art. 23 (algoritmos)."], ["RDL6_19", "Reforma de la LO 3/2007 y del TREBEP en materia de planes de igualdad y permisos."], ["TREBEP", "Art. 14.i) (derecho a la no discriminación), permisos (arts. 48-49) y disposición adicional séptima (planes de igualdad)."], ["RD901", "Contenido y diagnóstico de los planes de igualdad (de aplicación al personal laboral)."], ["LOSU", "Unidades de igualdad y medidas de igualdad en las universidades."], ["LIB11_16", "Ley autonómica de igualdad: obligaciones de las administraciones de las Illes Balears."], ["AN14978", "Marco normativo, ejes y objetivos generales del III Plan de Igualdad de la UIB."]],
+ 5: [["L19", "Título I: publicidad activa (arts. 5-11) y derecho de acceso (arts. 12-24)."], ["L39", "Art. 13.d): derecho de acceso a la información pública como derecho de las personas."], ["LOPDGDD", "Límite de la protección de datos personales al derecho de acceso (en relación con el art. 15 de la Ley 19/2013)."], ["L37_07", "Diferencia entre acceso y reutilización de la información pública."], ["LIB4_11", "Ley balear de buena administración y buen gobierno."], ["AN13256", "Objeto, ámbito subjetivo, responsabilidades de los órganos unipersonales, portal y acceso en la UIB."]],
+ 6: [["RGPD", "Definiciones (art. 4), principios (art. 5), licitud (art. 6), derechos (arts. 12-23), responsable y encargado (arts. 24-28), seguridad (art. 32), brechas (arts. 33-34) y DPD (arts. 37-39)."], ["LOPDGDD", "Títulos I (disposiciones generales), II (principios), III (derechos), V (responsable y encargado; DPD obligatorio en universidades, art. 34) y X (derechos digitales)."], ["L19", "Art. 15: cómo se ponderan los datos personales en el derecho de acceso."], ["ENS", "Las medidas del ENS son también la referencia de seguridad para los tratamientos del sector público (DA 1.ª de la LOPDGDD)."]],
+ 7: [["LOSU", "Título preliminar y títulos iniciales: funciones del sistema universitario, autonomía universitaria, creación y reconocimiento de universidades y calidad."], ["RD640", "Requisitos para crear y reconocer universidades y centros, y acreditación institucional."], ["RD822", "Verificación, seguimiento y acreditación de títulos como parte del aseguramiento de la calidad."], ["RD1509", "Registro de Universidades, Centros y Títulos (RUCT)."], ["EST", "Fines y estructura propios de la UIB."]],
+ 8: [["EST", "Texto de los Estatutos: naturaleza y fines, estructura, órganos de gobierno y comunidad universitaria."], ["R9439", "Publicación de los Estatutos en el FOU (versión en catalán)."], ["LOSU", "Órganos de gobierno y adaptación de los estatutos: en 2025 las preguntas se basaron en los cambios de la LOSU."]],
+ 9: [["AN14427", "Todo el reglamento: sede, TEO, obligados (art. 4), registro, identificación, notificaciones y archivo."], ["AE14431", "Registro de funcionarios habilitados para identificar a ciudadanos y hacer copias auténticas."], ["L39", "Arts. 9-16 (identificación, firma, asistencia, registros) y arts. 40-46 (notificaciones)."], ["L40", "Arts. 38-46: sede electrónica, portal, sistemas de identificación, actuación automatizada, firma y archivo electrónico."], ["RD203", "Reglamento estatal de desarrollo de la administración electrónica."]],
+ 10: [["LPRL", "Arts. 1-4 (objeto, ámbito y definiciones) y capítulo III (arts. 14-29: derechos y obligaciones)."], ["RD39_97", "Evaluación de riesgos, planificación preventiva y modalidades de organización de la prevención."], ["RD488", "Puestos de trabajo con pantallas: es la norma de prevención más cercana al trabajo TIC."]],
+ 11: [["TREBEP", "Arts. 1-7 (objeto y ámbito), 8-13 (clases de personal), 21-30 (retribuciones) y 55-68 (acceso y pérdida de la relación de servicio)."], ["L20_21", "Reforma del art. 10 del TREBEP sobre personal interino y procesos de estabilización."], ["L53_84", "Régimen de incompatibilidades del personal público."], ["LOSU", "Régimen del personal técnico, de gestión y de administración y servicios (PTGAS) de las universidades."], ["RD364", "Norma estatal supletoria sobre ingreso y provisión de puestos."], ["LFPIB", "Normativa autonómica que concreta el TREBEP para la función pública balear."]],
+ 12: [["LFPIB", "Títulos sobre ocupación de puestos y movilidad, situaciones administrativas y carrera administrativa."], ["TREBEP", "Arts. 16-20 (carrera y evaluación del desempeño), 78-84 (provisión y movilidad) y 85-92 (situaciones administrativas)."], ["RD364", "Concurso, libre designación y otras formas de provisión (supletorio)."], ["AE15603", "Niveles de carrera horizontal del PTGAS de la UIB y requisitos para progresar."]],
+ 13: [["AN15637", "Todo el acuerdo: sistema de evaluación del desempeño y sus efectos en la carrera."], ["AE15603", "Regulación de la carrera horizontal que se apoya en la evaluación."], ["TREBEP", "Art. 20: evaluación del desempeño."], ["LFPIB", "Carrera profesional en la función pública balear."]],
+ 14: [["LOSU", "Título dedicado al PDI: cuerpos docentes, acceso y modalidades de contratación laboral."], ["RD678", "Acreditación estatal (ANECA) y régimen de los concursos de acceso a los cuerpos docentes."], ["RD898", "Régimen de dedicación del profesorado universitario."], ["RD1086", "Retribuciones del profesorado: sexenios y quinquenios."], ["L14_11", "Personal investigador y modalidades contractuales de investigación."], ["L17_22", "Reforma de la Ley de la Ciencia: nuevas modalidades contractuales y carrera investigadora."], ["TREBEP", "Aplicación supletoria al PDI funcionario."]],
+ 15: [["RD822", "Objeto, ámbito, títulos oficiales (grado y máster), eficacia de los títulos anteriores al EEES y enseñanzas propias (formación permanente)."], ["RD99", "Enseñanzas oficiales de doctorado."], ["RD1125", "Sistema europeo de créditos (ECTS) y sistema de calificaciones."], ["RD1027", "Niveles del MECES (1 técnico superior, 2 grado, 3 máster, 4 doctor)."], ["RD889", "Homologación, equivalencia y correspondencia de títulos al nivel MECES."], ["RD1509", "Inscripción de los títulos en el RUCT."], ["LOSU", "Estructura de las enseñanzas y formación permanente."]],
+ 16: [["AN15416", "Matrícula, evaluación, convocatorias, reconocimiento y revisión de calificaciones."], ["AN15417", "Créditos mínimos y régimen de permanencia y progresión."], ["AN15556", "Modificación de julio de 2024 de la normativa de permanencia."], ["L3_22", "Régimen disciplinario y de convivencia del estudiantado."], ["RD822", "Reconocimiento y transferencia de créditos."], ["LOSU", "Derechos y deberes del estudiantado."]],
+ 17: [["LOSU", "Régimen económico y financiero de las universidades: presupuesto, aprobación y control."], ["LOEP", "Principios de estabilidad presupuestaria y sostenibilidad financiera."], ["LGP", "Conceptos presupuestarios: créditos, principios y modificaciones (como referencia)."], ["LFIB", "Ley de finanzas de la comunidad autónoma, a la que se vincula la financiación de la UIB."], ["L19", "Publicidad activa de la información económica y presupuestaria (art. 8)."]],
+ 18: [["LOSU", "Investigación en la universidad: departamentos e institutos universitarios de investigación."], ["L14_11", "Sistema español de ciencia, tecnología e innovación y agentes de ejecución."], ["L17_22", "Reforma de 2022 de la Ley de la Ciencia."], ["AN15350", "Departamentos, institutos, grupos de investigación y funciones de la Comisión de Investigación de la UIB."]],
+ 19: [["ENS", "Anexo II: protección de soportes de información (mp.si) y de la información (mp.info); categorización de los sistemas que alojan los datos."]],
+ 20: [["ENS", "Anexo II: copias de seguridad (mp.info.6) y continuidad del servicio (op.cont)."], ["RGPD", "Art. 32: capacidad de restaurar la disponibilidad y el acceso a los datos tras un incidente."], ["L39", "Art. 17: archivo de documentos y conservación de los expedientes."], ["AN14881", "Política de seguridad de la UIB, que enmarca la de copias."]],
+ 21: [["LGTel", "Marco legal de las redes y servicios de comunicaciones electrónicas."], ["NTI_SARA", "Conexión de las administraciones a la Red SARA."], ["ENS", "Anexo II: protección de las comunicaciones (mp.com)."]],
+ 22: [["LGTel", "Uso del espectro radioeléctrico y bandas de uso común."], ["RD123", "Reglamento sobre el uso del dominio público radioeléctrico."], ["ENS", "Anexo II: protección de las comunicaciones (mp.com), aplicable a las redes inalámbricas."]],
+ 23: [["NTI_SARA", "Requisitos de direccionamiento y conexión a la Red SARA."], ["LGTel", "Marco de las comunicaciones electrónicas."], ["ENS", "Anexo II: protección de las comunicaciones (mp.com)."]],
+ 24: [["ENS", "Anexo II: separación de flujos de información en la red (mp.com.4), base normativa de la segmentación con VLAN."], ["NTI_SARA", "Conexión segura de las redes de las administraciones."]],
+ 25: [["ENS", "Anexo II: perímetro seguro (mp.com.1) y resto de medidas de protección de las comunicaciones."], ["RDL12_18", "Obligaciones de seguridad de las redes y sistemas de información."], ["RD43_21", "Desarrollo reglamentario del RDL 12/2018."]],
+ 26: [["ENS", "Anexo II: servicios externos (op.ext) y servicios en la nube (op.nub)."], ["RGPD", "Encargado del tratamiento (art. 28) y transferencias internacionales de datos (arts. 44-49)."], ["DATA", "Capítulo sobre el cambio entre proveedores de servicios de tratamiento de datos (portabilidad en la nube)."], ["LCSP", "Contratación de servicios en la nube por el sector público."]],
+ 27: [["LSSI", "Comunicaciones comerciales por vía electrónica y spam (arts. 19-22)."], ["ENS", "Anexo II: protección del correo electrónico (mp.s.1)."], ["RGPD", "Tratamiento de datos personales contenidos en el correo."]],
+ 28: [["LSSI", "Disposición adicional sexta: sistema de asignación de nombres de dominio bajo el «.es»."], ["ENS", "Anexo II: protección de los servicios (mp.s)."]],
+ 29: [["eIDAS", "Identificación electrónica, niveles de seguridad y reconocimiento mutuo entre Estados."], ["eIDAS2", "Marco europeo de identidad digital y cartera de identidad digital europea."], ["L39", "Arts. 9-10: sistemas de identificación y firma de los interesados."], ["L40", "Arts. 40-45: identificación de las administraciones y sistemas de firma."], ["RD203", "Sistemas de identificación y firma admitidos en el sector público."], ["ENS", "Anexo II: control de acceso (op.acc): identificación y mecanismos de autenticación."]],
+ 30: [["eIDAS", "Firma electrónica simple, avanzada y cualificada; certificados cualificados; sellos y sellos de tiempo; prestadores de confianza."], ["eIDAS2", "Cambios de 2024 en los servicios de confianza."], ["L6_20", "Certificados electrónicos, prestadores de servicios de confianza y régimen sancionador en España."], ["L39", "Arts. 9-11 (firma de los interesados) y arts. 26-27 (documentos y copias)."], ["L40", "Arts. 40-45: firma de las administraciones y sellos electrónicos."], ["RD203", "Uso de la firma electrónica en el sector público."], ["ENI", "Recuperación y conservación del documento electrónico."], ["NTI_FIR", "Política de firma y sello: formatos admitidos (XAdES, CAdES, PAdES) y validación."], ["NTI_DOC", "Firma como componente del documento electrónico."]],
+ 31: [["ENS", "Todo el real decreto: principios básicos, requisitos mínimos, auditoría, informe del estado de la seguridad, incidentes, Anexo I (categorización) y Anexo II (medidas)."], ["L40", "Art. 156: base legal del ENS y del ENI."], ["ITS_CONF", "Declaración y certificación de conformidad con el ENS."], ["ITS_AUD", "Cómo se hace la auditoría del ENS."], ["ITS_INES", "Informe del Estado de la Seguridad (INES)."], ["ITS_INC", "Notificación de incidentes de seguridad."], ["RDL12_18", "Seguridad de redes y sistemas (transposición de la NIS1)."], ["NIS2", "Nueva directiva europea de ciberseguridad."]],
+ 32: [["AN14881", "Todo el acuerdo: objetivos, organización de la seguridad, roles y revisión."], ["ENS", "Art. 12: política de seguridad y requisitos mínimos que debe recoger."], ["RGPD", "Seguridad de los tratamientos de datos personales."], ["LOPDGDD", "Coordinación entre el DPD y la seguridad de la información."]],
+ 33: [["ENS", "Respuesta a incidentes y medidas de protección del Anexo II."], ["RDL12_18", "Gestión y notificación de incidentes de los operadores y proveedores."], ["RD43_21", "Desarrollo reglamentario: notificación y tipos de incidentes."], ["ITS_INC", "Taxonomía y plazos de notificación de incidentes."], ["NIS2", "Medidas de gestión de riesgos y obligaciones de notificación (alerta temprana en 24 horas)."], ["CSA", "Mandato de ENISA y esquemas europeos de certificación."], ["CRA", "Requisitos de ciberseguridad de los productos con elementos digitales."], ["RGPD", "Arts. 33-34: notificación de brechas de datos personales en 72 horas."], ["CP", "Delitos informáticos: acceso ilícito (arts. 197 bis-197 quinquies) y daños informáticos (arts. 264-264 quater)."]],
+ 34: [["ENS", "Anexo II: protección de los equipos y puestos de trabajo (mp.eq)."], ["RD488", "Requisitos de los puestos de trabajo con pantallas."], ["RGPD", "Seguridad de los datos tratados en escritorios remotos."]],
+ 35: [["ENS", "Anexo II: continuidad del servicio (op.cont), explotación (op.exp) y servicios en la nube (op.nub) si la infraestructura es externa."], ["LCSP", "Contratación del licenciamiento y del soporte de la plataforma de virtualización."]],
+ 36: [["ENS", "Anexo II: explotación (op.exp) y protección de las aplicaciones (mp.sw)."], ["L40", "Arts. 157-158: reutilización de sistemas y aplicaciones y transferencia de tecnología entre administraciones."]],
+ 37: [["ENS", "Anexo II: monitorización del sistema (op.mon) y registro de actividad (op.exp.8)."], ["ITS_INES", "Indicadores del Informe del Estado de la Seguridad."]],
+ 38: [["ENS", "Anexo II: configuración de seguridad (op.exp.2), control de acceso (op.acc) y protección del puesto (mp.eq)."]],
+ 39: [["ENS", "Anexo II: configuración de seguridad (op.exp.2), mantenimiento y actualizaciones (op.exp.4) y control de acceso (op.acc)."], ["L40", "Art. 157: reutilización de sistemas, incluido el software de fuentes abiertas."]],
+ 40: [["RGPD", "Protección de datos desde el diseño (art. 25) y seguridad del tratamiento (art. 32)."], ["ENS", "Anexo II: protección de la información (mp.info)."], ["NTI_MOD", "Modelos de datos que publican las administraciones para el intercambio."]],
+ 41: [["NTI_CAT", "Catálogo de estándares que deben usar las administraciones."], ["ENS", "Control de acceso y registro de actividad sobre las bases de datos."]],
+ 42: [["ENS", "Anexo II: desarrollo de aplicaciones (mp.sw.1)."], ["L40", "Arts. 157-158: reutilización y transferencia de aplicaciones entre administraciones."], ["NTI_CAT", "Estándares tecnológicos admitidos."]],
+ 43: [["L39", "Art. 28: derecho a no aportar documentos que ya tiene la Administración, que se cumple mediante servicios web de intermediación."], ["NTI_INT", "Protocolos de intermediación de datos entre administraciones."], ["ENI", "Principios de interoperabilidad técnica, semántica y organizativa."], ["NTI_SARA", "Infraestructura de comunicaciones para los servicios web entre administraciones."], ["RD203", "Intercambio electrónico de datos en entornos cerrados de comunicación."]],
+ 44: [["NTI_CAT", "Formatos y estándares (XML, JSON y otros) que reconoce la Administración."], ["NTI_DOC", "Estructura XML del documento electrónico y sus metadatos."], ["NTI_EXP", "Estructura XML del expediente electrónico y su índice."], ["NTI_MOD", "Modelos de datos para el intercambio."], ["ENI", "Interoperabilidad semántica."]],
+ 45: [["ENS", "Anexo II: desarrollo de aplicaciones (mp.sw.1). No hay ley específica sobre metodologías: es un tema técnico."], ["LCSP", "Contratación de desarrollos de software por el sector público."]],
+ 46: [["ENS", "Anexo II: gestión de la configuración (op.exp.3) y gestión de cambios (op.exp.5)."], ["L40", "Art. 157: repositorios de aplicaciones reutilizables (Centro de Transferencia de Tecnología)."]],
+ 47: [["L39", "Título IV: las fases del procedimiento que se modelan con BPMN."], ["L40", "Art. 41: actuación administrativa automatizada."], ["RD203", "Tramitación electrónica de los procedimientos."]],
+ 48: [["RD1112", "Requisitos de accesibilidad de las webs públicas (formularios incluidos)."], ["LSSI", "Art. 10 (información obligatoria en la web) y art. 22.2 (cookies)."], ["RGPD", "Información y consentimiento en los formularios que recogen datos personales."]],
+ 49: [["RD1112", "Todo el real decreto: ámbito, requisitos, declaración de accesibilidad, revisiones y quejas."], ["DACC", "Directiva que transpone el RD 1112/2018."], ["RDLeg1_13", "Ley General de derechos de las personas con discapacidad: igualdad de oportunidades y accesibilidad universal."], ["L11_23", "Transposición del Acta Europea de Accesibilidad para productos y servicios."], ["EAA", "Acta Europea de Accesibilidad."]],
+ 50: [["LOSU", "Docencia en modalidad virtual e híbrida."], ["RD822", "Modalidades de enseñanza: presencial, híbrida y virtual."], ["RGPD", "Tratamiento de datos en las plataformas y en la evaluación en línea."], ["RD1112", "Accesibilidad de la plataforma de aprendizaje."], ["AN15416", "Evaluación y docencia en el Reglamento académico de la UIB."]],
+ 51: [["LOSU", "Sistema Integrado de Información Universitaria y obligaciones de información de las universidades."], ["RD1509", "RUCT: datos de universidades, centros y títulos que alimentan los sistemas."], ["LCSP", "Contratación de las soluciones ERP y CRM."], ["RGPD", "Tratamiento de datos de estudiantes y personal."], ["ENS", "Categorización y medidas de seguridad de los sistemas de gestión."], ["ENI", "Interoperabilidad con otras administraciones."]],
+ 52: [["RIA", "Prácticas prohibidas, sistemas de alto riesgo, obligaciones de transparencia y modelos de uso general."], ["RD729", "Estatuto de la Agencia Española de Supervisión de la IA."], ["RGPD", "Art. 22: decisiones individuales automatizadas, incluida la elaboración de perfiles."], ["L15_22", "Art. 23: uso de algoritmos por las administraciones públicas sin discriminar."], ["L40", "Art. 41: actuación administrativa automatizada."]],
+ 53: [["L40", "Art. 41: actuación administrativa automatizada y órgano responsable."], ["RD203", "Desarrollo de la actuación administrativa automatizada."], ["L39", "Procedimientos que se pueden automatizar."]],
+ 54: [["RGPD", "Seudonimización (art. 4.5) y garantías para fines estadísticos y de investigación (art. 89)."], ["LOPDGDD", "Art. 26 (fines de archivo en interés público) y DA 17.ª (investigación en salud)."], ["L37_07", "Reutilización y datos abiertos del sector público."], ["DOPEN", "Directiva de datos abiertos y conjuntos de datos de alto valor."], ["DGA", "Reutilización de datos protegidos del sector público y altruismo de datos."], ["DATA", "Acceso y uso justo de los datos."], ["RIA", "Gobernanza de los datos de entrenamiento de sistemas de IA de alto riesgo (art. 10)."]],
+ 55: [["LCSP", "Contratación de proyectos y servicios TIC por el sector público."]],
+ 56: [["TREBEP", "Código de conducta (arts. 52-54) y teletrabajo (art. 47 bis)."], ["AN14430", "Teletrabajo del PTGAS de la UIB."], ["AN15139", "Modificación de 2023 del teletrabajo."], ["L10_21", "Trabajo a distancia del personal laboral."], ["LOPDGDD", "Art. 88: derecho a la desconexión digital."], ["LPRL", "Riesgos psicosociales en la organización del trabajo."]],
+ 57: [["L39", "Arts. 17 (archivo), 26-27 (documentos y copias) y 70 (expediente administrativo)."], ["L40", "Art. 46: archivo electrónico de documentos."], ["RD203", "Archivo electrónico único y gestión documental."], ["ENI", "Capítulo sobre recuperación y conservación del documento electrónico."], ["NTI_DOC", "Componentes y metadatos mínimos del documento electrónico."], ["NTI_EXP", "Estructura del expediente electrónico e índice."], ["NTI_DIG", "Digitalización de documentos en papel."], ["NTI_COP", "Copias auténticas y conversión de formatos."], ["NTI_PGD", "Política de gestión de documentos electrónicos."], ["LPHE", "Patrimonio documental y archivos."]],
+ 58: [["ENS", "Anexo II: mantenimiento y actualizaciones de seguridad (op.exp.4) y gestión de cambios (op.exp.5)."], ["LCSP", "Contratos de servicios de mantenimiento y soporte."]],
+ 59: [["ENS", "Anexo II: desarrollo de aplicaciones (mp.sw.1) y aceptación y puesta en servicio (mp.sw.2)."], ["L40", "Art. 157: reutilización de aplicaciones."]],
+ 60: [["LOPDGDD", "Arts. 87-91: derechos digitales en el ámbito laboral (intimidad, desconexión, videovigilancia, geolocalización)."], ["TREBEP", "Art. 14.j bis): intimidad en el uso de dispositivos digitales."], ["RGPD", "Encargado del tratamiento cuando la herramienta es de un proveedor externo (art. 28)."], ["ENS", "Anexo II: servicios en la nube (op.nub) y protección del correo (mp.s.1)."], ["AN14881", "Política de seguridad de la UIB aplicable a estas herramientas."]]
+};
+</script>
 <script>
 const BOE = id => "https://www.boe.es/buscar/act.php?id=" + id;
 const FOU = n => "https://seu.uib.cat/fou/acord/" + n + "/";
@@ -612,6 +1589,28 @@ const save = () => { try { localStorage.setItem(KEY, JSON.stringify([...done]));
 const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const blockOf = n => BLOCKS.find(b => n >= b.range[0] && n <= b.range[1]);
 
+// Orden jerárquico: UE, ley orgánica, ley y normas con rango de ley, real decreto, resoluciones, Illes Balears, UIB
+const rankLabel = x => x.r === 1 ? (x.s.startsWith("Directiva") ? "Directiva UE" : "Reglamento UE")
+  : x.r === 2 ? "Ley orgánica"
+  : x.r === 3 ? (x.s.startsWith("RDLeg") ? "RD legislativo" : x.s.startsWith("RDL") ? "RD-ley" : "Ley")
+  : x.r === 4 ? "Real decreto" : x.r === 5 ? "Resolución" : x.r === 6 ? "Illes Balears" : "UIB";
+const normList = n => (TEMA_NORMS[n] || []).map(([k, why]) => Object.assign({ k, why }, NORMS[k])).sort((a, b) => a.r - b.r || a.d.localeCompare(b.d));
+function normasHtml(n) {
+  const list = normList(n);
+  if (!list.length) return "";
+  const items = list.map(x => `<details class="norm">
+      <summary><span class="rk r${x.r}">${esc(rankLabel(x))}</span><span class="nm">${esc(x.s)}</span><span class="yr">${x.d.slice(0, 4)}</span></summary>
+      <div class="nb">
+        <p class="why"><b>En este tema:</b> ${esc(x.why)}</p>
+        <p class="full">${esc(x.t)}</p>
+        <p class="lnk"><a href="${esc(x.u)}" target="_blank" rel="noopener">${x.r === 7 ? "Abrir en el FOU" : x.r === 1 ? "Abrir en EUR-Lex" : x.u.endsWith(".pdf") ? "Abrir el PDF del BOE" : "Texto consolidado en el BOE"}</a><code>${esc(x.id)}</code></p>
+      </div>
+    </details>`).join("");
+  return `<div class="normas"><div class="normas-head"><h4>Normativa (${list.length})</h4><span class="legend">Ordenada por rango y fecha</span></div>${items}</div>`;
+}
+
+const counts = t => `${normList(t.n).length} normas · ${t.links.length} enlaces`;
+
 function card(t) {
   const b = blockOf(t.n);
   const isDone = done.has(t.n);
@@ -620,13 +1619,14 @@ function card(t) {
     <summary>
       <span class="num">T${t.n}</span>
       <span class="ttl"><span class="ca">${esc(t.es)}</span><span class="meta">${esc(t.ca)}</span></span>
-      <span class="state"><span class="chev" aria-hidden="true">›</span> ${isDone ? "Estudiado" : t.links.length + " enlaces"}</span>
+      <span class="state"><span class="chev" aria-hidden="true">›</span> ${isDone ? "Estudiado" : counts(t)}</span>
     </summary>
     <div class="body">
       <div class="cols">
         <div><h4>Qué estudiar</h4><ul>${t.study.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div>
         <div><h4>Dónde leerlo</h4><ul class="links">${links}</ul></div>
       </div>
+      ${normasHtml(t.n)}
       ${t.note ? `<p class="note"><b>Ojo:</b> ${esc(t.note)}</p>` : ""}
       <label class="mark"><input type="checkbox" id="chk${t.n}" data-n="${t.n}" ${isDone ? "checked" : ""}> Lo tengo estudiado</label>
     </div>
@@ -652,7 +1652,7 @@ function apply() {
   document.querySelectorAll(".tema").forEach(el => {
     const n = +el.dataset.n;
     const t = TEMAS.find(x => x.n === n);
-    const hay = (t.ca + " " + t.es + " " + t.study.join(" ") + " " + t.links.map(l => l.label).join(" ") + " t" + n).toLowerCase();
+    const hay = (t.ca + " " + t.es + " " + t.study.join(" ") + " " + t.links.map(l => l.label).join(" ") + " " + normList(n).map(x => x.s + " " + x.t + " " + x.why).join(" ") + " t" + n).toLowerCase();
     let ok = !q || q.split(/\s+/).every(w => hay.includes(w));
     if (filter === "gen" || filter === "tic") ok = ok && el.dataset.kind === filter;
     if (filter === "done") ok = ok && done.has(n);
@@ -680,7 +1680,7 @@ document.getElementById("list").addEventListener("change", e => {
   save();
   const el = document.getElementById("t" + n);
   el.classList.toggle("done", box.checked);
-  el.querySelector(".state").innerHTML = `<span class="chev" aria-hidden="true">›</span> ${box.checked ? "Estudiado" : TEMAS.find(t => t.n === n).links.length + " enlaces"}`;
+  el.querySelector(".state").innerHTML = `<span class="chev" aria-hidden="true">›</span> ${box.checked ? "Estudiado" : counts(TEMAS.find(t => t.n === n))}`;
   progress();
   if (filter === "done" || filter === "todo") apply();
 });
@@ -696,6 +1696,148 @@ toggle.addEventListener("click", () => {
   document.querySelectorAll(".tema:not([hidden])").forEach(d => d.open = open);
   toggle.textContent = open ? "Plegar todo" : "Desplegar todo";
 });
+/* ---------- Simulador de méritos (anexo IV) ---------- */
+const SIM_KEY = "temario-tic-uib-simulador";
+const RATES = { asis: [0.031, 0.016], apro: [0.050, 0.025], imp: [0.080, 0.041] };
+const LEVELS = { A1: 0.4, A2: 0.8, B1: 1.2, B2: 1.6, C1: 2, C2: 2.4 };
+const fmt = v => v.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const today = () => new Date().toISOString().slice(0, 10);
+const blank = () => ({ ant: [{ tipo: "uni", desde: "", hasta: "" }], ref: today(), tit: "0", cur: [], ects: "", certiuni: "", cat: "0", catLA: false, idi: [{ lang: "Inglés", nivel: "B2" }], otros: false, nTest: "", nCortas: "", nPract: "", nIdioma: "" });
+let sim;
+try { sim = Object.assign(blank(), JSON.parse(localStorage.getItem(SIM_KEY) || "null") || {}); } catch (e) { sim = blank(); }
+const simSave = () => { try { localStorage.setItem(SIM_KEY, JSON.stringify(sim)); } catch (e) {} };
+const num = v => { const x = parseFloat(String(v).replace(",", ".")); return isFinite(x) ? x : 0; };
+
+// Días entre fechas ISO, ambos incluidos
+const DAY = 86400000;
+const toDay = s => Math.floor(Date.parse(s + "T00:00:00Z") / DAY);
+const fromDay = d => new Date(d * DAY).toISOString().slice(0, 10);
+// Meses «o fracción» de un tramo continuo [a, b]: cada mes empezado cuenta entero
+function monthsCeil(a, b) {
+  const s = new Date(a + "T00:00:00Z"), endNext = new Date(Date.parse(b + "T00:00:00Z") + DAY);
+  let m = (endNext.getUTCFullYear() - s.getUTCFullYear()) * 12 + endNext.getUTCMonth() - s.getUTCMonth();
+  const probe = new Date(Date.UTC(s.getUTCFullYear(), s.getUTCMonth() + m, s.getUTCDate()));
+  if (probe > endNext) m -= 1;
+  const back = new Date(Date.UTC(s.getUTCFullYear(), s.getUTCMonth() + m, s.getUTCDate()));
+  return Math.max(0, m + (back < endNext ? 1 : 0));
+}
+// Convierte los periodos en tramos sin solapes; si un día está en universidad y en otra administración, cuenta como universidad
+function antiguedad() {
+  const ref = sim.ref || today();
+  const per = sim.ant.filter(p => p.desde).map(p => ({ tipo: p.tipo, a: toDay(p.desde), b: toDay(p.hasta || ref) })).filter(p => p.b >= p.a);
+  if (!per.length) return { uni: 0, adm: 0, pts: 0 };
+  const min = Math.min(...per.map(p => p.a)), max = Math.max(...per.map(p => p.b));
+  const res = { uni: 0, adm: 0 };
+  let runType = null, runStart = 0;
+  const close = (t, a, b) => { if (t) res[t] += monthsCeil(fromDay(a), fromDay(b)); };
+  for (let d = min; d <= max + 1; d++) {
+    let t = null;
+    if (d <= max) for (const p of per) if (d >= p.a && d <= p.b) { if (p.tipo === "uni") { t = "uni"; break; } t = "adm"; }
+    if (t !== runType) { close(runType, runStart, d - 1); runType = t; runStart = d; }
+  }
+  res.pts = Math.min(60, res.uni * 0.75 + res.adm * 0.25);
+  return res;
+}
+function formacion() {
+  let p = 0;
+  for (const c of sim.cur) c.pts = num(c.horas || 1) * RATES[c.tipo][c.viejo ? 1 : 0], p += c.pts;
+  p += num(sim.ects) * 0.05 + num(sim.certiuni) * 20 * 0.050;
+  return Math.min(24, p);
+}
+function idiomas() {
+  const best = {};
+  for (const i of sim.idi) {
+    const k = (i.lang || "").trim().toLowerCase(); if (!k) continue;
+    const v = (LEVELS[i.nivel] || 0) * (k === "inglés" || k === "ingles" ? 1 : 0.5);
+    i.pts = v; best[k] = Math.max(best[k] || 0, v);
+  }
+  return Math.min(4, Object.values(best).reduce((a, b) => a + b, 0));
+}
+
+const antRows = document.getElementById("antRows"), curRows = document.getElementById("curRows"), idiRows = document.getElementById("idiRows");
+function rowsHtml() {
+  antRows.innerHTML = sim.ant.map((p, i) => `<div class="r ant" data-list="ant" data-i="${i}">
+    <label class="f">Dónde<select data-k="tipo"><option value="uni"${p.tipo === "uni" ? " selected" : ""}>Universidad pública (p. ej. interino UIB)</option><option value="adm"${p.tipo === "adm" ? " selected" : ""}>Otra administración o fundación UIB</option></select></label>
+    <label class="f">Desde<input type="date" data-k="desde" value="${esc(p.desde)}"></label>
+    <label class="f">Hasta (vacío = sigue)<input type="date" data-k="hasta" value="${esc(p.hasta)}"></label>
+    <span class="pts" data-pts></span>
+    <button class="del" type="button" data-del aria-label="Quitar periodo">×</button></div>`).join("");
+  curRows.innerHTML = sim.cur.map((c, i) => `<div class="r cur" data-list="cur" data-i="${i}">
+    <label class="f">Curso<input type="text" data-k="nombre" value="${esc(c.nombre || "")}" placeholder="Nombre del curso"></label>
+    <label class="f">Horas<input type="number" min="0" step="0.5" data-k="horas" value="${esc(String(c.horas ?? ""))}"></label>
+    <label class="f">Certificado<select data-k="tipo"><option value="asis"${c.tipo === "asis" ? " selected" : ""}>Asistencia</option><option value="apro"${c.tipo === "apro" ? " selected" : ""}>Aprovechamiento</option><option value="imp"${c.tipo === "imp" ? " selected" : ""}>Impartido</option></select></label>
+    <label class="f">Antigüedad<select data-k="viejo"><option value=""${!c.viejo ? " selected" : ""}>Hasta 10 años</option><option value="1"${c.viejo ? " selected" : ""}>Más de 10 años</option></select></label>
+    <span class="pts" data-pts></span>
+    <button class="del" type="button" data-del aria-label="Quitar curso">×</button></div>`).join("");
+  idiRows.innerHTML = sim.idi.map((x, i) => `<div class="r idi" data-list="idi" data-i="${i}">
+    <label class="f">Idioma<input type="text" list="langs" data-k="lang" value="${esc(x.lang || "")}"></label>
+    <label class="f">Nivel<select data-k="nivel">${Object.keys(LEVELS).map(l => `<option${x.nivel === l ? " selected" : ""}>${l}</option>`).join("")}</select></label>
+    <span class="pts" data-pts></span>
+    <button class="del" type="button" data-del aria-label="Quitar idioma">×</button></div>`).join("") + `<datalist id="langs"><option value="Inglés"><option value="Francés"><option value="Alemán"><option value="Italiano"><option value="Portugués"></datalist>`;
+}
+const SIMPLE = ["ref", "tit", "ects", "certiuni", "cat", "nTest", "nCortas", "nPract", "nIdioma"];
+function fieldsFromState() {
+  SIMPLE.forEach(k => { const el = document.getElementById(k === "ref" ? "refDate" : k); if (el) el.value = sim[k] ?? ""; });
+  document.getElementById("catLA").checked = !!sim.catLA;
+  document.getElementById("otros").checked = !!sim.otros;
+}
+function meter(label, v, max) {
+  return `<div class="meter${v >= max - 1e-9 ? " full" : ""}"><div class="top"><span>${label}</span><span>${fmt(v)} / ${fmt(max).replace(",00", "")}</span></div><span class="bar"><i style="width:${Math.min(100, v / max * 100)}%"></i></span></div>`;
+}
+function simCalc() {
+  const a = antiguedad(), f = formacion(), id = idiomas();
+  const tit = num(sim.tit), cat = Math.min(4, num(sim.cat) + (sim.catLA ? 0.8 : 0)), ot = sim.otros ? 1 : 0;
+  const total = a.pts + tit + f + cat + id + ot;
+  document.getElementById("rConcurso").innerHTML = `${fmt(total)} <small>/ 100</small>`;
+  document.getElementById("rMeters").innerHTML =
+    meter(`Antigüedad · ${a.uni} meses univ. + ${a.adm} otras`, a.pts, 60) + meter("Segunda titulación", tit, 8) + meter("Formación", f, 24) +
+    meter("Catalán", cat, 4) + meter("Otros idiomas", id, 4) + meter("Otros méritos", ot, 1);
+  // puntos por fila
+  antRows.querySelectorAll(".r").forEach(r => { const p = sim.ant[+r.dataset.i]; r.querySelector("[data-pts]").textContent = p.desde ? monthsCeil(p.desde, p.hasta || sim.ref || today()) + " m" : ""; });
+  curRows.querySelectorAll(".r").forEach(r => { r.querySelector("[data-pts]").textContent = fmt(sim.cur[+r.dataset.i].pts || 0); });
+  idiRows.querySelectorAll(".r").forEach(r => { r.querySelector("[data-pts]").textContent = fmt(sim.idi[+r.dataset.i].pts || 0); });
+  // oposición
+  const t = num(sim.nTest), c = num(sim.nCortas), p = num(sim.nPract), i = num(sim.nIdioma);
+  const any = [sim.nTest, sim.nCortas, sim.nPract, sim.nIdioma].some(v => String(v).trim() !== "");
+  const out = document.getElementById("rOpos");
+  if (!any) { out.innerHTML = `<p class="small muted">Añade tus notas de la oposición para ver la nota final sobre 250. Como referencia, en 2026 quienes aprobaron la oposición de esta escala sumaron entre 98,97 y 112,86 puntos.</p>`; return; }
+  const fails = [];
+  if (t < 18) fails.push("el test necesita 18");
+  if (c < 18) fails.push("las preguntas cortas necesitan 18");
+  if (t + c < 45) fails.push("el 1.er ejercicio necesita 45 entre test y preguntas cortas");
+  if (p < 22.5) fails.push("el práctico necesita 22,5");
+  if (t + c + p < 67.5) fails.push("hacen falta 67,5 entre el 1.º y el 2.º ejercicio");
+  const opos = t + c + p + Math.min(15, i);
+  out.innerHTML = `<span class="eyebrow">Oposición</span><div class="big">${fmt(opos)} <small>/ 150</small></div>
+    <span class="eyebrow">Nota final</span><div class="big">${fmt(opos + total)} <small>/ 250</small></div>
+    ${fails.length ? `<p class="warn">No superarías la oposición: ${fails.join("; ")}.</p>` : `<p class="ok">Superas los mínimos de la oposición. En 2026 las notas de oposición de quienes aprobaron fueron de 98,97 a 112,86.</p>`}`;
+}
+function simRefresh() { rowsHtml(); fieldsFromState(); simCalc(); }
+
+document.querySelector(".sim-form").addEventListener("input", e => {
+  const el = e.target, row = el.closest(".r");
+  if (row) {
+    const item = sim[row.dataset.list][+row.dataset.i];
+    item[el.dataset.k] = el.dataset.k === "viejo" ? !!el.value : el.value;
+  } else if (el.id === "refDate") sim.ref = el.value;
+  else if (el.id === "catLA" || el.id === "otros") sim[el.id] = el.checked;
+  else if (SIMPLE.includes(el.id)) sim[el.id] = el.value;
+  simSave(); simCalc();
+});
+document.querySelector(".sim-form").addEventListener("click", e => {
+  const del = e.target.closest("[data-del]"); if (!del) return;
+  const row = del.closest(".r"); sim[row.dataset.list].splice(+row.dataset.i, 1); simSave(); simRefresh();
+});
+document.getElementById("addAnt").addEventListener("click", () => { sim.ant.push({ tipo: "uni", desde: "", hasta: "" }); simSave(); simRefresh(); });
+document.getElementById("addCur").addEventListener("click", () => { sim.cur.push({ nombre: "", horas: "", tipo: "apro", viejo: false }); simSave(); simRefresh(); });
+document.getElementById("addIdi").addEventListener("click", () => { sim.idi.push({ lang: "", nivel: "B1" }); simSave(); simRefresh(); });
+const resetBtn = document.getElementById("simReset");
+resetBtn.addEventListener("click", () => {
+  if (resetBtn.dataset.armed) { sim = blank(); simSave(); simRefresh(); delete resetBtn.dataset.armed; resetBtn.textContent = "Vaciar el simulador"; document.getElementById("simResetMsg").textContent = "Simulador vaciado."; return; }
+  resetBtn.dataset.armed = "1"; resetBtn.textContent = "Pulsa otra vez para vaciar"; document.getElementById("simResetMsg").textContent = "";
+});
+simRefresh();
+
 // #t31 abre directamente ese tema
 const h = location.hash.slice(1);
 if (/^t\d+$/.test(h)) { const el = document.getElementById(h); if (el) { el.open = true; el.scrollIntoView(); } }

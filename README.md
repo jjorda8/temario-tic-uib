@@ -6,9 +6,12 @@ Para cada tema incluye:
 
 - qué estudiar, con los artículos o subapartados clave;
 - enlaces a la norma oficial (BOE, FOU de la UIB, EUR-Lex, RFC…) y a documentación técnica;
-- notas sobre lo que suele preguntarse o puede cambiar.
+- notas sobre lo que suele preguntarse o puede cambiar;
+- la normativa aplicable, en desplegables ordenados por rango (UE, ley orgánica, ley, real decreto, resoluciones, Illes Balears, UIB) y fecha, con qué mirar de cada norma y el enlace al texto consolidado.
 
-También recoge el formato del examen, los resultados del proceso de 2024-2026 y exámenes de otras convocatorias para practicar.
+También recoge el formato del examen, un simulador de méritos con el baremo del anexo IV, los resultados del proceso de 2024-2026 y exámenes de otras convocatorias para practicar.
+
+Las normas estatales se comprobaron contra la API de legislación consolidada del BOE (todas vigentes a 26/10/2026) y los acuerdos de la UIB contra el FOU.
 
 ## Uso
 
