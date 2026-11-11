@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Acceso protegido</title>
+<style>
+:root { color-scheme: light dark; --bg: #f3f6f8; --card: #ffffff; --ink: #142430; --muted: #536877; --line: #d5e0e7; --accent: #0f5c86; --err: #b3261e; }
+@media (prefers-color-scheme: dark) { :root { --bg: #10181e; --card: #172229; --ink: #e6eef3; --muted: #9bb0bd; --line: #2b3b45; --accent: #5fb4e0; --err: #f2938b; } }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--bg); color: var(--ink); font-family: "Segoe UI", system-ui, -apple-system, sans-serif; padding: 16px; }
+main { width: 100%; max-width: 380px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 28px 24px; }
+h1 { font-size: 1.25rem; margin: 0 0 6px; }
+p { margin: 0 0 18px; color: var(--muted); font-size: 0.95rem; line-height: 1.45; }
+label { display: block; font-size: 0.85rem; margin-bottom: 6px; color: var(--muted); }
+input { width: 100%; font: inherit; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--ink); }
+input:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+button { width: 100%; margin-top: 14px; font: inherit; font-weight: 600; padding: 11px 12px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+button:disabled { opacity: 0.6; cursor: progress; }
+#error { min-height: 1.3em; margin: 10px 0 0; font-size: 0.9rem; color: var(--err); }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <div id="estat" role="status">Cargando…</div>
+  <form id="formulari" hidden autocomplete="on">
+    <h1>Acceso protegido</h1>
+    <p>Este contenido está cifrado. Introduce la contraseña para verlo.</p>
+    <label for="contrasenya">Contraseña</label>
+    <input id="contrasenya" name="password" type="password" autocomplete="current-password" required autofocus>
+    <button id="entra" type="submit">Entrar</button>
+    <p id="error" role="alert"></p>
+  </form>
+</main>
+<noscript><p style="text-align:center">Hace falta JavaScript para descifrar el contenido.</p></noscript>
+<script>
+(() => {
+  "use strict";
+  const PAGINA = "test.html";
+  const SAL = Uint8Array.from(atob("zQeZvNGguJqn8wSDNoaryg=="), c => c.charCodeAt(0));
+  const ITERACIONS = 1000000;
+  const VIDA_CLAU_MS = 12 * 60 * 60 * 1000;
+  const BASE_DADES = "tt-acces";
+  const arrel = location.pathname.replace(/[^/]*$/, "");
+  const fetchOriginal = window.fetch.bind(window);
+  const $ = id => document.getElementById(id);
+  let clau = null;
+
+  const aHex = buffer => Array.from(new Uint8Array(buffer), b => b.toString(16).padStart(2, "0")).join("");
+
+  async function rutaXifrada(ruta) {
+    const resum = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(ruta));
+    return arrel + "e/" + aHex(resum).slice(0, 20) + ".bin";
+  }
+
+  async function desxifra(buffer) {
+    const dades = new Uint8Array(buffer);
+    return crypto.subtle.decrypt({ name: "AES-GCM", iv: dades.slice(0, 12) }, clau, dades.slice(12));
+  }
+
+  async function baixaFitxer(ruta) {
+    const resposta = await fetchOriginal(await rutaXifrada(ruta), { cache: "no-cache" });
+    if (!resposta.ok) throw new Error("fitxer no disponible: " + ruta);
+    return desxifra(await resposta.arrayBuffer());
+  }
+
+  function derivaClau(contrasenya) {
+    return crypto.subtle.importKey("raw", new TextEncoder().encode(contrasenya), "PBKDF2", false, ["deriveKey"])
+      .then(material => crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt: SAL, iterations: ITERACIONS, hash: "SHA-256" },
+        material, { name: "AES-GCM", length: 256 }, false, ["decrypt"]));
+  }
+
+  function obreBaseDades() {
+    return new Promise((resol, rebutja) => {
+      const peticio = indexedDB.open(BASE_DADES, 1);
+      peticio.onupgradeneeded = () => peticio.result.createObjectStore("k");
+      peticio.onsuccess = () => resol(peticio.result);
+      peticio.onerror = () => rebutja(peticio.error);
+    });
+  }
+
+  async function guardaClau() {
+    try {
+      const bd = await obreBaseDades();
+      const transaccio = bd.transaction("k", "readwrite");
+      transaccio.objectStore("k").put({ clau, quan: Date.now() }, "actual");
+      transaccio.oncomplete = transaccio.onerror = transaccio.onabort = () => bd.close();
+    } catch (e) { /* sin almacenamiento: se pedirá la contraseña en cada pestaña */ }
+  }
+
+  async function llegeixClauGuardada() {
+    try {
+      const bd = await obreBaseDades();
+      return await new Promise(resol => {
+        const peticio = bd.transaction("k").objectStore("k").get("actual");
+        peticio.onsuccess = () => { bd.close(); resol(peticio.result || null); };
+        peticio.onerror = () => { bd.close(); resol(null); };
+      });
+    } catch (e) { return null; }
+  }
+
+  function esborraClauGuardada() {
+    try { indexedDB.deleteDatabase(BASE_DADES); } catch (e) { /* sin almacenamiento */ }
+  }
+
+  function instalaFetchDesxifrat() {
+    window.fetch = async (entrada, opcions) => {
+      const adreca = new URL(typeof entrada === "string" ? entrada : entrada.url, location.href);
+      if (adreca.origin !== location.origin || !adreca.pathname.startsWith(arrel + "data/")) {
+        return fetchOriginal(entrada, opcions);
+      }
+      try {
+        return new Response(await baixaFitxer(decodeURIComponent(adreca.pathname.slice(arrel.length))), { status: 200 });
+      } catch (e) {
+        return new Response(null, { status: 404 });
+      }
+    };
+  }
+
+  async function mostraPagina() {
+    const text = new TextDecoder().decode(await baixaFitxer(PAGINA));
+    instalaFetchDesxifrat();
+    document.open();
+    document.write(text);
+    document.close();
+  }
+
+  function mostraFormulari(missatge) {
+    $("estat").hidden = true;
+    $("formulari").hidden = false;
+    $("error").textContent = missatge || "";
+    $("contrasenya").focus();
+  }
+
+  async function intentaAmbClauGuardada() {
+    const guardada = await llegeixClauGuardada();
+    if (!guardada || Date.now() - guardada.quan > VIDA_CLAU_MS) return false;
+    clau = guardada.clau;
+    try { await mostraPagina(); return true; } catch (e) { esborraClauGuardada(); clau = null; return false; }
+  }
+
+  async function alEnviar(esdeveniment) {
+    esdeveniment.preventDefault();
+    const boto = $("entra");
+    boto.disabled = true;
+    $("error").textContent = "Comprobando…";
+    try {
+      clau = await derivaClau($("contrasenya").value);
+      await mostraPagina();
+      await guardaClau();
+    } catch (e) {
+      clau = null;
+      $("contrasenya").value = "";
+      boto.disabled = false;
+      $("error").textContent = "Contraseña incorrecta.";
+      $("contrasenya").focus();
+    }
+  }
+
+  async function inicia() {
+    if (!window.isSecureContext || !crypto.subtle) {
+      $("estat").textContent = "Este navegador no permite descifrar el contenido (hace falta HTTPS).";
+      return;
+    }
+    $("formulari").addEventListener("submit", alEnviar);
+    if (!(await intentaAmbClauGuardada())) mostraFormulari();
+  }
+
+  inicia();
+})();
+</script>
+</body>
+</html>
